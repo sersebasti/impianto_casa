@@ -211,6 +211,7 @@ def chart_page():
                 <select id="metric">
                     <option value="battery_voltage">battery_voltage</option>
                     <option value="battery_capacity">battery_capacity</option>
+                    <option value="controller_charging_current">controller_charging_current</option>
                     <option value="inverter_charging_current">inverter_charging_current</option>
                     <option value="load_percentage">load_percentage</option>
                     <option value="device_temp">device_temp</option>

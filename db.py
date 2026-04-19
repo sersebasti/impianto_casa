@@ -255,6 +255,7 @@ def get_device_metric_history(
         "battery_voltage",
         "battery_capacity",
         "inverter_charging_current",
+        "controller_charging_current",
         "load_percentage",
         "device_temp",
         "pv_voltage",
