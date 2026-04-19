@@ -243,3 +243,39 @@ def insert_device_snapshot_flat(
         return cur.lastrowid
     finally:
         conn.close()
+
+
+def get_device_metric_history(
+    device_row_key: str,
+    metric_name: str,
+    start_time: str,
+    end_time: str,
+):
+    allowed_metrics = {
+        "battery_voltage",
+        "battery_capacity",
+        "inverter_charging_current",
+        "load_percentage",
+        "device_temp",
+        "pv_voltage",
+    }
+
+    if metric_name not in allowed_metrics:
+        raise ValueError(f"Metrica non consentita: {metric_name}")
+
+    conn = get_connection()
+    try:
+        cur = conn.cursor()
+        query = f"""
+            SELECT update_time, created_at, {metric_name} AS metric_value
+            FROM device_snapshots_flat
+            WHERE device_row_key = ?
+              AND created_at >= ?
+              AND created_at <= ?
+            ORDER BY created_at ASC
+        """
+        cur.execute(query, (device_row_key, start_time, end_time))
+        rows = cur.fetchall()
+        return [dict(row) for row in rows]
+    finally:
+        conn.close()        
