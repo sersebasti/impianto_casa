@@ -1,112 +1,372 @@
-[2026-04-18 23:17:48] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-18 23:17:49] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-18 23:17:57] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-18 23:17:57] INFO | solar_client | Sessione o token assenti: eseguo login
-[2026-04-18 23:17:57] INFO | solar_client | Avvio login remoto
-[2026-04-18 23:17:57] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
-[2026-04-18 23:17:57] INFO | auth | Login remoto HTTP END | status_code=200
-[2026-04-18 23:17:57] INFO | auth | Login remoto OK | access_token=1B4507...7E6E | access_exp=2026-04-19T01:17:57Z | refresh_exp=2026-05-18T23:17:57Z
-[2026-04-18 23:17:57] INFO | solar_client | Login OK | token=1B4507...7E6E | access_exp=2026-04-19T01:17:57Z | refresh_exp=2026-05-18T23:17:57Z
-[2026-04-18 23:17:57] INFO | solar_client | Token salvato nel DB | token=1B4507...7E6E
-[2026-04-18 23:17:57] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=1B4507...7E6E
-[2026-04-18 23:17:58] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-18 23:17:58] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-18 23:17:58] INFO | solar_client | Device snapshot salvato nel DB | device_id=416360187241136128 | update_time=
-[2026-04-18 23:17:58] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-18 23:18:07] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-18 23:18:07] INFO | solar_client | Controllo scadenza token | token=1B4507...7E6E | now=2026-04-18T23:18:07.351990+00:00 | exp=2026-04-19T01:17:57+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-18 23:18:07] INFO | solar_client | Riutilizzo token esistente | token=1B4507...7E6E | access_exp=2026-04-19T01:17:57Z
-[2026-04-18 23:18:07] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=1B4507...7E6E
-[2026-04-18 23:18:07] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-18 23:18:07] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-18 23:18:07] INFO | solar_client | Device snapshot salvato nel DB | device_id=416360187241136128 | update_time=
-[2026-04-18 23:18:07] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-18 23:23:03] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-18 23:23:03] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-18 23:23:07] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-18 23:23:07] INFO | solar_client | Sessione o token assenti: eseguo login
-[2026-04-18 23:23:07] INFO | solar_client | Avvio login remoto
-[2026-04-18 23:23:07] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
-[2026-04-18 23:23:08] INFO | auth | Login remoto HTTP END | status_code=200
-[2026-04-18 23:23:08] INFO | auth | Login remoto OK | access_token=6627ED...4523 | access_exp=2026-04-19T01:23:08Z | refresh_exp=2026-05-18T23:23:08Z
-[2026-04-18 23:23:08] INFO | solar_client | Login OK | token=6627ED...4523 | access_exp=2026-04-19T01:23:08Z | refresh_exp=2026-05-18T23:23:08Z
-[2026-04-18 23:23:08] INFO | solar_client | Token salvato nel DB | token=6627ED...4523
-[2026-04-18 23:23:08] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=6627ED...4523
-[2026-04-18 23:23:08] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-18 23:23:08] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-18 23:23:08] INFO | solar_client | Device snapshot salvato nel DB | device_id=416360187241136128 | update_time=2026-04-18T23:20:43Z
-[2026-04-18 23:23:08] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-18 23:32:06] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-18 23:32:06] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-18 23:32:11] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-18 23:32:11] INFO | solar_client | Sessione o token assenti: eseguo login
-[2026-04-18 23:32:11] INFO | solar_client | Avvio login remoto
-[2026-04-18 23:32:11] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
-[2026-04-18 23:32:12] INFO | auth | Login remoto HTTP END | status_code=200
-[2026-04-18 23:32:12] INFO | auth | Login remoto OK | access_token=AF92B7...EFF6 | access_exp=2026-04-19T01:32:12Z | refresh_exp=2026-05-18T23:32:12Z
-[2026-04-18 23:32:12] INFO | solar_client | Login OK | token=AF92B7...EFF6 | access_exp=2026-04-19T01:32:12Z | refresh_exp=2026-05-18T23:32:12Z
-[2026-04-18 23:32:12] INFO | solar_client | Token salvato nel DB | token=AF92B7...EFF6
-[2026-04-18 23:32:12] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=AF92B7...EFF6
-[2026-04-18 23:32:12] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-18 23:32:12] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-18 23:32:12] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | update_time=2026-04-18T23:30:43Z
-[2026-04-18 23:32:12] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-18 23:51:15] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-18 23:51:15] INFO | solar_client | Controllo scadenza token | token=AF92B7...EFF6 | now=2026-04-18T23:51:15.585116+00:00 | exp=2026-04-19T01:32:12+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-18 23:51:15] INFO | solar_client | Riutilizzo token esistente | token=AF92B7...EFF6 | access_exp=2026-04-19T01:32:12Z
-[2026-04-18 23:51:15] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=AF92B7...EFF6
-[2026-04-18 23:51:16] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-18 23:51:16] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-18 23:51:16] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | update_time=2026-04-18T23:50:44Z
-[2026-04-18 23:51:16] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-18 23:51:53] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-18 23:51:53] INFO | solar_client | Controllo scadenza token | token=AF92B7...EFF6 | now=2026-04-18T23:51:53.487611+00:00 | exp=2026-04-19T01:32:12+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-18 23:51:53] INFO | solar_client | Riutilizzo token esistente | token=AF92B7...EFF6 | access_exp=2026-04-19T01:32:12Z
-[2026-04-18 23:51:53] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=AF92B7...EFF6
-[2026-04-18 23:51:53] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-18 23:51:53] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-18 23:51:53] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | update_time=2026-04-18T23:50:44Z
-[2026-04-18 23:51:53] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-18 23:55:48] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-18 23:55:48] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-18 23:55:52] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-18 23:55:52] INFO | solar_client | Sessione o token assenti: eseguo login
-[2026-04-18 23:55:52] INFO | solar_client | Avvio login remoto
-[2026-04-18 23:55:52] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
-[2026-04-18 23:55:52] INFO | auth | Login remoto HTTP END | status_code=200
-[2026-04-18 23:55:52] INFO | auth | Login remoto OK | access_token=1D0CDA...A991 | access_exp=2026-04-19T01:55:52Z | refresh_exp=2026-05-18T23:55:52Z
-[2026-04-18 23:55:52] INFO | solar_client | Login OK | token=1D0CDA...A991 | access_exp=2026-04-19T01:55:52Z | refresh_exp=2026-05-18T23:55:52Z
-[2026-04-18 23:55:52] INFO | solar_client | Token salvato nel DB | token=1D0CDA...A991
-[2026-04-18 23:55:52] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=1D0CDA...A991
-[2026-04-18 23:55:52] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-18 23:55:52] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-18 23:55:52] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-18T23:55:44Z | update_time_rome=2026-04-19 01:55:44
-[2026-04-18 23:55:52] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-18 23:55:55] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-18 23:55:55] INFO | solar_client | Controllo scadenza token | token=1D0CDA...A991 | now=2026-04-18T23:55:55.820851+00:00 | exp=2026-04-19T01:55:52+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-18 23:55:55] INFO | solar_client | Riutilizzo token esistente | token=1D0CDA...A991 | access_exp=2026-04-19T01:55:52Z
-[2026-04-18 23:55:55] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=1D0CDA...A991
-[2026-04-18 23:55:56] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-18 23:55:56] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-18 23:55:56] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-18T23:55:44Z | update_time_rome=2026-04-19 01:55:44
-[2026-04-18 23:55:56] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-19 00:01:27] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-19 00:01:28] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-19 00:02:39] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-19 00:02:39] INFO | app | Polling loop avviato | device_id=416360187241136128 | data_source=1 | interval_seconds=300
-[2026-04-19 00:02:39] INFO | app | Thread background polling avviato
-[2026-04-19 00:02:39] INFO | app | Polling START
-[2026-04-19 00:02:39] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-19 00:02:39] INFO | solar_client | Sessione o token assenti: eseguo login
-[2026-04-19 00:02:39] INFO | solar_client | Avvio login remoto
-[2026-04-19 00:02:39] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
-[2026-04-19 00:02:39] INFO | auth | Login remoto HTTP END | status_code=200
-[2026-04-19 00:02:39] INFO | auth | Login remoto OK | access_token=F95716...AE9D | access_exp=2026-04-19T02:02:39Z | refresh_exp=2026-05-19T00:02:39Z
-[2026-04-19 00:02:39] INFO | solar_client | Login OK | token=F95716...AE9D | access_exp=2026-04-19T02:02:39Z | refresh_exp=2026-05-19T00:02:39Z
-[2026-04-19 00:02:39] INFO | solar_client | Token salvato nel DB | token=F95716...AE9D
-[2026-04-19 00:02:39] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=F95716...AE9D
-[2026-04-19 00:02:39] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-19 00:02:39] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-19 00:02:40] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:00:44Z | update_time_rome=2026-04-19 02:00:44
-[2026-04-19 00:02:40] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-19 00:02:40] INFO | app | Polling OK
+[2026-04-19 00:06:59] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-19 00:06:59] INFO | app | Polling loop avviato | device_id=416360187241136128 | data_source=1 | interval_seconds=300
+[2026-04-19 00:06:59] INFO | app | Thread background polling avviato
+[2026-04-19 00:06:59] INFO | app | Polling START
+[2026-04-19 00:06:59] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 00:06:59] INFO | solar_client | Sessione o token assenti: eseguo login
+[2026-04-19 00:06:59] INFO | solar_client | Avvio login remoto
+[2026-04-19 00:06:59] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
+[2026-04-19 00:07:00] INFO | auth | Login remoto HTTP END | status_code=200
+[2026-04-19 00:07:00] INFO | auth | Login remoto OK | access_token=3787F8...471B | access_exp=2026-04-19T02:07:00Z | refresh_exp=2026-05-19T00:07:00Z
+[2026-04-19 00:07:00] INFO | solar_client | Login OK | token=3787F8...471B | access_exp=2026-04-19T02:07:00Z | refresh_exp=2026-05-19T00:07:00Z
+[2026-04-19 00:07:00] INFO | solar_client | Token salvato nel DB | token=3787F8...471B
+[2026-04-19 00:07:00] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=3787F8...471B
+[2026-04-19 00:07:00] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 00:07:00] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 00:07:00] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:05:44Z | update_time_rome=2026-04-19 02:05:44
+[2026-04-19 00:07:00] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 00:07:00] INFO | app | Polling OK
+[2026-04-19 02:12:10] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-19 02:12:10] INFO | app | Polling loop avviato | device_id=416360187241136128 | data_source=1 | interval_seconds=300
+[2026-04-19 02:12:10] INFO | app | Polling START
+[2026-04-19 02:12:10] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:12:10] INFO | solar_client | Sessione o token assenti: eseguo login
+[2026-04-19 02:12:10] INFO | solar_client | Avvio login remoto
+[2026-04-19 02:12:10] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
+[2026-04-19 02:12:10] INFO | app | Thread background polling avviato
+[2026-04-19 02:12:11] INFO | auth | Login remoto HTTP END | status_code=200
+[2026-04-19 02:12:11] INFO | auth | Login remoto OK | access_token=5E75D9...22A5 | access_exp=2026-04-19T02:12:11Z | refresh_exp=2026-05-19T00:12:11Z
+[2026-04-19 02:12:11] INFO | solar_client | Login OK | token=5E75D9...22A5 | access_exp=2026-04-19T02:12:11Z | refresh_exp=2026-05-19T00:12:11Z
+[2026-04-19 02:12:11] INFO | solar_client | Token salvato nel DB | token=5E75D9...22A5
+[2026-04-19 02:12:11] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=5E75D9...22A5
+[2026-04-19 02:12:11] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:12:11] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:12:11] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:10:45Z | update_time_rome=2026-04-19 02:10:45
+[2026-04-19 02:12:11] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:12:11] INFO | app | Polling OK
+[2026-04-19 02:14:51] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-19 02:14:51] INFO | app | Polling loop avviato | device_id=416360187241136128 | data_source=1 | interval_seconds=30
+[2026-04-19 02:14:51] INFO | app | Thread background polling avviato
+[2026-04-19 02:14:51] INFO | app | Polling START
+[2026-04-19 02:14:51] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:14:51] INFO | solar_client | Sessione o token assenti: eseguo login
+[2026-04-19 02:14:51] INFO | solar_client | Avvio login remoto
+[2026-04-19 02:14:51] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
+[2026-04-19 02:14:52] INFO | auth | Login remoto HTTP END | status_code=200
+[2026-04-19 02:14:52] INFO | auth | Login remoto OK | access_token=830A25...DA1A | access_exp=2026-04-19T02:14:52Z | refresh_exp=2026-05-19T00:14:52Z
+[2026-04-19 02:14:52] INFO | solar_client | Login OK | token=830A25...DA1A | access_exp=2026-04-19T02:14:52Z | refresh_exp=2026-05-19T00:14:52Z
+[2026-04-19 02:14:52] INFO | solar_client | Token salvato nel DB | token=830A25...DA1A
+[2026-04-19 02:14:52] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=830A25...DA1A
+[2026-04-19 02:14:52] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:14:52] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:14:52] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:10:45Z | update_time_rome=2026-04-19 02:10:45
+[2026-04-19 02:14:52] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:14:52] INFO | app | Polling OK
+[2026-04-19 02:15:22] INFO | app | Polling START
+[2026-04-19 02:15:22] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:15:22] INFO | solar_client | Controllo scadenza token | token=830A25...DA1A | now=2026-04-19T00:15:22.426196+00:00 | exp=2026-04-19T02:14:52+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:15:22] INFO | solar_client | Riutilizzo token esistente | token=830A25...DA1A | access_exp=2026-04-19T02:14:52Z
+[2026-04-19 02:15:22] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=830A25...DA1A
+[2026-04-19 02:15:22] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:15:22] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:15:22] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:10:45Z | update_time_rome=2026-04-19 02:10:45
+[2026-04-19 02:15:22] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:15:22] INFO | app | Polling OK
+[2026-04-19 02:15:52] INFO | app | Polling START
+[2026-04-19 02:15:52] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:15:52] INFO | solar_client | Controllo scadenza token | token=830A25...DA1A | now=2026-04-19T00:15:52.658003+00:00 | exp=2026-04-19T02:14:52+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:15:52] INFO | solar_client | Riutilizzo token esistente | token=830A25...DA1A | access_exp=2026-04-19T02:14:52Z
+[2026-04-19 02:15:52] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=830A25...DA1A
+[2026-04-19 02:15:52] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:15:52] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:15:52] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:15:45Z | update_time_rome=2026-04-19 02:15:45
+[2026-04-19 02:15:52] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:15:52] INFO | app | Polling OK
+[2026-04-19 02:16:22] INFO | app | Polling START
+[2026-04-19 02:16:22] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:16:22] INFO | solar_client | Controllo scadenza token | token=830A25...DA1A | now=2026-04-19T00:16:22.889260+00:00 | exp=2026-04-19T02:14:52+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:16:22] INFO | solar_client | Riutilizzo token esistente | token=830A25...DA1A | access_exp=2026-04-19T02:14:52Z
+[2026-04-19 02:16:22] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=830A25...DA1A
+[2026-04-19 02:16:23] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:16:23] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:16:23] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:15:45Z | update_time_rome=2026-04-19 02:15:45
+[2026-04-19 02:16:23] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:16:23] INFO | app | Polling OK
+[2026-04-19 02:16:53] INFO | app | Polling START
+[2026-04-19 02:16:53] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:16:53] INFO | solar_client | Controllo scadenza token | token=830A25...DA1A | now=2026-04-19T00:16:53.121210+00:00 | exp=2026-04-19T02:14:52+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:16:53] INFO | solar_client | Riutilizzo token esistente | token=830A25...DA1A | access_exp=2026-04-19T02:14:52Z
+[2026-04-19 02:16:53] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=830A25...DA1A
+[2026-04-19 02:16:53] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:16:53] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:16:53] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:15:45Z | update_time_rome=2026-04-19 02:15:45
+[2026-04-19 02:16:53] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:16:53] INFO | app | Polling OK
+[2026-04-19 02:17:23] INFO | app | Polling START
+[2026-04-19 02:17:23] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:17:23] INFO | solar_client | Controllo scadenza token | token=830A25...DA1A | now=2026-04-19T00:17:23.354184+00:00 | exp=2026-04-19T02:14:52+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:17:23] INFO | solar_client | Riutilizzo token esistente | token=830A25...DA1A | access_exp=2026-04-19T02:14:52Z
+[2026-04-19 02:17:23] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=830A25...DA1A
+[2026-04-19 02:17:23] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:17:23] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:17:23] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:15:45Z | update_time_rome=2026-04-19 02:15:45
+[2026-04-19 02:17:23] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:17:23] INFO | app | Polling OK
+[2026-04-19 02:17:53] INFO | app | Polling START
+[2026-04-19 02:17:53] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:17:53] INFO | solar_client | Controllo scadenza token | token=830A25...DA1A | now=2026-04-19T00:17:53.584764+00:00 | exp=2026-04-19T02:14:52+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:17:53] INFO | solar_client | Riutilizzo token esistente | token=830A25...DA1A | access_exp=2026-04-19T02:14:52Z
+[2026-04-19 02:17:53] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=830A25...DA1A
+[2026-04-19 02:17:53] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:17:53] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:17:53] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:15:45Z | update_time_rome=2026-04-19 02:15:45
+[2026-04-19 02:17:53] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:17:53] INFO | app | Polling OK
+[2026-04-19 02:18:23] INFO | app | Polling START
+[2026-04-19 02:18:23] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:18:23] INFO | solar_client | Controllo scadenza token | token=830A25...DA1A | now=2026-04-19T00:18:23.818668+00:00 | exp=2026-04-19T02:14:52+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:18:23] INFO | solar_client | Riutilizzo token esistente | token=830A25...DA1A | access_exp=2026-04-19T02:14:52Z
+[2026-04-19 02:18:23] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=830A25...DA1A
+[2026-04-19 02:18:24] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:18:24] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:18:24] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:15:45Z | update_time_rome=2026-04-19 02:15:45
+[2026-04-19 02:18:24] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:18:24] INFO | app | Polling OK
+[2026-04-19 02:18:54] INFO | app | Polling START
+[2026-04-19 02:18:54] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:18:54] INFO | solar_client | Controllo scadenza token | token=830A25...DA1A | now=2026-04-19T00:18:54.049233+00:00 | exp=2026-04-19T02:14:52+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:18:54] INFO | solar_client | Riutilizzo token esistente | token=830A25...DA1A | access_exp=2026-04-19T02:14:52Z
+[2026-04-19 02:18:54] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=830A25...DA1A
+[2026-04-19 02:18:54] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:18:54] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:18:54] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:15:45Z | update_time_rome=2026-04-19 02:15:45
+[2026-04-19 02:18:54] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:18:54] INFO | app | Polling OK
+[2026-04-19 02:19:24] INFO | app | Polling START
+[2026-04-19 02:19:24] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:19:24] INFO | solar_client | Controllo scadenza token | token=830A25...DA1A | now=2026-04-19T00:19:24.281034+00:00 | exp=2026-04-19T02:14:52+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:19:24] INFO | solar_client | Riutilizzo token esistente | token=830A25...DA1A | access_exp=2026-04-19T02:14:52Z
+[2026-04-19 02:19:24] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=830A25...DA1A
+[2026-04-19 02:19:24] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:19:24] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:19:24] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:15:45Z | update_time_rome=2026-04-19 02:15:45
+[2026-04-19 02:19:24] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:19:24] INFO | app | Polling OK
+[2026-04-19 02:19:54] INFO | app | Polling START
+[2026-04-19 02:19:54] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:19:54] INFO | solar_client | Controllo scadenza token | token=830A25...DA1A | now=2026-04-19T00:19:54.506922+00:00 | exp=2026-04-19T02:14:52+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:19:54] INFO | solar_client | Riutilizzo token esistente | token=830A25...DA1A | access_exp=2026-04-19T02:14:52Z
+[2026-04-19 02:19:54] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=830A25...DA1A
+[2026-04-19 02:19:54] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:19:54] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:19:54] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:15:45Z | update_time_rome=2026-04-19 02:15:45
+[2026-04-19 02:19:54] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:19:54] INFO | app | Polling OK
+[2026-04-19 02:20:24] INFO | app | Polling START
+[2026-04-19 02:20:24] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:20:24] INFO | solar_client | Controllo scadenza token | token=830A25...DA1A | now=2026-04-19T00:20:24.739501+00:00 | exp=2026-04-19T02:14:52+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:20:24] INFO | solar_client | Riutilizzo token esistente | token=830A25...DA1A | access_exp=2026-04-19T02:14:52Z
+[2026-04-19 02:20:24] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=830A25...DA1A
+[2026-04-19 02:20:24] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:20:24] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:20:24] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:15:45Z | update_time_rome=2026-04-19 02:15:45
+[2026-04-19 02:20:24] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:20:24] INFO | app | Polling OK
+[2026-04-19 02:20:54] INFO | app | Polling START
+[2026-04-19 02:20:54] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:20:54] INFO | solar_client | Controllo scadenza token | token=830A25...DA1A | now=2026-04-19T00:20:54.977709+00:00 | exp=2026-04-19T02:14:52+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:20:54] INFO | solar_client | Riutilizzo token esistente | token=830A25...DA1A | access_exp=2026-04-19T02:14:52Z
+[2026-04-19 02:20:54] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=830A25...DA1A
+[2026-04-19 02:20:55] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:20:55] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:20:55] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:20:45Z | update_time_rome=2026-04-19 02:20:45
+[2026-04-19 02:20:55] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:20:55] INFO | app | Polling OK
+[2026-04-19 02:21:25] INFO | app | Polling START
+[2026-04-19 02:21:25] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:21:25] INFO | solar_client | Controllo scadenza token | token=830A25...DA1A | now=2026-04-19T00:21:25.214710+00:00 | exp=2026-04-19T02:14:52+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:21:25] INFO | solar_client | Riutilizzo token esistente | token=830A25...DA1A | access_exp=2026-04-19T02:14:52Z
+[2026-04-19 02:21:25] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=830A25...DA1A
+[2026-04-19 02:21:25] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:21:25] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:21:25] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:20:45Z | update_time_rome=2026-04-19 02:20:45
+[2026-04-19 02:21:25] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:21:25] INFO | app | Polling OK
+[2026-04-19 02:21:55] INFO | app | Polling START
+[2026-04-19 02:21:55] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:21:55] INFO | solar_client | Controllo scadenza token | token=830A25...DA1A | now=2026-04-19T00:21:55.459811+00:00 | exp=2026-04-19T02:14:52+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:21:55] INFO | solar_client | Riutilizzo token esistente | token=830A25...DA1A | access_exp=2026-04-19T02:14:52Z
+[2026-04-19 02:21:55] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=830A25...DA1A
+[2026-04-19 02:21:55] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:21:55] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:21:55] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:20:45Z | update_time_rome=2026-04-19 02:20:45
+[2026-04-19 02:21:55] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:21:55] INFO | app | Polling OK
+[2026-04-19 02:22:25] INFO | app | Polling START
+[2026-04-19 02:22:25] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:22:25] INFO | solar_client | Controllo scadenza token | token=830A25...DA1A | now=2026-04-19T00:22:25.694219+00:00 | exp=2026-04-19T02:14:52+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:22:25] INFO | solar_client | Riutilizzo token esistente | token=830A25...DA1A | access_exp=2026-04-19T02:14:52Z
+[2026-04-19 02:22:25] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=830A25...DA1A
+[2026-04-19 02:22:25] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:22:25] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:22:25] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:20:45Z | update_time_rome=2026-04-19 02:20:45
+[2026-04-19 02:22:25] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:22:25] INFO | app | Polling OK
+[2026-04-19 02:25:16] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-19 02:25:16] INFO | app | Polling loop avviato | device_id=416360187241136128 | data_source=1 | interval_seconds=120
+[2026-04-19 02:25:16] INFO | app | Thread background polling avviato
+[2026-04-19 02:25:16] INFO | app | Polling START
+[2026-04-19 02:25:16] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:25:16] INFO | solar_client | Sessione o token assenti: eseguo login
+[2026-04-19 02:25:16] INFO | solar_client | Avvio login remoto
+[2026-04-19 02:25:16] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
+[2026-04-19 02:25:17] INFO | auth | Login remoto HTTP END | status_code=200
+[2026-04-19 02:25:17] INFO | auth | Login remoto OK | access_token=35F088...0FA2 | access_exp=2026-04-19T02:25:16Z | refresh_exp=2026-05-19T00:25:16Z
+[2026-04-19 02:25:17] INFO | solar_client | Login OK | token=35F088...0FA2 | access_exp=2026-04-19T02:25:16Z | refresh_exp=2026-05-19T00:25:16Z
+[2026-04-19 02:25:17] INFO | solar_client | Token salvato nel DB | token=35F088...0FA2
+[2026-04-19 02:25:17] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=35F088...0FA2
+[2026-04-19 02:25:17] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:25:17] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:25:17] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:20:45Z | update_time_rome=2026-04-19 02:20:45
+[2026-04-19 02:25:17] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:25:17] INFO | app | Polling OK
+[2026-04-19 02:27:17] INFO | app | Polling START
+[2026-04-19 02:27:17] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:27:17] INFO | solar_client | Controllo scadenza token | token=35F088...0FA2 | now=2026-04-19T00:27:17.312488+00:00 | exp=2026-04-19T02:25:16+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:27:17] INFO | solar_client | Riutilizzo token esistente | token=35F088...0FA2 | access_exp=2026-04-19T02:25:16Z
+[2026-04-19 02:27:17] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=35F088...0FA2
+[2026-04-19 02:27:17] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:27:17] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:27:17] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:25:45Z | update_time_rome=2026-04-19 02:25:45
+[2026-04-19 02:27:17] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:27:17] INFO | app | Polling OK
+[2026-04-19 02:29:17] INFO | app | Polling START
+[2026-04-19 02:29:17] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:29:17] INFO | solar_client | Controllo scadenza token | token=35F088...0FA2 | now=2026-04-19T00:29:17.981930+00:00 | exp=2026-04-19T02:25:16+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:29:17] INFO | solar_client | Riutilizzo token esistente | token=35F088...0FA2 | access_exp=2026-04-19T02:25:16Z
+[2026-04-19 02:29:17] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=35F088...0FA2
+[2026-04-19 02:29:18] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:29:18] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:29:18] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:25:45Z | update_time_rome=2026-04-19 02:25:45
+[2026-04-19 02:29:18] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:29:18] INFO | app | Polling OK
+[2026-04-19 02:31:18] INFO | app | Polling START
+[2026-04-19 02:31:18] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:31:18] INFO | solar_client | Controllo scadenza token | token=35F088...0FA2 | now=2026-04-19T00:31:18.633529+00:00 | exp=2026-04-19T02:25:16+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:31:18] INFO | solar_client | Riutilizzo token esistente | token=35F088...0FA2 | access_exp=2026-04-19T02:25:16Z
+[2026-04-19 02:31:18] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=35F088...0FA2
+[2026-04-19 02:31:19] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:31:19] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:31:19] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:30:45Z | update_time_rome=2026-04-19 02:30:45
+[2026-04-19 02:31:19] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:31:19] INFO | app | Polling OK
+[2026-04-19 02:33:19] INFO | app | Polling START
+[2026-04-19 02:33:19] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:33:19] INFO | solar_client | Controllo scadenza token | token=35F088...0FA2 | now=2026-04-19T00:33:19.267896+00:00 | exp=2026-04-19T02:25:16+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:33:19] INFO | solar_client | Riutilizzo token esistente | token=35F088...0FA2 | access_exp=2026-04-19T02:25:16Z
+[2026-04-19 02:33:19] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=35F088...0FA2
+[2026-04-19 02:33:19] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:33:19] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:33:19] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:30:45Z | update_time_rome=2026-04-19 02:30:45
+[2026-04-19 02:33:19] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:33:19] INFO | app | Polling OK
+[2026-04-19 02:35:19] INFO | app | Polling START
+[2026-04-19 02:35:19] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:35:19] INFO | solar_client | Controllo scadenza token | token=35F088...0FA2 | now=2026-04-19T00:35:19.989254+00:00 | exp=2026-04-19T02:25:16+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:35:19] INFO | solar_client | Riutilizzo token esistente | token=35F088...0FA2 | access_exp=2026-04-19T02:25:16Z
+[2026-04-19 02:35:19] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=35F088...0FA2
+[2026-04-19 02:35:20] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:35:20] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:35:20] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:30:45Z | update_time_rome=2026-04-19 02:30:45
+[2026-04-19 02:35:20] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:35:20] INFO | app | Polling OK
+[2026-04-19 02:37:20] INFO | app | Polling START
+[2026-04-19 02:37:20] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:37:20] INFO | solar_client | Controllo scadenza token | token=35F088...0FA2 | now=2026-04-19T00:37:20.636307+00:00 | exp=2026-04-19T02:25:16+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:37:20] INFO | solar_client | Riutilizzo token esistente | token=35F088...0FA2 | access_exp=2026-04-19T02:25:16Z
+[2026-04-19 02:37:20] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=35F088...0FA2
+[2026-04-19 02:37:21] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:37:21] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:37:21] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:36:45Z | update_time_rome=2026-04-19 02:36:45
+[2026-04-19 02:37:21] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:37:21] INFO | app | Polling OK
+[2026-04-19 02:39:21] INFO | app | Polling START
+[2026-04-19 02:39:21] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:39:21] INFO | solar_client | Controllo scadenza token | token=35F088...0FA2 | now=2026-04-19T00:39:21.298855+00:00 | exp=2026-04-19T02:25:16+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:39:21] INFO | solar_client | Riutilizzo token esistente | token=35F088...0FA2 | access_exp=2026-04-19T02:25:16Z
+[2026-04-19 02:39:21] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=35F088...0FA2
+[2026-04-19 02:39:21] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:39:21] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:39:21] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:36:45Z | update_time_rome=2026-04-19 02:36:45
+[2026-04-19 02:39:21] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:39:21] INFO | app | Polling OK
+[2026-04-19 02:41:21] INFO | app | Polling START
+[2026-04-19 02:41:21] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:41:21] INFO | solar_client | Controllo scadenza token | token=35F088...0FA2 | now=2026-04-19T00:41:21.945230+00:00 | exp=2026-04-19T02:25:16+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:41:21] INFO | solar_client | Riutilizzo token esistente | token=35F088...0FA2 | access_exp=2026-04-19T02:25:16Z
+[2026-04-19 02:41:21] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=35F088...0FA2
+[2026-04-19 02:41:22] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:41:22] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:41:22] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:36:45Z | update_time_rome=2026-04-19 02:36:45
+[2026-04-19 02:41:22] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:41:22] INFO | app | Polling OK
+[2026-04-19 02:43:22] INFO | app | Polling START
+[2026-04-19 02:43:22] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:43:22] INFO | solar_client | Controllo scadenza token | token=35F088...0FA2 | now=2026-04-19T00:43:22.648395+00:00 | exp=2026-04-19T02:25:16+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:43:22] INFO | solar_client | Riutilizzo token esistente | token=35F088...0FA2 | access_exp=2026-04-19T02:25:16Z
+[2026-04-19 02:43:22] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=35F088...0FA2
+[2026-04-19 02:43:23] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:43:23] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:43:23] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:41:46Z | update_time_rome=2026-04-19 02:41:46
+[2026-04-19 02:43:23] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:43:23] INFO | app | Polling OK
+[2026-04-19 02:45:23] INFO | app | Polling START
+[2026-04-19 02:45:23] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:45:23] INFO | solar_client | Controllo scadenza token | token=35F088...0FA2 | now=2026-04-19T00:45:23.320471+00:00 | exp=2026-04-19T02:25:16+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:45:23] INFO | solar_client | Riutilizzo token esistente | token=35F088...0FA2 | access_exp=2026-04-19T02:25:16Z
+[2026-04-19 02:45:23] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=35F088...0FA2
+[2026-04-19 02:45:23] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:45:23] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:45:23] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:41:46Z | update_time_rome=2026-04-19 02:41:46
+[2026-04-19 02:45:23] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:45:23] INFO | app | Polling OK
+[2026-04-19 02:47:23] INFO | app | Polling START
+[2026-04-19 02:47:23] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:47:23] INFO | solar_client | Controllo scadenza token | token=35F088...0FA2 | now=2026-04-19T00:47:23.971593+00:00 | exp=2026-04-19T02:25:16+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:47:23] INFO | solar_client | Riutilizzo token esistente | token=35F088...0FA2 | access_exp=2026-04-19T02:25:16Z
+[2026-04-19 02:47:23] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=35F088...0FA2
+[2026-04-19 02:47:24] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:47:24] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:47:24] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:46:46Z | update_time_rome=2026-04-19 02:46:46
+[2026-04-19 02:47:24] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:47:24] INFO | app | Polling OK
+[2026-04-19 02:49:24] INFO | app | Polling START
+[2026-04-19 02:49:24] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:49:24] INFO | solar_client | Controllo scadenza token | token=35F088...0FA2 | now=2026-04-19T00:49:24.641242+00:00 | exp=2026-04-19T02:25:16+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:49:24] INFO | solar_client | Riutilizzo token esistente | token=35F088...0FA2 | access_exp=2026-04-19T02:25:16Z
+[2026-04-19 02:49:24] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=35F088...0FA2
+[2026-04-19 02:49:25] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:49:25] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:49:25] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:46:46Z | update_time_rome=2026-04-19 02:46:46
+[2026-04-19 02:49:25] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:49:25] INFO | app | Polling OK
+[2026-04-19 02:51:25] INFO | app | Polling START
+[2026-04-19 02:51:25] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:51:25] INFO | solar_client | Controllo scadenza token | token=35F088...0FA2 | now=2026-04-19T00:51:25.315738+00:00 | exp=2026-04-19T02:25:16+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:51:25] INFO | solar_client | Riutilizzo token esistente | token=35F088...0FA2 | access_exp=2026-04-19T02:25:16Z
+[2026-04-19 02:51:25] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=35F088...0FA2
+[2026-04-19 02:51:25] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:51:25] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:51:25] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:46:46Z | update_time_rome=2026-04-19 02:46:46
+[2026-04-19 02:51:25] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:51:25] INFO | app | Polling OK
+[2026-04-19 02:53:25] INFO | app | Polling START
+[2026-04-19 02:53:25] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:53:25] INFO | solar_client | Controllo scadenza token | token=35F088...0FA2 | now=2026-04-19T00:53:25.980174+00:00 | exp=2026-04-19T02:25:16+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:53:25] INFO | solar_client | Riutilizzo token esistente | token=35F088...0FA2 | access_exp=2026-04-19T02:25:16Z
+[2026-04-19 02:53:25] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=35F088...0FA2
+[2026-04-19 02:53:26] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:53:26] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:53:26] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:51:46Z | update_time_rome=2026-04-19 02:51:46
+[2026-04-19 02:53:26] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:53:26] INFO | app | Polling OK
+[2026-04-19 02:55:26] INFO | app | Polling START
+[2026-04-19 02:55:26] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:55:26] INFO | solar_client | Controllo scadenza token | token=35F088...0FA2 | now=2026-04-19T00:55:26.655682+00:00 | exp=2026-04-19T02:25:16+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-19 02:55:26] INFO | solar_client | Riutilizzo token esistente | token=35F088...0FA2 | access_exp=2026-04-19T02:25:16Z
+[2026-04-19 02:55:26] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=35F088...0FA2
+[2026-04-19 02:55:27] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-19 02:55:27] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-19 02:55:27] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-19T00:51:46Z | update_time_rome=2026-04-19 02:51:46
+[2026-04-19 02:55:27] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-19 02:55:27] INFO | app | Polling OK

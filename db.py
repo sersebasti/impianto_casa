@@ -9,13 +9,23 @@ Cosa fa:
 - salva token e risposte login
 - salva le risposte degli endpoint
 - permette di leggere gli ultimi record salvati
+- salva created_at in ora Europe/Rome
 """
 
 import sqlite3
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 DB_PATH = Path("data/solar.db")
 INIT_SQL_PATH = Path("init.sql")
+
+
+def now_rome_str() -> str:
+    """
+    Restituisce data/ora corrente nel fuso Europe/Rome.
+    """
+    return datetime.now(ZoneInfo("Europe/Rome")).strftime("%Y-%m-%d %H:%M:%S")
 
 
 def get_connection():
@@ -27,75 +37,82 @@ def get_connection():
 
 def init_db():
     conn = get_connection()
+    try:
+        with open(INIT_SQL_PATH, "r", encoding="utf-8") as f:
+            schema_sql = f.read()
 
-    with open(INIT_SQL_PATH, "r", encoding="utf-8") as f:
-        schema_sql = f.read()
-
-    conn.executescript(schema_sql)
-    conn.commit()
-    conn.close()
+        conn.executescript(schema_sql)
+        conn.commit()
+    finally:
+        conn.close()
 
 
 def insert_token(token: str, login_payload_json: str) -> int:
     conn = get_connection()
-    cur = conn.cursor()
+    try:
+        cur = conn.cursor()
 
-    cur.execute("""
-        INSERT INTO auth_tokens (token, login_payload_json)
-        VALUES (?, ?)
-    """, (token, login_payload_json))
+        cur.execute("""
+            INSERT INTO auth_tokens (created_at, token, login_payload_json)
+            VALUES (?, ?, ?)
+        """, (now_rome_str(), token, login_payload_json))
 
-    row_id = cur.lastrowid
-    conn.commit()
-    conn.close()
-    return row_id
+        conn.commit()
+        return cur.lastrowid
+    finally:
+        conn.close()
 
 
 def insert_user_info(token: str, payload_json: str) -> int:
     conn = get_connection()
-    cur = conn.cursor()
+    try:
+        cur = conn.cursor()
 
-    cur.execute("""
-        INSERT INTO user_info_snapshots (token, payload_json)
-        VALUES (?, ?)
-    """, (token, payload_json))
+        cur.execute("""
+            INSERT INTO user_info_snapshots (created_at, token, payload_json)
+            VALUES (?, ?, ?)
+        """, (now_rome_str(), token, payload_json))
 
-    row_id = cur.lastrowid
-    conn.commit()
-    conn.close()
-    return row_id
+        conn.commit()
+        return cur.lastrowid
+    finally:
+        conn.close()
 
 
 def get_last_token_row():
     conn = get_connection()
-    cur = conn.cursor()
+    try:
+        cur = conn.cursor()
 
-    cur.execute("""
-        SELECT id, created_at, token, login_payload_json
-        FROM auth_tokens
-        ORDER BY id DESC
-        LIMIT 1
-    """)
+        cur.execute("""
+            SELECT id, created_at, token, login_payload_json
+            FROM auth_tokens
+            ORDER BY id DESC
+            LIMIT 1
+        """)
 
-    row = cur.fetchone()
-    conn.close()
-    return dict(row) if row else None
+        row = cur.fetchone()
+        return dict(row) if row else None
+    finally:
+        conn.close()
 
 
 def get_last_user_info_row():
     conn = get_connection()
-    cur = conn.cursor()
+    try:
+        cur = conn.cursor()
 
-    cur.execute("""
-        SELECT id, created_at, token, payload_json
-        FROM user_info_snapshots
-        ORDER BY id DESC
-        LIMIT 1
-    """)
+        cur.execute("""
+            SELECT id, created_at, token, payload_json
+            FROM user_info_snapshots
+            ORDER BY id DESC
+            LIMIT 1
+        """)
 
-    row = cur.fetchone()
-    conn.close()
-    return dict(row) if row else None
+        row = cur.fetchone()
+        return dict(row) if row else None
+    finally:
+        conn.close()
 
 
 def get_last_token_value():
@@ -104,18 +121,20 @@ def get_last_token_value():
         return None
     return row["token"]
 
+
 def insert_device_snapshot(device_row_key: str, update_time: str, json_data: str) -> int:
     conn = get_connection()
     try:
         cur = conn.cursor()
         cur.execute("""
-            INSERT INTO device_snapshots (device_row_key, update_time, json_data)
-            VALUES (?, ?, ?)
-        """, (device_row_key, update_time, json_data))
+            INSERT INTO device_snapshots (created_at, device_row_key, update_time, json_data)
+            VALUES (?, ?, ?, ?)
+        """, (now_rome_str(), device_row_key, update_time, json_data))
         conn.commit()
         return cur.lastrowid
     finally:
         conn.close()
+
 
 def insert_device_snapshot_flat(
     device_row_key: str,
@@ -148,45 +167,13 @@ def insert_device_snapshot_flat(
     controller_warning_alarm: str | None,
     inverter_fault_alarm: str | None,
     inverter_warning_alarm: str | None,
-    ) -> int:
-        conn = get_connection()
-        try:
-            cur = conn.cursor()
-            cur.execute("""
-                INSERT INTO device_snapshots_flat (
-                    device_row_key,
-                    update_time,
-                    inverter_program_version,
-                    internal_model,
-                    input_voltage,
-                    input_frequency,
-                    output_voltage,
-                    output_frequency,
-                    battery_voltage,
-                    battery_capacity,
-                    inverter_charging_current,
-                    load_percentage,
-                    device_temp,
-                    machine_status_code,
-                    system_run_time,
-                    system_operation_status,
-                    battery_number_in_series,
-                    controller_program_version,
-                    pv_voltage,
-                    controller_charging_current,
-                    controller_temp,
-                    controller_status_code,
-                    controller_connection_status,
-                    controller_charging_status,
-                    inverter_charge_status,
-                    battery_voltage_is_full,
-                    controller_malfunction_alarm,
-                    controller_warning_alarm,
-                    inverter_fault_alarm,
-                    inverter_warning_alarm
-                )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
+) -> int:
+    conn = get_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute("""
+            INSERT INTO device_snapshots_flat (
+                created_at,
                 device_row_key,
                 update_time,
                 inverter_program_version,
@@ -216,9 +203,43 @@ def insert_device_snapshot_flat(
                 controller_malfunction_alarm,
                 controller_warning_alarm,
                 inverter_fault_alarm,
-                inverter_warning_alarm,
-            ))
-            conn.commit()
-            return cur.lastrowid
-        finally:
-            conn.close()
+                inverter_warning_alarm
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            now_rome_str(),
+            device_row_key,
+            update_time,
+            inverter_program_version,
+            internal_model,
+            input_voltage,
+            input_frequency,
+            output_voltage,
+            output_frequency,
+            battery_voltage,
+            battery_capacity,
+            inverter_charging_current,
+            load_percentage,
+            device_temp,
+            machine_status_code,
+            system_run_time,
+            system_operation_status,
+            battery_number_in_series,
+            controller_program_version,
+            pv_voltage,
+            controller_charging_current,
+            controller_temp,
+            controller_status_code,
+            controller_connection_status,
+            controller_charging_status,
+            inverter_charge_status,
+            battery_voltage_is_full,
+            controller_malfunction_alarm,
+            controller_warning_alarm,
+            inverter_fault_alarm,
+            inverter_warning_alarm,
+        ))
+        conn.commit()
+        return cur.lastrowid
+    finally:
+        conn.close()
