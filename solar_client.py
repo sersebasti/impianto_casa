@@ -368,3 +368,41 @@ class SolarClient:
             data_source,
         )
         return data
+    
+
+    def set_bms_communication(self, device_id: str, value: str) -> dict[str, Any]:
+        """
+        Imposta lo switch comunicazione BMS.
+
+        value:
+        - "1" => ON
+        - "2" => OFF
+        """
+        if value not in ("1", "2"):
+            raise ValueError("value non valido: usare '1' per ON oppure '2' per OFF")
+
+        payload = {
+            "id": device_id,
+            "key": "bmsCommunicationSwitch",
+            "value": value,
+        }
+
+        logger.info(
+            "Set BMS communication START | device_id=%s | value=%s",
+            device_id,
+            value,
+        )
+
+        data = self.post_auth(
+            f"/apis/remote/device/config/write?deviceId={device_id}",
+            payload=payload,
+        )
+
+        logger.info(
+            "Set BMS communication OK | device_id=%s | value=%s | response=%s",
+            device_id,
+            value,
+            data,
+        )
+
+        return data
