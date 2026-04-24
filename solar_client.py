@@ -22,7 +22,8 @@ from zoneinfo import ZoneInfo
 
 from auth import login
 from db import insert_token, insert_user_info, insert_device_snapshot, insert_device_snapshot_flat
-from utility import get_logger, mask_token
+from logger import get_logger
+from utility import mask_token
 
 logger = get_logger("solar_client")
 
@@ -402,6 +403,39 @@ class SolarClient:
             "Set BMS communication OK | device_id=%s | value=%s | response=%s",
             device_id,
             value,
+            data,
+        )
+
+        return data
+    
+
+    def get_bms_communication(self, device_id: str) -> dict[str, Any]:
+        """
+        Legge stato comunicazione BMS.
+
+        ritorna risposta completa API:
+        data.value:
+            1 = ON
+            2 = OFF
+        """
+        payload = {
+            "id": device_id,
+            "key": "bmsCommunicationSwitch",
+        }
+
+        logger.info(
+            "Get BMS communication START | device_id=%s",
+            device_id,
+        )
+
+        data = self.post_auth(
+            f"/apis/remote/device/config/read?deviceId={device_id}",
+            payload=payload,
+        )
+
+        logger.info(
+            "Get BMS communication OK | device_id=%s | response=%s",
+            device_id,
             data,
         )
 

@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request, render_template_string
 from datetime import datetime, timedelta
 
 from solar_client import SolarClient
-from utility import get_logger
+from logger import get_logger
 from db import (
     get_last_token_row,
     get_last_user_info_row,
@@ -183,9 +183,29 @@ def bms_communication():
 
 
 
+@bp.route("/api/bms-communication", methods=["GET"])
+def bms_communication_get():
+    try:
+        device_id = request.args.get("id")
 
+        if not device_id:
+            return jsonify({"ok": False, "error": "Parametro id mancante"}), 400
 
+        remote_data = client.get_bms_communication(device_id)
 
+        info = remote_data.get("data", {}) or {}
+
+        return jsonify({
+            "ok": True,
+            "id": device_id,
+            "key": info.get("key"),
+            "value": info.get("value"),
+            "state": info.get("valueDisplay"),
+            "remote_response": remote_data
+        })
+
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
 
 
 
