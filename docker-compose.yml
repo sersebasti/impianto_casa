@@ -11,3 +11,14 @@ services:
       - ./logs:/app/logs
     restart: unless-stopped
     command: ["python", "app.py"]
+
+  battery_fit:
+    build: .
+    container_name: battery_fit
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    restart: "no"
+    command: ["tail", "-f", "/dev/null"]
