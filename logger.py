@@ -36,6 +36,7 @@ def get_logger(name: str = "solar_app") -> logging.Logger:
     logger.propagate = False
 
     LOG_DIR.mkdir(parents=True, exist_ok=True)
+    LOG_FILE.touch(exist_ok=True)
 
     formatter = RomeFormatter(
         fmt="[%(asctime)s] %(levelname)s | %(name)s | %(message)s",

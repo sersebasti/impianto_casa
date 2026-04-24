@@ -2,16 +2,9 @@
 db.py
 
 Modulo dedicato al database SQLite.
-
-Cosa fa:
-- apre la connessione a SQLite
-- legge ed esegue lo schema da init.sql
-- salva token e risposte login
-- salva le risposte degli endpoint
-- permette di leggere gli ultimi record salvati
-- salva created_at in ora Europe/Rome
 """
 
+import os
 import sqlite3
 from datetime import datetime
 from pathlib import Path
@@ -20,11 +13,13 @@ from zoneinfo import ZoneInfo
 DB_PATH = Path("data/solar.db")
 INIT_SQL_PATH = Path("init.sql")
 
+MAX_AUTH_TOKENS = int(os.getenv("MAX_AUTH_TOKENS", "100"))
+MAX_USER_INFO_SNAPSHOTS = int(os.getenv("MAX_USER_INFO_SNAPSHOTS", "100"))
+MAX_DEVICE_SNAPSHOTS = int(os.getenv("MAX_DEVICE_SNAPSHOTS", "20000"))
+MAX_DEVICE_SNAPSHOTS_FLAT = int(os.getenv("MAX_DEVICE_SNAPSHOTS_FLAT", "20000"))
+
 
 def now_rome_str() -> str:
-    """
-    Restituisce data/ora corrente nel fuso Europe/Rome.
-    """
     return datetime.now(ZoneInfo("Europe/Rome")).strftime("%Y-%m-%d %H:%M:%S")
 
 
@@ -40,8 +35,38 @@ def init_db():
     try:
         with open(INIT_SQL_PATH, "r", encoding="utf-8") as f:
             schema_sql = f.read()
-
         conn.executescript(schema_sql)
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def cleanup_table_keep_latest(table_name: str, max_rows: int, order_column: str = "id") -> None:
+    allowed_tables = {
+        "auth_tokens",
+        "user_info_snapshots",
+        "device_snapshots",
+        "device_snapshots_flat",
+    }
+
+    if table_name not in allowed_tables:
+        raise ValueError(f"Tabella non consentita: {table_name}")
+
+    if max_rows <= 0:
+        return
+
+    conn = get_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute(f"""
+            DELETE FROM {table_name}
+            WHERE {order_column} NOT IN (
+                SELECT {order_column}
+                FROM {table_name}
+                ORDER BY {order_column} DESC
+                LIMIT ?
+            )
+        """, (max_rows,))
         conn.commit()
     finally:
         conn.close()
@@ -51,46 +76,46 @@ def insert_token(token: str, login_payload_json: str) -> int:
     conn = get_connection()
     try:
         cur = conn.cursor()
-
         cur.execute("""
             INSERT INTO auth_tokens (created_at, token, login_payload_json)
             VALUES (?, ?, ?)
         """, (now_rome_str(), token, login_payload_json))
-
         conn.commit()
-        return cur.lastrowid
+        row_id = cur.lastrowid
     finally:
         conn.close()
+
+    cleanup_table_keep_latest("auth_tokens", MAX_AUTH_TOKENS)
+    return row_id
 
 
 def insert_user_info(token: str, payload_json: str) -> int:
     conn = get_connection()
     try:
         cur = conn.cursor()
-
         cur.execute("""
             INSERT INTO user_info_snapshots (created_at, token, payload_json)
             VALUES (?, ?, ?)
         """, (now_rome_str(), token, payload_json))
-
         conn.commit()
-        return cur.lastrowid
+        row_id = cur.lastrowid
     finally:
         conn.close()
+
+    cleanup_table_keep_latest("user_info_snapshots", MAX_USER_INFO_SNAPSHOTS)
+    return row_id
 
 
 def get_last_token_row():
     conn = get_connection()
     try:
         cur = conn.cursor()
-
         cur.execute("""
             SELECT id, created_at, token, login_payload_json
             FROM auth_tokens
             ORDER BY id DESC
             LIMIT 1
         """)
-
         row = cur.fetchone()
         return dict(row) if row else None
     finally:
@@ -101,14 +126,12 @@ def get_last_user_info_row():
     conn = get_connection()
     try:
         cur = conn.cursor()
-
         cur.execute("""
             SELECT id, created_at, token, payload_json
             FROM user_info_snapshots
             ORDER BY id DESC
             LIMIT 1
         """)
-
         row = cur.fetchone()
         return dict(row) if row else None
     finally:
@@ -131,9 +154,12 @@ def insert_device_snapshot(device_row_key: str, update_time: str, json_data: str
             VALUES (?, ?, ?, ?)
         """, (now_rome_str(), device_row_key, update_time, json_data))
         conn.commit()
-        return cur.lastrowid
+        row_id = cur.lastrowid
     finally:
         conn.close()
+
+    cleanup_table_keep_latest("device_snapshots", MAX_DEVICE_SNAPSHOTS)
+    return row_id
 
 
 def insert_device_snapshot_flat(
@@ -240,9 +266,12 @@ def insert_device_snapshot_flat(
             inverter_warning_alarm,
         ))
         conn.commit()
-        return cur.lastrowid
+        row_id = cur.lastrowid
     finally:
         conn.close()
+
+    cleanup_table_keep_latest("device_snapshots_flat", MAX_DEVICE_SNAPSHOTS_FLAT)
+    return row_id
 
 
 def get_device_metric_history(
@@ -279,4 +308,4 @@ def get_device_metric_history(
         rows = cur.fetchall()
         return [dict(row) for row in rows]
     finally:
-        conn.close()        
+        conn.close()

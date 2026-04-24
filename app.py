@@ -7,6 +7,7 @@ from solar_client import SolarClient
 from logger import get_logger
 from zoneinfo import ZoneInfo
 from datetime import datetime
+from polling_tasks import acquire_and_save_device_state, check_battery_and_bms
 
 logger = get_logger("app")
 app = Flask(__name__)
@@ -22,137 +23,23 @@ def polling_loop():
     data_source = int(os.getenv("DEVICE_DATA_SOURCE", "1"))
     interval_seconds = int(os.getenv("POLL_INTERVAL_SECONDS", "300"))
 
-    high_threshold = float(os.getenv("BMS_OFF_THRESHOLD", "53.5"))
-    low_threshold = float(os.getenv("BMS_ON_THRESHOLD", "52.0"))
-
     logger.info(
-        "Polling loop avviato | device_id=%s | data_source=%s | interval_seconds=%s | low_threshold=%s | high_threshold=%s",
+        "Polling loop avviato | device_id=%s | data_source=%s | interval_seconds=%s",
         device_id,
         data_source,
         interval_seconds,
-        low_threshold,
-        high_threshold,
     )
 
     while True:
         try:
             logger.info("Polling START")
-
-            # 1) Legge stato inverter / batteria
-            data = client.get_device_state_latest(
-                device_id=device_id,
-                data_source=data_source,
-                save_to_db=True,
-            )
-
-            payload_data = data.get("data", {}) or {}
-            fields = payload_data.get("fields", {}) or {}
-            battery_item = fields.get("batteryVoltage", {}) or {}
-
-            raw_battery_voltage = battery_item.get("valueDisplay")
-            if raw_battery_voltage is None:
-                raw_battery_voltage = battery_item.get("value")
-
-            try:
-                battery_voltage = float(
-                    str(raw_battery_voltage).replace("V", "").replace("v", "").strip()
-                )
-            except Exception:
-                battery_voltage = None
-
-            logger.info(
-                "Polling OK | battery_voltage=%s | raw_battery_voltage=%s",
-                battery_voltage,
-                raw_battery_voltage,
-            )
-
-            if battery_voltage is None:
-                logger.warning("Battery voltage non trovata o non convertibile")
-                time.sleep(interval_seconds)
-                continue
-
-            # 2) Decide stato desiderato con isteresi
-            # NUOVA MAPPA:
-            # 1 = OFF
-            # 2 = ON
-            desired_bms_value = None
-
-            if battery_voltage > high_threshold:
-                desired_bms_value = "1"   # OFF
-
-            elif battery_voltage < low_threshold:
-                desired_bms_value = "2"   # ON
-
-            if desired_bms_value is None:
-                logger.info(
-                    "BMS nessuna azione | battery_voltage=%s | fascia neutra [%s - %s]",
-                    battery_voltage,
-                    low_threshold,
-                    high_threshold,
-                )
-                time.sleep(interval_seconds)
-                continue
-
-            # 3) Legge stato reale attuale dal portale
-            status = client.get_bms_communication(device_id)
-            status_data = status.get("data", {}) or {}
-
-            current_bms_display = str(
-                status_data.get("valueDisplay", "")
-            ).strip().upper()
-
-            # NUOVA MAPPA:
-            # OFF -> 1
-            # ON  -> 2
-            if current_bms_display == "OFF":
-                current_bms_value = "1"
-
-            elif current_bms_display == "ON":
-                current_bms_value = "2"
-
-            else:
-                current_bms_value = None
-
-            logger.info(
-                "BMS stato attuale | current_value=%s | current_display=%s | desired_value=%s",
-                current_bms_value,
-                current_bms_display,
-                desired_bms_value,
-            )
-
-            # 4) Se già corretto non fare nulla
-            if current_bms_value == desired_bms_value:
-                logger.info(
-                    "BMS già corretto | battery_voltage=%s | value=%s",
-                    battery_voltage,
-                    current_bms_value,
-                )
-                time.sleep(interval_seconds)
-                continue
-
-            # 5) Cambia stato
-            logger.info(
-                "BMS cambio stato START | battery_voltage=%s | old_value=%s | new_value=%s",
-                battery_voltage,
-                current_bms_value,
-                desired_bms_value,
-            )
-
-            remote_data = client.set_bms_communication(
-                device_id=device_id,
-                value=desired_bms_value,
-            )
-
-            logger.info(
-                "BMS cambio stato OK | battery_voltage=%s | new_value=%s | response=%s",
-                battery_voltage,
-                desired_bms_value,
-                remote_data,
-            )
-
+            # 1) Acquisisci e salva i dati
+            data = acquire_and_save_device_state(client, logger, device_id, data_source)
+            # 2) Esegui il task di controllo BMS usando i dati appena acquisiti
+            check_battery_and_bms(client, logger, device_id, data_source, interval_seconds, data)
+            # Qui potrai aggiungere altri task in futuro
         except Exception as e:
             logger.exception("Polling ERROR | error=%s", e)
-
         time.sleep(interval_seconds)
 
 

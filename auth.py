@@ -24,7 +24,8 @@ from urllib.parse import parse_qsl, urlparse
 import requests
 from Crypto.Cipher import AES
 
-from utility import get_logger, mask_token
+from logger import get_logger
+from utility import mask_token
 
 logger = get_logger("auth")
 
