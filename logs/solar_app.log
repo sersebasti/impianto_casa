@@ -1557,3 +1557,68 @@ requests.exceptions.ConnectionError: HTTPSConnectionPool(host='solar.siseli.com'
 [2026-04-25 07:27:27] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
 [2026-04-25 07:27:27] INFO | app | [TASK] battery_voltage=52.6 | raw_battery_voltage=52.6
 [2026-04-25 07:27:27] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.6 | fascia neutra [52.0 - 53.5]
+[2026-04-25 07:29:27] INFO | app | Polling START
+[2026-04-25 07:29:27] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 07:29:27] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-25 07:29:27] INFO | solar_client | Controllo scadenza token | token=6532E3...2BF1 | now=2026-04-25T05:29:27.200279+00:00 | exp=2026-04-25T06:48:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-25 07:29:27] INFO | solar_client | Riutilizzo token esistente | token=6532E3...2BF1 | access_exp=2026-04-25T06:48:26Z
+[2026-04-25 07:29:27] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=6532E3...2BF1
+[2026-04-25 07:29:27] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-25 07:29:27] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-25 07:29:27] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-25T05:25:12Z | update_time_rome=2026-04-25 07:25:12
+[2026-04-25 07:29:27] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-25 07:29:27] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 07:29:27] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 07:29:27] INFO | app | [TASK] battery_voltage=52.6 | raw_battery_voltage=52.6
+[2026-04-25 07:29:27] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.6 | fascia neutra [52.0 - 53.5]
+[2026-04-25 07:31:27] INFO | app | Polling START
+[2026-04-25 07:31:27] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 07:31:27] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-25 07:31:27] INFO | solar_client | Controllo scadenza token | token=6532E3...2BF1 | now=2026-04-25T05:31:27.910993+00:00 | exp=2026-04-25T06:48:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-25 07:31:27] INFO | solar_client | Riutilizzo token esistente | token=6532E3...2BF1 | access_exp=2026-04-25T06:48:26Z
+[2026-04-25 07:31:27] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=6532E3...2BF1
+[2026-04-25 07:31:29] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-25 07:31:29] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-25 07:31:29] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-25T05:30:19Z | update_time_rome=2026-04-25 07:30:19
+[2026-04-25 07:31:29] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-25 07:31:29] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 07:31:29] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 07:31:29] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 07:31:29] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 07:31:58] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-25 07:31:58] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-25 07:31:58] INFO | app | Polling loop avviato | device_id=416360187241136128 | data_source=1 | interval_seconds=120
+[2026-04-25 07:31:58] INFO | app | Thread background polling avviato
+[2026-04-25 07:31:58] INFO | app | Polling START
+[2026-04-25 07:31:58] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 07:31:58] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-25 07:31:58] INFO | solar_client | Sessione o token assenti: eseguo login
+[2026-04-25 07:31:58] INFO | solar_client | Avvio login remoto
+[2026-04-25 07:31:58] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
+[2026-04-25 07:32:00] INFO | auth | Login remoto HTTP END | status_code=200
+[2026-04-25 07:32:00] INFO | auth | Login remoto OK | access_token=E106BA...759D | access_exp=2026-04-25T07:32:00Z | refresh_exp=2026-05-25T05:32:00Z
+[2026-04-25 07:32:00] INFO | solar_client | Login OK | token=E106BA...759D | access_exp=2026-04-25T07:32:00Z | refresh_exp=2026-05-25T05:32:00Z
+[2026-04-25 07:32:00] INFO | solar_client | Token salvato nel DB | token=E106BA...759D
+[2026-04-25 07:32:00] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=E106BA...759D
+[2026-04-25 07:32:00] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-25 07:32:00] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-25 07:32:00] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-25T05:30:19Z | update_time_rome=2026-04-25 07:30:19
+[2026-04-25 07:32:00] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-25 07:32:00] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 07:32:00] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 07:32:00] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 07:32:00] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 07:34:00] INFO | app | Polling START
+[2026-04-25 07:34:00] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 07:34:00] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-25 07:34:00] INFO | solar_client | Controllo scadenza token | token=E106BA...759D | now=2026-04-25T05:34:00.538083+00:00 | exp=2026-04-25T07:32:00+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-25 07:34:00] INFO | solar_client | Riutilizzo token esistente | token=E106BA...759D | access_exp=2026-04-25T07:32:00Z
+[2026-04-25 07:34:00] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=E106BA...759D
+[2026-04-25 07:34:01] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-25 07:34:01] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-25 07:34:01] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-25T05:30:19Z | update_time_rome=2026-04-25 07:30:19
+[2026-04-25 07:34:01] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-25 07:34:01] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 07:34:01] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 07:34:01] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 07:34:01] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
