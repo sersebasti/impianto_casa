@@ -134,4 +134,4 @@ Script di analisi statistica per i dati dell'inverter salvati in SQLite.
 -- docker compose exec battery_fit python tools/statistics/NOME_SCRIPT.py
 
 - Cartella output grafici
--- logs/
+-- tools/statistics/

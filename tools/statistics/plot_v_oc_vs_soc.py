@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 DB_PATH = Path("data/solar.db")
-OUTPUT_PATH = Path("logs/v_oc_vs_soc.png")
+BASE_DIR = Path(__file__).resolve().parent
+OUTPUT_PATH = BASE_DIR / "v_oc_vs_soc.png"
 
 # Modello semplice
 A_LOAD = 0.020

@@ -7,7 +7,8 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 
 DB_PATH = Path("data/solar.db")
-OUTPUT_PATH = Path("logs/v_oc_vs_battery_voltage.png")
+BASE_DIR = Path(__file__).resolve().parent
+OUTPUT_PATH = BASE_DIR / "v_oc_vs_battery_voltage.png"
 
 # Coefficienti modello semplice
 A_LOAD = 0.020

@@ -20,5 +20,6 @@ services:
     volumes:
       - ./data:/app/data
       - ./logs:/app/logs
+      - ./tools/statistics:/app/tools/statistics
     restart: "no"
     command: ["tail", "-f", "/dev/null"]
