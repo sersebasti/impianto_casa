@@ -29,7 +29,18 @@ Script di analisi statistica per i dati dell'inverter salvati in SQLite.
 -- tools/statistics/fit_battery_correction.py
 
 - Comando
+
+- Fit su tutti i dati
 -- docker compose exec battery_fit python tools/statistics/fit_battery_correction.py
+
+- Fit ultime 24 ore
+-- docker compose exec battery_fit python tools/statistics/fit_battery_correction.py --hours 24
+
+- Fit ultime 72 ore
+-- docker compose exec battery_fit python tools/statistics/fit_battery_correction.py --hours 72
+
+- Fit ultimi 7 giorni
+-- docker compose exec battery_fit python tools/statistics/fit_battery_correction.py --hours 168
 
 - Cosa fa
 -- legge i dati storici dal database
