@@ -1,498 +1,1140 @@
-[2026-04-25 00:38:08] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-25 00:38:08] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-25 00:38:08] INFO | app | Polling loop avviato | device_id=416360187241136128 | data_source=1 | interval_seconds=120
-[2026-04-25 00:38:08] INFO | app | Thread background polling avviato
-[2026-04-25 00:38:08] INFO | app | Polling START
-[2026-04-25 00:38:08] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:38:08] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:38:08] INFO | solar_client | Sessione o token assenti: eseguo login
-[2026-04-25 00:38:08] INFO | solar_client | Avvio login remoto
-[2026-04-25 00:38:08] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
-[2026-04-25 00:38:09] INFO | auth | Login remoto HTTP END | status_code=200
-[2026-04-25 00:38:09] INFO | auth | Login remoto OK | access_token=97CFE9...7075 | access_exp=2026-04-25T00:38:08Z | refresh_exp=2026-05-24T22:38:08Z
-[2026-04-25 00:38:09] INFO | solar_client | Login OK | token=97CFE9...7075 | access_exp=2026-04-25T00:38:08Z | refresh_exp=2026-05-24T22:38:08Z
-[2026-04-25 00:38:09] INFO | solar_client | Token salvato nel DB | token=97CFE9...7075
-[2026-04-25 00:38:09] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=97CFE9...7075
-[2026-04-25 00:38:09] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 00:38:09] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 00:38:09] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T22:35:01Z | update_time_rome=2026-04-25 00:35:01
-[2026-04-25 00:38:09] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:38:09] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 00:38:09] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 00:38:09] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
-[2026-04-25 00:38:09] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
-[2026-04-25 00:40:09] INFO | app | Polling START
-[2026-04-25 00:40:09] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:40:09] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:40:09] INFO | solar_client | Controllo scadenza token | token=97CFE9...7075 | now=2026-04-24T22:40:09.272408+00:00 | exp=2026-04-25T00:38:08+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 00:40:09] INFO | solar_client | Riutilizzo token esistente | token=97CFE9...7075 | access_exp=2026-04-25T00:38:08Z
-[2026-04-25 00:40:09] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=97CFE9...7075
-[2026-04-25 00:40:09] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 00:40:09] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 00:40:10] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T22:40:01Z | update_time_rome=2026-04-25 00:40:01
-[2026-04-25 00:40:10] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:40:10] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 00:40:10] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 00:40:10] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
-[2026-04-25 00:40:10] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
-[2026-04-25 00:42:10] INFO | app | Polling START
-[2026-04-25 00:42:10] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:42:10] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:42:10] INFO | solar_client | Controllo scadenza token | token=97CFE9...7075 | now=2026-04-24T22:42:10.021611+00:00 | exp=2026-04-25T00:38:08+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 00:42:10] INFO | solar_client | Riutilizzo token esistente | token=97CFE9...7075 | access_exp=2026-04-25T00:38:08Z
-[2026-04-25 00:42:10] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=97CFE9...7075
-[2026-04-25 00:42:10] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 00:42:10] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 00:42:10] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T22:40:01Z | update_time_rome=2026-04-25 00:40:01
-[2026-04-25 00:42:10] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:42:10] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 00:42:10] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 00:42:10] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
-[2026-04-25 00:42:10] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
-[2026-04-25 00:44:10] INFO | app | Polling START
-[2026-04-25 00:44:10] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:44:10] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:44:10] INFO | solar_client | Controllo scadenza token | token=97CFE9...7075 | now=2026-04-24T22:44:10.730544+00:00 | exp=2026-04-25T00:38:08+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 00:44:10] INFO | solar_client | Riutilizzo token esistente | token=97CFE9...7075 | access_exp=2026-04-25T00:38:08Z
-[2026-04-25 00:44:10] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=97CFE9...7075
-[2026-04-25 00:44:11] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 00:44:11] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 00:44:11] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T22:40:01Z | update_time_rome=2026-04-25 00:40:01
-[2026-04-25 00:44:11] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:44:11] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 00:44:11] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 00:44:11] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
-[2026-04-25 00:44:11] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
-[2026-04-25 00:46:11] INFO | app | Polling START
-[2026-04-25 00:46:11] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:46:11] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:46:11] INFO | solar_client | Controllo scadenza token | token=97CFE9...7075 | now=2026-04-24T22:46:11.428992+00:00 | exp=2026-04-25T00:38:08+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 00:46:11] INFO | solar_client | Riutilizzo token esistente | token=97CFE9...7075 | access_exp=2026-04-25T00:38:08Z
-[2026-04-25 00:46:11] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=97CFE9...7075
-[2026-04-25 00:46:16] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 00:46:16] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 00:46:16] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T22:45:01Z | update_time_rome=2026-04-25 00:45:01
-[2026-04-25 00:46:16] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:46:16] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 00:46:16] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 00:46:16] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 00:46:16] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 00:48:16] INFO | app | Polling START
-[2026-04-25 00:48:16] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:48:16] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:48:16] INFO | solar_client | Controllo scadenza token | token=97CFE9...7075 | now=2026-04-24T22:48:16.136297+00:00 | exp=2026-04-25T00:38:08+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 00:48:16] INFO | solar_client | Riutilizzo token esistente | token=97CFE9...7075 | access_exp=2026-04-25T00:38:08Z
-[2026-04-25 00:48:16] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=97CFE9...7075
-[2026-04-25 00:48:16] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 00:48:16] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 00:48:16] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T22:45:01Z | update_time_rome=2026-04-25 00:45:01
-[2026-04-25 00:48:16] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:48:16] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 00:48:16] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 00:48:16] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 00:48:16] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 00:49:43] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-25 00:49:43] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-25 00:49:43] INFO | app | Polling loop avviato | device_id=416360187241136128 | data_source=1 | interval_seconds=120
-[2026-04-25 00:49:43] INFO | app | Thread background polling avviato
-[2026-04-25 00:49:43] INFO | app | Polling START
-[2026-04-25 00:49:43] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:49:43] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:49:43] INFO | solar_client | Sessione o token assenti: eseguo login
-[2026-04-25 00:49:43] INFO | solar_client | Avvio login remoto
-[2026-04-25 00:49:43] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
-[2026-04-25 00:49:43] INFO | auth | Login remoto HTTP END | status_code=200
-[2026-04-25 00:49:43] INFO | auth | Login remoto OK | access_token=DDA25B...B5AD | access_exp=2026-04-25T00:49:43Z | refresh_exp=2026-05-24T22:49:43Z
-[2026-04-25 00:49:43] INFO | solar_client | Login OK | token=DDA25B...B5AD | access_exp=2026-04-25T00:49:43Z | refresh_exp=2026-05-24T22:49:43Z
-[2026-04-25 00:49:43] INFO | solar_client | Token salvato nel DB | token=DDA25B...B5AD
-[2026-04-25 00:49:43] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=DDA25B...B5AD
-[2026-04-25 00:49:44] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 00:49:44] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 00:49:44] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T22:45:01Z | update_time_rome=2026-04-25 00:45:01
-[2026-04-25 00:49:44] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:49:44] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 00:49:44] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 00:49:44] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 00:49:44] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 00:51:44] INFO | app | Polling START
-[2026-04-25 00:51:44] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:51:44] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:51:44] INFO | solar_client | Controllo scadenza token | token=DDA25B...B5AD | now=2026-04-24T22:51:44.111466+00:00 | exp=2026-04-25T00:49:43+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 00:51:44] INFO | solar_client | Riutilizzo token esistente | token=DDA25B...B5AD | access_exp=2026-04-25T00:49:43Z
-[2026-04-25 00:51:44] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=DDA25B...B5AD
-[2026-04-25 00:51:44] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 00:51:44] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 00:51:44] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T22:50:01Z | update_time_rome=2026-04-25 00:50:01
-[2026-04-25 00:51:44] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:51:44] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 00:51:44] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 00:51:44] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 00:51:44] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 00:53:44] INFO | app | Polling START
-[2026-04-25 00:53:44] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:53:44] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:53:44] INFO | solar_client | Controllo scadenza token | token=DDA25B...B5AD | now=2026-04-24T22:53:44.869914+00:00 | exp=2026-04-25T00:49:43+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 00:53:44] INFO | solar_client | Riutilizzo token esistente | token=DDA25B...B5AD | access_exp=2026-04-25T00:49:43Z
-[2026-04-25 00:53:44] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=DDA25B...B5AD
-[2026-04-25 00:53:45] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 00:53:45] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 00:53:45] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T22:50:01Z | update_time_rome=2026-04-25 00:50:01
-[2026-04-25 00:53:45] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:53:45] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 00:53:45] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 00:53:45] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 00:53:45] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 00:55:45] INFO | app | Polling START
-[2026-04-25 00:55:45] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:55:45] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:55:45] INFO | solar_client | Controllo scadenza token | token=DDA25B...B5AD | now=2026-04-24T22:55:45.558330+00:00 | exp=2026-04-25T00:49:43+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 00:55:45] INFO | solar_client | Riutilizzo token esistente | token=DDA25B...B5AD | access_exp=2026-04-25T00:49:43Z
-[2026-04-25 00:55:45] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=DDA25B...B5AD
-[2026-04-25 00:55:46] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 00:55:46] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 00:55:46] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T22:55:01Z | update_time_rome=2026-04-25 00:55:01
-[2026-04-25 00:55:46] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:55:46] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 00:55:46] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 00:55:46] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 00:55:46] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 00:57:46] INFO | app | Polling START
-[2026-04-25 00:57:46] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:57:46] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:57:46] INFO | solar_client | Controllo scadenza token | token=DDA25B...B5AD | now=2026-04-24T22:57:46.296025+00:00 | exp=2026-04-25T00:49:43+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 00:57:46] INFO | solar_client | Riutilizzo token esistente | token=DDA25B...B5AD | access_exp=2026-04-25T00:49:43Z
-[2026-04-25 00:57:46] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=DDA25B...B5AD
-[2026-04-25 00:57:47] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 00:57:47] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 00:57:47] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T22:55:01Z | update_time_rome=2026-04-25 00:55:01
-[2026-04-25 00:57:47] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:57:47] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 00:57:47] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 00:57:47] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 00:57:47] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 00:59:47] INFO | app | Polling START
-[2026-04-25 00:59:47] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:59:47] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:59:47] INFO | solar_client | Controllo scadenza token | token=DDA25B...B5AD | now=2026-04-24T22:59:47.048353+00:00 | exp=2026-04-25T00:49:43+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 00:59:47] INFO | solar_client | Riutilizzo token esistente | token=DDA25B...B5AD | access_exp=2026-04-25T00:49:43Z
-[2026-04-25 00:59:47] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=DDA25B...B5AD
-[2026-04-25 00:59:47] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 00:59:47] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 00:59:47] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T22:55:01Z | update_time_rome=2026-04-25 00:55:01
-[2026-04-25 00:59:47] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 00:59:47] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 00:59:47] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 00:59:47] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 00:59:47] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:01:47] INFO | app | Polling START
-[2026-04-25 01:01:47] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:01:47] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:01:47] INFO | solar_client | Controllo scadenza token | token=DDA25B...B5AD | now=2026-04-24T23:01:47.750928+00:00 | exp=2026-04-25T00:49:43+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:01:47] INFO | solar_client | Riutilizzo token esistente | token=DDA25B...B5AD | access_exp=2026-04-25T00:49:43Z
-[2026-04-25 01:01:47] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=DDA25B...B5AD
-[2026-04-25 01:01:48] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:01:48] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:01:48] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:00:02Z | update_time_rome=2026-04-25 01:00:02
-[2026-04-25 01:01:48] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:01:48] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:01:48] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:01:48] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:01:48] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:03:48] INFO | app | Polling START
-[2026-04-25 01:03:48] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:03:48] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:03:48] INFO | solar_client | Controllo scadenza token | token=DDA25B...B5AD | now=2026-04-24T23:03:48.547385+00:00 | exp=2026-04-25T00:49:43+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:03:48] INFO | solar_client | Riutilizzo token esistente | token=DDA25B...B5AD | access_exp=2026-04-25T00:49:43Z
-[2026-04-25 01:03:48] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=DDA25B...B5AD
-[2026-04-25 01:03:49] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:03:49] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:03:49] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:00:02Z | update_time_rome=2026-04-25 01:00:02
-[2026-04-25 01:03:49] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:03:49] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:03:49] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:03:49] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:03:49] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:05:49] INFO | app | Polling START
-[2026-04-25 01:05:49] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:05:49] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:05:49] INFO | solar_client | Controllo scadenza token | token=DDA25B...B5AD | now=2026-04-24T23:05:49.254384+00:00 | exp=2026-04-25T00:49:43+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:05:49] INFO | solar_client | Riutilizzo token esistente | token=DDA25B...B5AD | access_exp=2026-04-25T00:49:43Z
-[2026-04-25 01:05:49] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=DDA25B...B5AD
-[2026-04-25 01:05:49] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:05:49] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:05:49] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:05:02Z | update_time_rome=2026-04-25 01:05:02
-[2026-04-25 01:05:49] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:05:49] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:05:49] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:05:49] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:05:49] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:07:49] INFO | app | Polling START
-[2026-04-25 01:07:49] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:07:49] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:07:49] INFO | solar_client | Controllo scadenza token | token=DDA25B...B5AD | now=2026-04-24T23:07:49.969570+00:00 | exp=2026-04-25T00:49:43+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:07:49] INFO | solar_client | Riutilizzo token esistente | token=DDA25B...B5AD | access_exp=2026-04-25T00:49:43Z
-[2026-04-25 01:07:49] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=DDA25B...B5AD
-[2026-04-25 01:07:50] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:07:50] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:07:50] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:05:02Z | update_time_rome=2026-04-25 01:05:02
-[2026-04-25 01:07:50] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:07:50] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:07:50] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:07:50] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:07:50] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:09:50] INFO | app | Polling START
-[2026-04-25 01:09:50] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:09:50] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:09:50] INFO | solar_client | Controllo scadenza token | token=DDA25B...B5AD | now=2026-04-24T23:09:50.667071+00:00 | exp=2026-04-25T00:49:43+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:09:50] INFO | solar_client | Riutilizzo token esistente | token=DDA25B...B5AD | access_exp=2026-04-25T00:49:43Z
-[2026-04-25 01:09:50] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=DDA25B...B5AD
-[2026-04-25 01:09:51] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:09:51] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:09:51] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:05:02Z | update_time_rome=2026-04-25 01:05:02
-[2026-04-25 01:09:51] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:09:51] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:09:51] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:09:51] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:09:51] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:11:51] INFO | app | Polling START
-[2026-04-25 01:11:51] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:11:51] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:11:51] INFO | solar_client | Controllo scadenza token | token=DDA25B...B5AD | now=2026-04-24T23:11:51.394221+00:00 | exp=2026-04-25T00:49:43+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:11:51] INFO | solar_client | Riutilizzo token esistente | token=DDA25B...B5AD | access_exp=2026-04-25T00:49:43Z
-[2026-04-25 01:11:51] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=DDA25B...B5AD
-[2026-04-25 01:11:52] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:11:52] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:11:52] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:10:02Z | update_time_rome=2026-04-25 01:10:02
-[2026-04-25 01:11:52] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:11:52] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:11:52] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:11:52] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:11:52] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:13:52] INFO | app | Polling START
-[2026-04-25 01:13:52] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:13:52] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:13:52] INFO | solar_client | Controllo scadenza token | token=DDA25B...B5AD | now=2026-04-24T23:13:52.170509+00:00 | exp=2026-04-25T00:49:43+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:13:52] INFO | solar_client | Riutilizzo token esistente | token=DDA25B...B5AD | access_exp=2026-04-25T00:49:43Z
-[2026-04-25 01:13:52] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=DDA25B...B5AD
-[2026-04-25 01:13:52] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:13:52] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:13:52] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:10:02Z | update_time_rome=2026-04-25 01:10:02
-[2026-04-25 01:13:52] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:13:52] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:13:52] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:13:52] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:13:52] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:15:52] INFO | app | Polling START
-[2026-04-25 01:15:52] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:15:52] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:15:52] INFO | solar_client | Controllo scadenza token | token=DDA25B...B5AD | now=2026-04-24T23:15:52.941476+00:00 | exp=2026-04-25T00:49:43+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:15:52] INFO | solar_client | Riutilizzo token esistente | token=DDA25B...B5AD | access_exp=2026-04-25T00:49:43Z
-[2026-04-25 01:15:52] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=DDA25B...B5AD
-[2026-04-25 01:15:53] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:15:53] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:15:53] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:15:02Z | update_time_rome=2026-04-25 01:15:02
-[2026-04-25 01:15:53] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:15:53] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:15:53] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:15:53] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:15:53] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:17:53] INFO | app | Polling START
-[2026-04-25 01:17:53] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:17:53] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:17:53] INFO | solar_client | Controllo scadenza token | token=DDA25B...B5AD | now=2026-04-24T23:17:53.676975+00:00 | exp=2026-04-25T00:49:43+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:17:53] INFO | solar_client | Riutilizzo token esistente | token=DDA25B...B5AD | access_exp=2026-04-25T00:49:43Z
-[2026-04-25 01:17:53] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=DDA25B...B5AD
-[2026-04-25 01:17:58] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:17:58] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:17:58] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:15:02Z | update_time_rome=2026-04-25 01:15:02
-[2026-04-25 01:17:58] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:17:58] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:17:58] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:17:58] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:17:58] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:19:58] INFO | app | Polling START
-[2026-04-25 01:19:58] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:19:58] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:19:58] INFO | solar_client | Controllo scadenza token | token=DDA25B...B5AD | now=2026-04-24T23:19:58.352002+00:00 | exp=2026-04-25T00:49:43+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:19:58] INFO | solar_client | Riutilizzo token esistente | token=DDA25B...B5AD | access_exp=2026-04-25T00:49:43Z
-[2026-04-25 01:19:58] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=DDA25B...B5AD
-[2026-04-25 01:19:59] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:19:59] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:19:59] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:15:02Z | update_time_rome=2026-04-25 01:15:02
-[2026-04-25 01:19:59] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:19:59] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:19:59] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:19:59] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:19:59] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:21:23] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-25 01:21:23] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-25 01:21:23] INFO | app | Polling loop avviato | device_id=416360187241136128 | data_source=1 | interval_seconds=120
-[2026-04-25 01:21:23] INFO | app | Thread background polling avviato
-[2026-04-25 01:21:23] INFO | app | Polling START
-[2026-04-25 01:21:23] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:21:23] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:21:23] INFO | solar_client | Sessione o token assenti: eseguo login
-[2026-04-25 01:21:23] INFO | solar_client | Avvio login remoto
-[2026-04-25 01:21:23] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
-[2026-04-25 01:21:24] INFO | auth | Login remoto HTTP END | status_code=200
-[2026-04-25 01:21:24] INFO | auth | Login remoto OK | access_token=1646A3...25FA | access_exp=2026-04-25T01:21:24Z | refresh_exp=2026-05-24T23:21:24Z
-[2026-04-25 01:21:24] INFO | solar_client | Login OK | token=1646A3...25FA | access_exp=2026-04-25T01:21:24Z | refresh_exp=2026-05-24T23:21:24Z
-[2026-04-25 01:21:24] INFO | solar_client | Token salvato nel DB | token=1646A3...25FA
-[2026-04-25 01:21:24] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=1646A3...25FA
-[2026-04-25 01:21:24] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:21:24] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:21:24] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:20:02Z | update_time_rome=2026-04-25 01:20:02
-[2026-04-25 01:21:24] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:21:24] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:21:24] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:21:24] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:21:24] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:23:24] INFO | app | Polling START
-[2026-04-25 01:23:24] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:23:24] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:23:24] INFO | solar_client | Controllo scadenza token | token=1646A3...25FA | now=2026-04-24T23:23:24.923933+00:00 | exp=2026-04-25T01:21:24+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:23:24] INFO | solar_client | Riutilizzo token esistente | token=1646A3...25FA | access_exp=2026-04-25T01:21:24Z
-[2026-04-25 01:23:24] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=1646A3...25FA
-[2026-04-25 01:23:25] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:23:25] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:23:25] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:20:02Z | update_time_rome=2026-04-25 01:20:02
-[2026-04-25 01:23:25] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:23:25] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:23:25] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:23:25] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:23:25] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:24:26] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-25 01:24:26] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
-[2026-04-25 01:24:26] INFO | app | Polling loop avviato | device_id=416360187241136128 | data_source=1 | interval_seconds=120
-[2026-04-25 01:24:26] INFO | app | Thread background polling avviato
-[2026-04-25 01:24:26] INFO | app | Polling START
-[2026-04-25 01:24:26] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:24:26] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:24:26] INFO | solar_client | Sessione o token assenti: eseguo login
-[2026-04-25 01:24:26] INFO | solar_client | Avvio login remoto
-[2026-04-25 01:24:26] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
-[2026-04-25 01:24:27] INFO | auth | Login remoto HTTP END | status_code=200
-[2026-04-25 01:24:27] INFO | auth | Login remoto OK | access_token=ACB2D6...701F | access_exp=2026-04-25T01:24:27Z | refresh_exp=2026-05-24T23:24:27Z
-[2026-04-25 01:24:27] INFO | solar_client | Login OK | token=ACB2D6...701F | access_exp=2026-04-25T01:24:27Z | refresh_exp=2026-05-24T23:24:27Z
-[2026-04-25 01:24:27] INFO | solar_client | Token salvato nel DB | token=ACB2D6...701F
-[2026-04-25 01:24:27] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=ACB2D6...701F
-[2026-04-25 01:24:27] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:24:27] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:24:27] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:20:02Z | update_time_rome=2026-04-25 01:20:02
-[2026-04-25 01:24:27] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:24:27] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:24:27] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:24:27] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:24:27] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:26:27] INFO | app | Polling START
-[2026-04-25 01:26:27] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:26:27] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:26:27] INFO | solar_client | Controllo scadenza token | token=ACB2D6...701F | now=2026-04-24T23:26:27.614776+00:00 | exp=2026-04-25T01:24:27+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:26:27] INFO | solar_client | Riutilizzo token esistente | token=ACB2D6...701F | access_exp=2026-04-25T01:24:27Z
-[2026-04-25 01:26:27] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=ACB2D6...701F
-[2026-04-25 01:26:28] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:26:28] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:26:28] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:25:02Z | update_time_rome=2026-04-25 01:25:02
-[2026-04-25 01:26:28] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:26:28] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:26:28] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:26:28] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:26:28] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:28:28] INFO | app | Polling START
-[2026-04-25 01:28:28] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:28:28] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:28:28] INFO | solar_client | Controllo scadenza token | token=ACB2D6...701F | now=2026-04-24T23:28:28.361751+00:00 | exp=2026-04-25T01:24:27+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:28:28] INFO | solar_client | Riutilizzo token esistente | token=ACB2D6...701F | access_exp=2026-04-25T01:24:27Z
-[2026-04-25 01:28:28] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=ACB2D6...701F
-[2026-04-25 01:28:29] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:28:29] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:28:29] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:25:02Z | update_time_rome=2026-04-25 01:25:02
-[2026-04-25 01:28:29] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:28:29] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:28:29] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:28:29] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:28:29] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:30:29] INFO | app | Polling START
-[2026-04-25 01:30:29] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:30:29] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:30:29] INFO | solar_client | Controllo scadenza token | token=ACB2D6...701F | now=2026-04-24T23:30:29.106856+00:00 | exp=2026-04-25T01:24:27+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:30:29] INFO | solar_client | Riutilizzo token esistente | token=ACB2D6...701F | access_exp=2026-04-25T01:24:27Z
-[2026-04-25 01:30:29] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=ACB2D6...701F
-[2026-04-25 01:30:29] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:30:29] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:30:29] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:30:02Z | update_time_rome=2026-04-25 01:30:02
-[2026-04-25 01:30:29] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:30:29] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:30:29] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:30:29] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:30:29] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:32:29] INFO | app | Polling START
-[2026-04-25 01:32:29] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:32:29] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:32:29] INFO | solar_client | Controllo scadenza token | token=ACB2D6...701F | now=2026-04-24T23:32:29.817193+00:00 | exp=2026-04-25T01:24:27+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:32:29] INFO | solar_client | Riutilizzo token esistente | token=ACB2D6...701F | access_exp=2026-04-25T01:24:27Z
-[2026-04-25 01:32:29] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=ACB2D6...701F
-[2026-04-25 01:32:30] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:32:30] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:32:30] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:30:02Z | update_time_rome=2026-04-25 01:30:02
-[2026-04-25 01:32:30] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:32:30] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:32:30] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:32:30] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:32:30] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:34:30] INFO | app | Polling START
-[2026-04-25 01:34:30] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:34:30] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:34:30] INFO | solar_client | Controllo scadenza token | token=ACB2D6...701F | now=2026-04-24T23:34:30.525091+00:00 | exp=2026-04-25T01:24:27+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:34:30] INFO | solar_client | Riutilizzo token esistente | token=ACB2D6...701F | access_exp=2026-04-25T01:24:27Z
-[2026-04-25 01:34:30] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=ACB2D6...701F
-[2026-04-25 01:34:31] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:34:31] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:34:31] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:30:02Z | update_time_rome=2026-04-25 01:30:02
-[2026-04-25 01:34:31] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:34:31] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:34:31] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:34:31] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:34:31] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:36:31] INFO | app | Polling START
-[2026-04-25 01:36:31] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:36:31] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:36:31] INFO | solar_client | Controllo scadenza token | token=ACB2D6...701F | now=2026-04-24T23:36:31.285266+00:00 | exp=2026-04-25T01:24:27+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:36:31] INFO | solar_client | Riutilizzo token esistente | token=ACB2D6...701F | access_exp=2026-04-25T01:24:27Z
-[2026-04-25 01:36:31] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=ACB2D6...701F
-[2026-04-25 01:36:31] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:36:31] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:36:32] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:35:03Z | update_time_rome=2026-04-25 01:35:03
-[2026-04-25 01:36:32] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:36:32] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:36:32] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:36:32] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:36:32] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:38:32] INFO | app | Polling START
-[2026-04-25 01:38:32] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:38:32] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:38:32] INFO | solar_client | Controllo scadenza token | token=ACB2D6...701F | now=2026-04-24T23:38:32.040932+00:00 | exp=2026-04-25T01:24:27+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:38:32] INFO | solar_client | Riutilizzo token esistente | token=ACB2D6...701F | access_exp=2026-04-25T01:24:27Z
-[2026-04-25 01:38:32] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=ACB2D6...701F
-[2026-04-25 01:38:32] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:38:32] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:38:32] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:35:03Z | update_time_rome=2026-04-25 01:35:03
-[2026-04-25 01:38:32] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:38:32] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:38:32] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:38:32] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:38:32] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
-[2026-04-25 01:40:32] INFO | app | Polling START
-[2026-04-25 01:40:32] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:40:32] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:40:32] INFO | solar_client | Controllo scadenza token | token=ACB2D6...701F | now=2026-04-24T23:40:32.771464+00:00 | exp=2026-04-25T01:24:27+00:00 | safety_seconds=300 | expiring_soon=False
-[2026-04-25 01:40:32] INFO | solar_client | Riutilizzo token esistente | token=ACB2D6...701F | access_exp=2026-04-25T01:24:27Z
-[2026-04-25 01:40:32] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=ACB2D6...701F
-[2026-04-25 01:40:33] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
-[2026-04-25 01:40:33] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
-[2026-04-25 01:40:33] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-24T23:40:03Z | update_time_rome=2026-04-25 01:40:03
-[2026-04-25 01:40:33] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
-[2026-04-25 01:40:33] INFO | app | [TASK] acquire_and_save_device_state OK
-[2026-04-25 01:40:33] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
-[2026-04-25 01:40:33] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
-[2026-04-25 01:40:33] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:00:31] INFO | app | Polling START
+[2026-04-25 02:00:31] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:00:32] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:00:32] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:00:32] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
+[2026-04-25 02:00:32] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:02:32] INFO | app | Polling START
+[2026-04-25 02:02:32] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:02:33] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:02:33] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:02:33] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
+[2026-04-25 02:02:33] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:04:33] INFO | app | Polling START
+[2026-04-25 02:04:33] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:04:34] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:04:34] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:04:34] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
+[2026-04-25 02:04:34] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:06:34] INFO | app | Polling START
+[2026-04-25 02:06:34] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:06:34] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:06:34] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:06:34] INFO | app | [TASK] battery_voltage=52.1 | raw_battery_voltage=52.1
+[2026-04-25 02:06:34] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.1 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:08:34] INFO | app | Polling START
+[2026-04-25 02:08:34] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:08:35] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:08:35] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:08:35] INFO | app | [TASK] battery_voltage=52.1 | raw_battery_voltage=52.1
+[2026-04-25 02:08:35] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.1 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:10:35] INFO | app | Polling START
+[2026-04-25 02:10:35] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:10:36] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:10:36] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:10:36] INFO | app | [TASK] battery_voltage=52.1 | raw_battery_voltage=52.1
+[2026-04-25 02:10:36] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.1 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:12:36] INFO | app | Polling START
+[2026-04-25 02:12:36] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:12:41] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:12:41] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:12:41] INFO | app | [TASK] battery_voltage=52.1 | raw_battery_voltage=52.1
+[2026-04-25 02:12:41] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.1 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:14:41] INFO | app | Polling START
+[2026-04-25 02:14:41] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:14:43] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:14:43] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:14:43] INFO | app | [TASK] battery_voltage=52.1 | raw_battery_voltage=52.1
+[2026-04-25 02:14:43] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.1 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:16:43] INFO | app | Polling START
+[2026-04-25 02:16:43] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:16:44] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:16:44] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:16:44] INFO | app | [TASK] battery_voltage=52.2 | raw_battery_voltage=52.2
+[2026-04-25 02:16:44] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.2 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:18:44] INFO | app | Polling START
+[2026-04-25 02:18:44] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:18:44] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:18:44] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:18:44] INFO | app | [TASK] battery_voltage=52.2 | raw_battery_voltage=52.2
+[2026-04-25 02:18:44] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.2 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:20:44] INFO | app | Polling START
+[2026-04-25 02:20:44] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:20:45] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:20:45] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:20:45] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
+[2026-04-25 02:20:45] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:22:45] INFO | app | Polling START
+[2026-04-25 02:22:45] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:22:49] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:22:49] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:22:49] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
+[2026-04-25 02:22:49] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:24:49] INFO | app | Polling START
+[2026-04-25 02:24:49] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:24:50] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:24:50] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:24:50] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
+[2026-04-25 02:24:50] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:26:50] INFO | app | Polling START
+[2026-04-25 02:26:50] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:26:50] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:26:50] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:26:50] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
+[2026-04-25 02:26:50] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:28:50] INFO | app | Polling START
+[2026-04-25 02:28:50] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:28:51] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:28:51] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:28:51] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
+[2026-04-25 02:28:51] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:30:51] INFO | app | Polling START
+[2026-04-25 02:30:51] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:30:52] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:30:52] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:30:52] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
+[2026-04-25 02:30:52] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:32:52] INFO | app | Polling START
+[2026-04-25 02:32:52] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:32:59] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:32:59] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:32:59] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
+[2026-04-25 02:32:59] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:34:59] INFO | app | Polling START
+[2026-04-25 02:34:59] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:35:00] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:35:00] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:35:00] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
+[2026-04-25 02:35:00] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:37:00] INFO | app | Polling START
+[2026-04-25 02:37:00] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:37:01] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:37:01] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:37:01] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
+[2026-04-25 02:37:01] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:39:01] INFO | app | Polling START
+[2026-04-25 02:39:01] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:39:01] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:39:01] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:39:01] INFO | app | [TASK] battery_voltage=52.3 | raw_battery_voltage=52.3
+[2026-04-25 02:39:01] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.3 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:41:01] INFO | app | Polling START
+[2026-04-25 02:41:01] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:41:02] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:41:02] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:41:02] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 02:41:02] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:43:02] INFO | app | Polling START
+[2026-04-25 02:43:02] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:43:03] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:43:03] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:43:03] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 02:43:03] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:45:03] INFO | app | Polling START
+[2026-04-25 02:45:03] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:45:04] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:45:04] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:45:04] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 02:45:04] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:47:04] INFO | app | Polling START
+[2026-04-25 02:47:04] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:47:04] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:47:04] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:47:04] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 02:47:04] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:49:04] INFO | app | Polling START
+[2026-04-25 02:49:04] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:49:05] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:49:05] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:49:05] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 02:49:05] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:51:05] INFO | app | Polling START
+[2026-04-25 02:51:05] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:51:06] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:51:06] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:51:06] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 02:51:06] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:53:06] INFO | app | Polling START
+[2026-04-25 02:53:06] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:53:10] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:53:10] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:53:10] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 02:53:10] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:55:10] INFO | app | Polling START
+[2026-04-25 02:55:10] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:55:11] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:55:11] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:55:11] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 02:55:11] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:57:11] INFO | app | Polling START
+[2026-04-25 02:57:11] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:57:12] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:57:12] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:57:12] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 02:57:12] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 02:59:12] INFO | app | Polling START
+[2026-04-25 02:59:12] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 02:59:12] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 02:59:12] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 02:59:12] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 02:59:12] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:01:12] INFO | app | Polling START
+[2026-04-25 03:01:12] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:01:24] ERROR | app | Polling ERROR | error=HTTPSConnectionPool(host='solar.siseli.com', port=443): Max retries exceeded with url: /apis/deviceState/simple/state/latest/v1?deviceId=416360187241136128&dataSource=1 (Caused by NameResolutionError("HTTPSConnection(host='solar.siseli.com', port=443): Failed to resolve 'solar.siseli.com' ([Errno -3] Temporary failure in name resolution)"))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/socket.py", line 974, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno -3] Temporary failure in name resolution
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 211, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: HTTPSConnection(host='solar.siseli.com', port=443): Failed to resolve 'solar.siseli.com' ([Errno -3] Temporary failure in name resolution)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='solar.siseli.com', port=443): Max retries exceeded with url: /apis/deviceState/simple/state/latest/v1?deviceId=416360187241136128&dataSource=1 (Caused by NameResolutionError("HTTPSConnection(host='solar.siseli.com', port=443): Failed to resolve 'solar.siseli.com' ([Errno -3] Temporary failure in name resolution)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/app/app.py", line 37, in polling_loop
+    data = acquire_and_save_device_state(client, logger, device_id, data_source)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/polling_tasks.py", line 10, in acquire_and_save_device_state
+    data = client.get_device_state_latest(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/solar_client.py", line 295, in get_device_state_latest
+    data = self.get_auth(
+           ^^^^^^^^^^^^^^
+  File "/app/solar_client.py", line 194, in get_auth
+    response = self.session.get(
+               ^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 605, in get
+    return self.request("GET", url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 678, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='solar.siseli.com', port=443): Max retries exceeded with url: /apis/deviceState/simple/state/latest/v1?deviceId=416360187241136128&dataSource=1 (Caused by NameResolutionError("HTTPSConnection(host='solar.siseli.com', port=443): Failed to resolve 'solar.siseli.com' ([Errno -3] Temporary failure in name resolution)"))
+[2026-04-25 03:03:24] INFO | app | Polling START
+[2026-04-25 03:03:24] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:03:31] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:03:31] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:03:31] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:03:31] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:05:31] INFO | app | Polling START
+[2026-04-25 03:05:31] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:05:32] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:05:32] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:05:32] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:05:32] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:07:32] INFO | app | Polling START
+[2026-04-25 03:07:32] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:07:33] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:07:33] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:07:33] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:07:33] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:09:33] INFO | app | Polling START
+[2026-04-25 03:09:33] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:09:33] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:09:33] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:09:33] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:09:33] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:11:33] INFO | app | Polling START
+[2026-04-25 03:11:33] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:11:34] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:11:34] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:11:34] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:11:34] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:13:34] INFO | app | Polling START
+[2026-04-25 03:13:34] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:13:35] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:13:35] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:13:35] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:13:35] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:15:35] INFO | app | Polling START
+[2026-04-25 03:15:35] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:15:36] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:15:36] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:15:36] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:15:36] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:17:36] INFO | app | Polling START
+[2026-04-25 03:17:36] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:17:36] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:17:36] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:17:36] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:17:36] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:19:36] INFO | app | Polling START
+[2026-04-25 03:19:36] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:19:37] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:19:37] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:19:37] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:19:37] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:21:37] INFO | app | Polling START
+[2026-04-25 03:21:37] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:21:38] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:21:38] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:21:38] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:21:38] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:23:38] INFO | app | Polling START
+[2026-04-25 03:23:38] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:23:40] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:23:40] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:23:40] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:23:40] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:25:40] INFO | app | Polling START
+[2026-04-25 03:25:40] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:25:41] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:25:41] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:25:41] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:25:41] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:27:41] INFO | app | Polling START
+[2026-04-25 03:27:41] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:27:45] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:27:45] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:27:45] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:27:45] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:29:45] INFO | app | Polling START
+[2026-04-25 03:29:45] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:29:46] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:29:46] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:29:46] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:29:46] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:31:46] INFO | app | Polling START
+[2026-04-25 03:31:46] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:31:47] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:31:47] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:31:47] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:31:47] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:33:47] INFO | app | Polling START
+[2026-04-25 03:33:47] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:33:47] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:33:47] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:33:47] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:33:47] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:35:47] INFO | app | Polling START
+[2026-04-25 03:35:47] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:35:48] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:35:48] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:35:48] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:35:48] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:37:48] INFO | app | Polling START
+[2026-04-25 03:37:48] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:37:51] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:37:51] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:37:51] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:37:51] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:39:51] INFO | app | Polling START
+[2026-04-25 03:39:51] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:39:52] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:39:52] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:39:52] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:39:52] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:41:52] INFO | app | Polling START
+[2026-04-25 03:41:52] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:41:53] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:41:53] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:41:53] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:41:53] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:43:53] INFO | app | Polling START
+[2026-04-25 03:43:53] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:43:54] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:43:54] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:43:54] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:43:54] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:45:54] INFO | app | Polling START
+[2026-04-25 03:45:54] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:45:54] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:45:54] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:45:54] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:45:54] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:47:54] INFO | app | Polling START
+[2026-04-25 03:47:54] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:47:55] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:47:55] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:47:55] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:47:55] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:49:55] INFO | app | Polling START
+[2026-04-25 03:49:55] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:49:56] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:49:56] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:49:56] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:49:56] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:51:56] INFO | app | Polling START
+[2026-04-25 03:51:56] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:51:57] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:51:57] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:51:57] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:51:57] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:53:57] INFO | app | Polling START
+[2026-04-25 03:53:57] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:53:58] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:53:58] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:53:58] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:53:58] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:55:58] INFO | app | Polling START
+[2026-04-25 03:55:58] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:55:58] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:55:58] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:55:58] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:55:58] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 03:57:58] INFO | app | Polling START
+[2026-04-25 03:57:58] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 03:58:03] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 03:58:03] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 03:58:03] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 03:58:03] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:00:03] INFO | app | Polling START
+[2026-04-25 04:00:03] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:00:03] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:00:03] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:00:03] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:00:03] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:02:03] INFO | app | Polling START
+[2026-04-25 04:02:03] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:02:04] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:02:04] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:02:04] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:02:04] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:04:04] INFO | app | Polling START
+[2026-04-25 04:04:04] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:04:05] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:04:05] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:04:05] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:04:05] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:06:05] INFO | app | Polling START
+[2026-04-25 04:06:05] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:06:06] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:06:06] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:06:06] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:06:06] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:08:06] INFO | app | Polling START
+[2026-04-25 04:08:06] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:08:06] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:08:06] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:08:06] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:08:06] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:10:06] INFO | app | Polling START
+[2026-04-25 04:10:06] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:10:08] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:10:08] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:10:08] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:10:08] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:12:08] INFO | app | Polling START
+[2026-04-25 04:12:08] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:12:09] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:12:09] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:12:09] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:12:09] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:14:09] INFO | app | Polling START
+[2026-04-25 04:14:09] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:14:10] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:14:10] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:14:10] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:14:10] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:16:10] INFO | app | Polling START
+[2026-04-25 04:16:10] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:16:11] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:16:11] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:16:11] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:16:11] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:18:11] INFO | app | Polling START
+[2026-04-25 04:18:11] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:18:13] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:18:13] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:18:13] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:18:13] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:20:13] INFO | app | Polling START
+[2026-04-25 04:20:13] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:20:14] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:20:14] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:20:14] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:20:14] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:22:14] INFO | app | Polling START
+[2026-04-25 04:22:14] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:22:15] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:22:15] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:22:15] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:22:15] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:24:15] INFO | app | Polling START
+[2026-04-25 04:24:15] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:24:16] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:24:16] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:24:16] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:24:16] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:26:16] INFO | app | Polling START
+[2026-04-25 04:26:16] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:26:16] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:26:16] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:26:16] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:26:16] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:28:16] INFO | app | Polling START
+[2026-04-25 04:28:16] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:28:21] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:28:21] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:28:21] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:28:21] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:30:21] INFO | app | Polling START
+[2026-04-25 04:30:21] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:30:22] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:30:22] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:30:22] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:30:22] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:32:22] INFO | app | Polling START
+[2026-04-25 04:32:22] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:32:23] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:32:23] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:32:23] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:32:23] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:34:23] INFO | app | Polling START
+[2026-04-25 04:34:23] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:34:28] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:34:28] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:34:28] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:34:28] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:36:28] INFO | app | Polling START
+[2026-04-25 04:36:28] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:36:29] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:36:29] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:36:29] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:36:29] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:38:29] INFO | app | Polling START
+[2026-04-25 04:38:29] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:38:30] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:38:30] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:38:30] INFO | app | [TASK] battery_voltage=52.4 | raw_battery_voltage=52.4
+[2026-04-25 04:38:30] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.4 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:40:30] INFO | app | Polling START
+[2026-04-25 04:40:30] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:40:31] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:40:31] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:40:31] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 04:40:31] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:42:31] INFO | app | Polling START
+[2026-04-25 04:42:31] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:42:32] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:42:32] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:42:32] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 04:42:32] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:44:32] INFO | app | Polling START
+[2026-04-25 04:44:32] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:44:33] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:44:33] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:44:33] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 04:44:33] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:46:33] INFO | app | Polling START
+[2026-04-25 04:46:33] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:46:34] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:46:34] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:46:34] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 04:46:34] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:48:34] INFO | app | Polling START
+[2026-04-25 04:48:34] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:48:35] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:48:35] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:48:35] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 04:48:35] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:50:35] INFO | app | Polling START
+[2026-04-25 04:50:35] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:50:35] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:50:35] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:50:35] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 04:50:35] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:52:35] INFO | app | Polling START
+[2026-04-25 04:52:35] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:52:36] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:52:36] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:52:36] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 04:52:36] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:54:36] INFO | app | Polling START
+[2026-04-25 04:54:36] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:54:37] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:54:37] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:54:37] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 04:54:37] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:56:37] INFO | app | Polling START
+[2026-04-25 04:56:37] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:56:38] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:56:38] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:56:38] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 04:56:38] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 04:58:38] INFO | app | Polling START
+[2026-04-25 04:58:38] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 04:58:38] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 04:58:38] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 04:58:38] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 04:58:38] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:00:38] INFO | app | Polling START
+[2026-04-25 05:00:38] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:00:40] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:00:40] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:00:40] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:00:40] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:02:40] INFO | app | Polling START
+[2026-04-25 05:02:40] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:02:40] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:02:40] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:02:40] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:02:40] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:04:40] INFO | app | Polling START
+[2026-04-25 05:04:40] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:04:42] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:04:42] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:04:42] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:04:42] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:06:42] INFO | app | Polling START
+[2026-04-25 05:06:42] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:06:43] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:06:43] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:06:43] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:06:43] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:08:43] INFO | app | Polling START
+[2026-04-25 05:08:43] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:08:43] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:08:43] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:08:43] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:08:43] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:10:43] INFO | app | Polling START
+[2026-04-25 05:10:43] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:10:44] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:10:44] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:10:44] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:10:44] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:12:44] INFO | app | Polling START
+[2026-04-25 05:12:44] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:12:49] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:12:49] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:12:49] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:12:49] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:14:49] INFO | app | Polling START
+[2026-04-25 05:14:49] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:14:50] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:14:50] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:14:50] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:14:50] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:16:50] INFO | app | Polling START
+[2026-04-25 05:16:50] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:16:51] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:16:51] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:16:51] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:16:51] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:18:51] INFO | app | Polling START
+[2026-04-25 05:18:51] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:18:52] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:18:52] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:18:52] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:18:52] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:20:52] INFO | app | Polling START
+[2026-04-25 05:20:52] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:20:52] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:20:52] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:20:52] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:20:52] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:22:52] INFO | app | Polling START
+[2026-04-25 05:22:52] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:22:56] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:22:56] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:22:56] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:22:56] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:24:56] INFO | app | Polling START
+[2026-04-25 05:24:56] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:24:57] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:24:57] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:24:57] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:24:57] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:26:57] INFO | app | Polling START
+[2026-04-25 05:26:57] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:26:58] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:26:58] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:26:58] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:26:58] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:28:58] INFO | app | Polling START
+[2026-04-25 05:28:58] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:28:59] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:28:59] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:28:59] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:28:59] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:30:59] INFO | app | Polling START
+[2026-04-25 05:30:59] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:31:00] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:31:00] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:31:00] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:31:00] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:33:00] INFO | app | Polling START
+[2026-04-25 05:33:00] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:33:06] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:33:06] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:33:06] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:33:06] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:35:06] INFO | app | Polling START
+[2026-04-25 05:35:06] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:35:07] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:35:07] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:35:07] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:35:07] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:37:07] INFO | app | Polling START
+[2026-04-25 05:37:07] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:37:08] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:37:08] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:37:08] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:37:08] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:39:08] INFO | app | Polling START
+[2026-04-25 05:39:08] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:39:09] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:39:09] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:39:09] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:39:09] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:41:09] INFO | app | Polling START
+[2026-04-25 05:41:09] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:41:10] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:41:10] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:41:10] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:41:10] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:43:10] INFO | app | Polling START
+[2026-04-25 05:43:10] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:43:11] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:43:11] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:43:11] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:43:11] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:45:11] INFO | app | Polling START
+[2026-04-25 05:45:11] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:45:41] ERROR | app | Polling ERROR | error=HTTPSConnectionPool(host='solar.siseli.com', port=443): Read timed out. (read timeout=30)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 796, in connect
+    sock_and_verified = _ssl_wrap_socket_and_match_hostname(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 975, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+               ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/ssl_.py", line 483, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/ssl_.py", line 527, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/ssl.py", line 517, in wrap_socket
+    return self.sslsocket_class._create(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/ssl.py", line 1104, in _create
+    self.do_handshake()
+  File "/usr/local/lib/python3.11/ssl.py", line 1382, in do_handshake
+    self._sslobj.do_handshake()
+TimeoutError: _ssl.c:999: The handshake operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/retry.py", line 490, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/util.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 466, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=conn.timeout)
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='solar.siseli.com', port=443): Read timed out. (read timeout=30)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/app/app.py", line 37, in polling_loop
+    data = acquire_and_save_device_state(client, logger, device_id, data_source)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/polling_tasks.py", line 10, in acquire_and_save_device_state
+    data = client.get_device_state_latest(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/solar_client.py", line 295, in get_device_state_latest
+    data = self.get_auth(
+           ^^^^^^^^^^^^^^
+  File "/app/solar_client.py", line 194, in get_auth
+    response = self.session.get(
+               ^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 605, in get
+    return self.request("GET", url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 691, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='solar.siseli.com', port=443): Read timed out. (read timeout=30)
+[2026-04-25 05:47:41] INFO | app | Polling START
+[2026-04-25 05:47:41] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:47:43] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:47:43] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:47:43] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:47:43] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:49:43] INFO | app | Polling START
+[2026-04-25 05:49:43] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:49:45] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:49:45] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:49:45] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:49:45] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:51:45] INFO | app | Polling START
+[2026-04-25 05:51:45] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:51:47] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:51:47] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:51:47] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:51:47] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:53:47] INFO | app | Polling START
+[2026-04-25 05:53:47] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:53:47] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:53:47] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:53:47] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:53:47] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:55:47] INFO | app | Polling START
+[2026-04-25 05:55:47] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:55:49] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:55:49] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:55:49] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:55:49] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:57:49] INFO | app | Polling START
+[2026-04-25 05:57:49] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 05:57:57] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 05:57:57] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 05:57:57] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 05:57:57] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 05:59:57] INFO | app | Polling START
+[2026-04-25 05:59:57] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:00:01] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:00:01] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:00:01] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:00:01] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:02:01] INFO | app | Polling START
+[2026-04-25 06:02:01] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:02:03] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:02:03] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:02:03] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:02:03] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:04:03] INFO | app | Polling START
+[2026-04-25 06:04:03] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:04:04] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:04:04] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:04:04] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:04:04] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:06:04] INFO | app | Polling START
+[2026-04-25 06:06:04] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:06:07] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:06:07] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:06:07] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:06:07] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:08:07] INFO | app | Polling START
+[2026-04-25 06:08:07] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:08:17] ERROR | app | Polling ERROR | error=HTTPSConnectionPool(host='solar.siseli.com', port=443): Max retries exceeded with url: /apis/deviceState/simple/state/latest/v1?deviceId=416360187241136128&dataSource=1 (Caused by NameResolutionError("HTTPSConnection(host='solar.siseli.com', port=443): Failed to resolve 'solar.siseli.com' ([Errno -3] Temporary failure in name resolution)"))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/socket.py", line 974, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno -3] Temporary failure in name resolution
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 211, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: HTTPSConnection(host='solar.siseli.com', port=443): Failed to resolve 'solar.siseli.com' ([Errno -3] Temporary failure in name resolution)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='solar.siseli.com', port=443): Max retries exceeded with url: /apis/deviceState/simple/state/latest/v1?deviceId=416360187241136128&dataSource=1 (Caused by NameResolutionError("HTTPSConnection(host='solar.siseli.com', port=443): Failed to resolve 'solar.siseli.com' ([Errno -3] Temporary failure in name resolution)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/app/app.py", line 37, in polling_loop
+    data = acquire_and_save_device_state(client, logger, device_id, data_source)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/polling_tasks.py", line 10, in acquire_and_save_device_state
+    data = client.get_device_state_latest(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/solar_client.py", line 295, in get_device_state_latest
+    data = self.get_auth(
+           ^^^^^^^^^^^^^^
+  File "/app/solar_client.py", line 194, in get_auth
+    response = self.session.get(
+               ^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 605, in get
+    return self.request("GET", url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 678, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='solar.siseli.com', port=443): Max retries exceeded with url: /apis/deviceState/simple/state/latest/v1?deviceId=416360187241136128&dataSource=1 (Caused by NameResolutionError("HTTPSConnection(host='solar.siseli.com', port=443): Failed to resolve 'solar.siseli.com' ([Errno -3] Temporary failure in name resolution)"))
+[2026-04-25 06:10:17] INFO | app | Polling START
+[2026-04-25 06:10:17] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:10:19] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:10:19] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:10:19] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:10:19] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:12:19] INFO | app | Polling START
+[2026-04-25 06:12:19] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:12:20] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:12:20] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:12:20] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:12:20] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:14:20] INFO | app | Polling START
+[2026-04-25 06:14:20] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:14:20] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:14:20] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:14:20] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:14:20] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:16:20] INFO | app | Polling START
+[2026-04-25 06:16:20] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:16:21] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:16:21] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:16:21] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:16:21] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:18:21] INFO | app | Polling START
+[2026-04-25 06:18:21] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:18:24] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:18:24] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:18:24] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:18:24] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:20:24] INFO | app | Polling START
+[2026-04-25 06:20:24] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:20:25] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:20:25] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:20:25] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:20:25] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:22:25] INFO | app | Polling START
+[2026-04-25 06:22:25] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:22:25] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:22:25] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:22:25] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:22:25] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:24:25] INFO | app | Polling START
+[2026-04-25 06:24:25] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:24:27] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:24:27] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:24:27] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:24:27] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:26:27] INFO | app | Polling START
+[2026-04-25 06:26:27] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:26:28] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:26:28] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:26:28] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:26:28] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:28:28] INFO | app | Polling START
+[2026-04-25 06:28:28] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:28:29] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:28:29] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:28:29] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:28:29] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:30:29] INFO | app | Polling START
+[2026-04-25 06:30:29] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:30:31] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:30:31] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:30:31] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:30:31] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:32:31] INFO | app | Polling START
+[2026-04-25 06:32:31] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:32:32] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:32:32] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:32:32] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:32:32] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:34:32] INFO | app | Polling START
+[2026-04-25 06:34:32] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:34:33] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:34:33] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:34:33] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:34:33] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:36:33] INFO | app | Polling START
+[2026-04-25 06:36:33] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:36:34] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:36:34] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:36:34] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:36:34] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:38:34] INFO | app | Polling START
+[2026-04-25 06:38:34] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:39:04] ERROR | app | Polling ERROR | error=HTTPSConnectionPool(host='solar.siseli.com', port=443): Read timed out. (read timeout=30)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 796, in connect
+    sock_and_verified = _ssl_wrap_socket_and_match_hostname(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 975, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+               ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/ssl_.py", line 483, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/ssl_.py", line 527, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/ssl.py", line 517, in wrap_socket
+    return self.sslsocket_class._create(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/ssl.py", line 1104, in _create
+    self.do_handshake()
+  File "/usr/local/lib/python3.11/ssl.py", line 1382, in do_handshake
+    self._sslobj.do_handshake()
+TimeoutError: _ssl.c:999: The handshake operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/retry.py", line 490, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/util.py", line 39, in reraise
+    raise value
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 466, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=conn.timeout)
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='solar.siseli.com', port=443): Read timed out. (read timeout=30)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/app/app.py", line 37, in polling_loop
+    data = acquire_and_save_device_state(client, logger, device_id, data_source)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/polling_tasks.py", line 10, in acquire_and_save_device_state
+    data = client.get_device_state_latest(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/solar_client.py", line 295, in get_device_state_latest
+    data = self.get_auth(
+           ^^^^^^^^^^^^^^
+  File "/app/solar_client.py", line 194, in get_auth
+    response = self.session.get(
+               ^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 605, in get
+    return self.request("GET", url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 691, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='solar.siseli.com', port=443): Read timed out. (read timeout=30)
+[2026-04-25 06:41:04] INFO | app | Polling START
+[2026-04-25 06:41:04] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:41:05] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:41:05] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:41:05] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:41:05] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:43:05] INFO | app | Polling START
+[2026-04-25 06:43:05] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:43:10] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:43:10] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:43:10] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:43:10] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:45:10] INFO | app | Polling START
+[2026-04-25 06:45:10] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:45:12] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:45:12] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:45:12] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:45:12] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
+[2026-04-25 06:47:12] INFO | app | Polling START
+[2026-04-25 06:47:12] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-25 06:47:15] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-25 06:47:15] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5
+[2026-04-25 06:47:15] INFO | app | [TASK] battery_voltage=52.5 | raw_battery_voltage=52.5
+[2026-04-25 06:47:15] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.5 | fascia neutra [52.0 - 53.5]
