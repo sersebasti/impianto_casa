@@ -11,6 +11,8 @@ services:
       - ./logs:/app/logs
     restart: unless-stopped
     command: ["python", "app.py"]
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       - tesla_http_proxy
 

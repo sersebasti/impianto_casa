@@ -7,7 +7,7 @@ from solar_client import SolarClient
 from logger import get_logger
 from zoneinfo import ZoneInfo
 from datetime import datetime
-from polling_tasks import acquire_and_save_device_state, check_battery_and_bms
+from polling_tasks import acquire_and_save_device_state, check_battery_and_bms, check_registered_devices_on_lan
 
 logger = get_logger("app")
 app = Flask(__name__)
@@ -38,6 +38,9 @@ def polling_loop():
             # 2) Esegui il task di controllo BMS usando i dati appena acquisiti
             check_battery_and_bms(client, logger, device_id, data_source, interval_seconds, data)
             # Qui potrai aggiungere altri task in futuro
+
+            check_registered_devices_on_lan(logger)
+            
         except Exception as e:
             logger.exception("Polling ERROR | error=%s", e)
         time.sleep(interval_seconds)

@@ -1,5 +1,8 @@
 import os
+import requests
+import time
 from datetime import datetime
+
 
 
 def acquire_and_save_device_state(client, logger, device_id, data_source):
@@ -170,3 +173,91 @@ def check_battery_and_bms(client, logger, device_id, data_source, interval_secon
         desired_bms_value,
         remote_data,
     )
+
+def check_registered_devices_on_lan(logger):
+    lan_check_url = os.getenv(
+        "LAN_CHECK_URL",
+        "http://host.docker.internal:5001/lan_check",
+    )
+
+    timeout_seconds = int(os.getenv("LAN_CHECK_TIMEOUT_SECONDS", "20"))
+    max_attempts = int(os.getenv("LAN_CHECK_MAX_ATTEMPTS", "3"))
+    retry_sleep_seconds = int(os.getenv("LAN_CHECK_RETRY_SLEEP_SECONDS", "30"))
+
+    logger.info(
+        "[TASK] check_registered_devices_on_lan START | url=%s | timeout=%s | attempts=%s | retry_sleep=%s",
+        lan_check_url,
+        timeout_seconds,
+        max_attempts,
+        retry_sleep_seconds,
+    )
+
+    last_error = None
+
+    for attempt in range(1, max_attempts + 1):
+        try:
+            logger.info(
+                "[TASK] LAN check attempt %s/%s | url=%s",
+                attempt,
+                max_attempts,
+                lan_check_url,
+            )
+
+            r = requests.get(lan_check_url, timeout=timeout_seconds)
+            r.raise_for_status()
+            data = r.json()
+
+            ok = data.get("ok")
+            registered_count = data.get("registered_count")
+            found_registered_count = data.get("found_registered_count")
+            missing_count = data.get("missing_count")
+            check_strategy = data.get("check_strategy")
+
+            logger.info(
+                "[TASK] LAN check result | ok=%s | strategy=%s | registered=%s | found=%s | missing=%s",
+                ok,
+                check_strategy,
+                registered_count,
+                found_registered_count,
+                missing_count,
+            )
+
+            missing_devices = data.get("missing_devices", []) or []
+
+            if missing_devices:
+                for dev in missing_devices:
+                    logger.warning(
+                        "[TASK] LAN missing device | description=%s | mac=%s | type=%s | last_ip=%s",
+                        dev.get("description"),
+                        dev.get("macaddress"),
+                        dev.get("device_type") or dev.get("configured_type"),
+                        dev.get("last_ip"),
+                    )
+            else:
+                logger.info("[TASK] LAN tutti i dispositivi registrati risultano online")
+
+            return data
+
+        except Exception as e:
+            last_error = e
+            logger.warning(
+                "[TASK] LAN check failed | attempt=%s/%s | error=%s",
+                attempt,
+                max_attempts,
+                e,
+            )
+
+            if attempt < max_attempts:
+                logger.info(
+                    "[TASK] LAN check retry tra %s secondi",
+                    retry_sleep_seconds,
+                )
+                time.sleep(retry_sleep_seconds)
+
+    logger.exception(
+        "[TASK] check_registered_devices_on_lan ERROR definitivo dopo %s tentativi | error=%s",
+        max_attempts,
+        last_error,
+    )
+
+    return None

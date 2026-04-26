@@ -9548,3 +9548,1099 @@ RuntimeError: Errore vehicle_data Tesla HTTP 401: {'error': 'token expired (401)
 [2026-04-26 20:55:00] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
 [2026-04-26 20:55:00] INFO | app | [TASK] battery_voltage=52.0 | raw_battery_voltage=52
 [2026-04-26 20:55:00] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.0 | fascia neutra [52.0 - 53.5]
+[2026-04-26 20:55:53] ERROR | endpoints | Errore vehicle_data Tesla | error=HTTPSConnectionPool(host='fleet-api.prd.eu.vn.cloud.tesla.com', port=443): Max retries exceeded with url: /api/1/vehicles/LRW3E7FA9MC345603/vehicle_data (Caused by NameResolutionError("HTTPSConnection(host='fleet-api.prd.eu.vn.cloud.tesla.com', port=443): Failed to resolve 'fleet-api.prd.eu.vn.cloud.tesla.com' ([Errno -3] Temporary failure in name resolution)"))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/socket.py", line 974, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno -3] Temporary failure in name resolution
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 759, in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 211, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: HTTPSConnection(host='fleet-api.prd.eu.vn.cloud.tesla.com', port=443): Failed to resolve 'fleet-api.prd.eu.vn.cloud.tesla.com' ([Errno -3] Temporary failure in name resolution)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='fleet-api.prd.eu.vn.cloud.tesla.com', port=443): Max retries exceeded with url: /api/1/vehicles/LRW3E7FA9MC345603/vehicle_data (Caused by NameResolutionError("HTTPSConnection(host='fleet-api.prd.eu.vn.cloud.tesla.com', port=443): Failed to resolve 'fleet-api.prd.eu.vn.cloud.tesla.com' ([Errno -3] Temporary failure in name resolution)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/app/endpoints.py", line 492, in tesla_vehicle_data
+    data = get_vehicle_data(vin)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/app/tesla_client.py", line 319, in get_vehicle_data
+    r = requests.get(
+        ^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 678, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='fleet-api.prd.eu.vn.cloud.tesla.com', port=443): Max retries exceeded with url: /api/1/vehicles/LRW3E7FA9MC345603/vehicle_data (Caused by NameResolutionError("HTTPSConnection(host='fleet-api.prd.eu.vn.cloud.tesla.com', port=443): Failed to resolve 'fleet-api.prd.eu.vn.cloud.tesla.com' ([Errno -3] Temporary failure in name resolution)"))
+[2026-04-26 20:57:00] INFO | app | Polling START
+[2026-04-26 20:57:00] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 20:57:00] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 20:57:00] INFO | solar_client | Controllo scadenza token | token=8420C5...C84F | now=2026-04-26T18:57:00.632412+00:00 | exp=2026-04-26T20:46:51+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 20:57:00] INFO | solar_client | Riutilizzo token esistente | token=8420C5...C84F | access_exp=2026-04-26T20:46:51Z
+[2026-04-26 20:57:00] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=8420C5...C84F
+[2026-04-26 20:57:01] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 20:57:01] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 20:57:01] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T18:53:47Z | update_time_rome=2026-04-26 20:53:47
+[2026-04-26 20:57:01] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 20:57:01] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 20:57:01] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 20:57:01] INFO | app | [TASK] battery_voltage=52.0 | raw_battery_voltage=52
+[2026-04-26 20:57:01] INFO | app | [TASK] BMS nessuna azione | battery_voltage=52.0 | fascia neutra [52.0 - 53.5]
+[2026-04-26 20:59:01] INFO | app | Polling START
+[2026-04-26 20:59:01] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 20:59:01] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 20:59:01] INFO | solar_client | Controllo scadenza token | token=8420C5...C84F | now=2026-04-26T18:59:01.324974+00:00 | exp=2026-04-26T20:46:51+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 20:59:01] INFO | solar_client | Riutilizzo token esistente | token=8420C5...C84F | access_exp=2026-04-26T20:46:51Z
+[2026-04-26 20:59:01] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=8420C5...C84F
+[2026-04-26 20:59:01] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 20:59:01] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 20:59:02] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T18:58:47Z | update_time_rome=2026-04-26 20:58:47
+[2026-04-26 20:59:02] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 20:59:02] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 20:59:02] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 20:59:02] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 20:59:02] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 20:59:02] INFO | solar_client | Controllo scadenza token | token=8420C5...C84F | now=2026-04-26T18:59:02.039997+00:00 | exp=2026-04-26T20:46:51+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 20:59:02] INFO | solar_client | Riutilizzo token esistente | token=8420C5...C84F | access_exp=2026-04-26T20:46:51Z
+[2026-04-26 20:59:02] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=8420C5...C84F
+[2026-04-26 20:59:02] INFO | solar_client | Header auth pronti | token=8420C5...C84F | timezone=Europe/Rome
+[2026-04-26 20:59:03] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 20:59:03] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 20:59:03] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 20:59:03] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 20:59:03] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:01:03] INFO | app | Polling START
+[2026-04-26 21:01:03] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:01:03] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:01:03] INFO | solar_client | Controllo scadenza token | token=8420C5...C84F | now=2026-04-26T19:01:03.304908+00:00 | exp=2026-04-26T20:46:51+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:01:03] INFO | solar_client | Riutilizzo token esistente | token=8420C5...C84F | access_exp=2026-04-26T20:46:51Z
+[2026-04-26 21:01:03] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=8420C5...C84F
+[2026-04-26 21:01:03] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:01:03] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:01:03] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T18:58:47Z | update_time_rome=2026-04-26 20:58:47
+[2026-04-26 21:01:03] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:01:03] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:01:03] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:01:03] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:01:03] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:01:03] INFO | solar_client | Controllo scadenza token | token=8420C5...C84F | now=2026-04-26T19:01:03.977781+00:00 | exp=2026-04-26T20:46:51+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:01:03] INFO | solar_client | Riutilizzo token esistente | token=8420C5...C84F | access_exp=2026-04-26T20:46:51Z
+[2026-04-26 21:01:03] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=8420C5...C84F
+[2026-04-26 21:01:03] INFO | solar_client | Header auth pronti | token=8420C5...C84F | timezone=Europe/Rome
+[2026-04-26 21:01:05] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:01:05] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:01:05] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:01:05] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:01:05] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:03:05] INFO | app | Polling START
+[2026-04-26 21:03:05] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:03:05] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:03:05] INFO | solar_client | Controllo scadenza token | token=8420C5...C84F | now=2026-04-26T19:03:05.195324+00:00 | exp=2026-04-26T20:46:51+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:03:05] INFO | solar_client | Riutilizzo token esistente | token=8420C5...C84F | access_exp=2026-04-26T20:46:51Z
+[2026-04-26 21:03:05] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=8420C5...C84F
+[2026-04-26 21:03:05] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:03:05] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:03:05] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T18:58:47Z | update_time_rome=2026-04-26 20:58:47
+[2026-04-26 21:03:05] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:03:05] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:03:05] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:03:05] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:03:05] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:03:05] INFO | solar_client | Controllo scadenza token | token=8420C5...C84F | now=2026-04-26T19:03:05.920693+00:00 | exp=2026-04-26T20:46:51+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:03:05] INFO | solar_client | Riutilizzo token esistente | token=8420C5...C84F | access_exp=2026-04-26T20:46:51Z
+[2026-04-26 21:03:05] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=8420C5...C84F
+[2026-04-26 21:03:05] INFO | solar_client | Header auth pronti | token=8420C5...C84F | timezone=Europe/Rome
+[2026-04-26 21:03:07] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:03:07] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:03:07] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:03:07] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:03:07] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:05:07] INFO | app | Polling START
+[2026-04-26 21:05:07] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:05:07] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:05:07] INFO | solar_client | Controllo scadenza token | token=8420C5...C84F | now=2026-04-26T19:05:07.440020+00:00 | exp=2026-04-26T20:46:51+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:05:07] INFO | solar_client | Riutilizzo token esistente | token=8420C5...C84F | access_exp=2026-04-26T20:46:51Z
+[2026-04-26 21:05:07] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=8420C5...C84F
+[2026-04-26 21:05:08] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:05:08] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:05:08] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:03:47Z | update_time_rome=2026-04-26 21:03:47
+[2026-04-26 21:05:08] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:05:08] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:05:08] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:05:08] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:05:08] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:05:08] INFO | solar_client | Controllo scadenza token | token=8420C5...C84F | now=2026-04-26T19:05:08.192398+00:00 | exp=2026-04-26T20:46:51+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:05:08] INFO | solar_client | Riutilizzo token esistente | token=8420C5...C84F | access_exp=2026-04-26T20:46:51Z
+[2026-04-26 21:05:08] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=8420C5...C84F
+[2026-04-26 21:05:08] INFO | solar_client | Header auth pronti | token=8420C5...C84F | timezone=Europe/Rome
+[2026-04-26 21:05:09] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:05:09] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:05:09] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:05:09] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:05:09] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:07:09] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-26 21:07:09] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-26 21:07:09] INFO | app | Polling loop avviato | device_id=416360187241136128 | data_source=1 | interval_seconds=120
+[2026-04-26 21:07:09] INFO | app | Thread background polling avviato
+[2026-04-26 21:07:09] INFO | app | Polling START
+[2026-04-26 21:07:09] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:07:09] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:07:09] INFO | solar_client | Sessione o token assenti: eseguo login
+[2026-04-26 21:07:09] INFO | solar_client | Avvio login remoto
+[2026-04-26 21:07:09] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
+[2026-04-26 21:07:09] INFO | auth | Login remoto HTTP END | status_code=200
+[2026-04-26 21:07:09] INFO | auth | Login remoto OK | access_token=AE27EE...790E | access_exp=2026-04-26T21:07:09Z | refresh_exp=2026-05-26T19:07:09Z
+[2026-04-26 21:07:09] INFO | solar_client | Login OK | token=AE27EE...790E | access_exp=2026-04-26T21:07:09Z | refresh_exp=2026-05-26T19:07:09Z
+[2026-04-26 21:07:09] INFO | solar_client | Token salvato nel DB | token=AE27EE...790E
+[2026-04-26 21:07:09] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=AE27EE...790E
+[2026-04-26 21:07:10] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:07:10] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:07:10] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:03:47Z | update_time_rome=2026-04-26 21:03:47
+[2026-04-26 21:07:10] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:07:10] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:07:10] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:07:10] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:07:10] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:07:10] INFO | solar_client | Controllo scadenza token | token=AE27EE...790E | now=2026-04-26T19:07:10.087984+00:00 | exp=2026-04-26T21:07:09+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:07:10] INFO | solar_client | Riutilizzo token esistente | token=AE27EE...790E | access_exp=2026-04-26T21:07:09Z
+[2026-04-26 21:07:10] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=AE27EE...790E
+[2026-04-26 21:07:10] INFO | solar_client | Header auth pronti | token=AE27EE...790E | timezone=Europe/Rome
+[2026-04-26 21:07:11] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:07:11] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:07:11] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:07:11] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:07:11] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:07:11] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://localhost:5001/lan_check | timeout=20
+[2026-04-26 21:07:11] ERROR | app | [TASK] check_registered_devices_on_lan ERROR | error=HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /lan_check (Caused by NewConnectionError("HTTPConnection(host='localhost', port=5001): Failed to establish a new connection: [Errno 111] Connection refused"))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/local/lib/python3.11/http/client.py", line 1318, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.11/http/client.py", line 1078, in _send_output
+    self.send(msg)
+  File "/usr/local/lib/python3.11/http/client.py", line 1016, in send
+    self.connect()
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 219, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='localhost', port=5001): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /lan_check (Caused by NewConnectionError("HTTPConnection(host='localhost', port=5001): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/app/polling_tasks.py", line 202, in check_registered_devices_on_lan
+    r = requests.get(lan_check_url, timeout=timeout_seconds)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 678, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /lan_check (Caused by NewConnectionError("HTTPConnection(host='localhost', port=5001): Failed to establish a new connection: [Errno 111] Connection refused"))
+[2026-04-26 21:09:11] INFO | app | Polling START
+[2026-04-26 21:09:11] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:09:11] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:09:11] INFO | solar_client | Controllo scadenza token | token=AE27EE...790E | now=2026-04-26T19:09:11.922410+00:00 | exp=2026-04-26T21:07:09+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:09:11] INFO | solar_client | Riutilizzo token esistente | token=AE27EE...790E | access_exp=2026-04-26T21:07:09Z
+[2026-04-26 21:09:11] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=AE27EE...790E
+[2026-04-26 21:09:12] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:09:12] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:09:12] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:08:47Z | update_time_rome=2026-04-26 21:08:47
+[2026-04-26 21:09:12] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:09:12] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:09:12] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:09:12] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:09:12] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:09:12] INFO | solar_client | Controllo scadenza token | token=AE27EE...790E | now=2026-04-26T19:09:12.641863+00:00 | exp=2026-04-26T21:07:09+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:09:12] INFO | solar_client | Riutilizzo token esistente | token=AE27EE...790E | access_exp=2026-04-26T21:07:09Z
+[2026-04-26 21:09:12] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=AE27EE...790E
+[2026-04-26 21:09:12] INFO | solar_client | Header auth pronti | token=AE27EE...790E | timezone=Europe/Rome
+[2026-04-26 21:09:14] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:09:14] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:09:14] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:09:14] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:09:14] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:09:14] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://localhost:5001/lan_check | timeout=20
+[2026-04-26 21:09:14] ERROR | app | [TASK] check_registered_devices_on_lan ERROR | error=HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /lan_check (Caused by NewConnectionError("HTTPConnection(host='localhost', port=5001): Failed to establish a new connection: [Errno 111] Connection refused"))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/local/lib/python3.11/http/client.py", line 1318, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.11/http/client.py", line 1078, in _send_output
+    self.send(msg)
+  File "/usr/local/lib/python3.11/http/client.py", line 1016, in send
+    self.connect()
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 219, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='localhost', port=5001): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /lan_check (Caused by NewConnectionError("HTTPConnection(host='localhost', port=5001): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/app/polling_tasks.py", line 202, in check_registered_devices_on_lan
+    r = requests.get(lan_check_url, timeout=timeout_seconds)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 678, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /lan_check (Caused by NewConnectionError("HTTPConnection(host='localhost', port=5001): Failed to establish a new connection: [Errno 111] Connection refused"))
+[2026-04-26 21:11:14] INFO | app | Polling START
+[2026-04-26 21:11:14] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:11:14] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:11:14] INFO | solar_client | Controllo scadenza token | token=AE27EE...790E | now=2026-04-26T19:11:14.064648+00:00 | exp=2026-04-26T21:07:09+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:11:14] INFO | solar_client | Riutilizzo token esistente | token=AE27EE...790E | access_exp=2026-04-26T21:07:09Z
+[2026-04-26 21:11:14] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=AE27EE...790E
+[2026-04-26 21:11:14] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:11:14] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:11:14] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:08:47Z | update_time_rome=2026-04-26 21:08:47
+[2026-04-26 21:11:14] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:11:14] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:11:14] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:11:14] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:11:14] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:11:14] INFO | solar_client | Controllo scadenza token | token=AE27EE...790E | now=2026-04-26T19:11:14.769658+00:00 | exp=2026-04-26T21:07:09+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:11:14] INFO | solar_client | Riutilizzo token esistente | token=AE27EE...790E | access_exp=2026-04-26T21:07:09Z
+[2026-04-26 21:11:14] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=AE27EE...790E
+[2026-04-26 21:11:14] INFO | solar_client | Header auth pronti | token=AE27EE...790E | timezone=Europe/Rome
+[2026-04-26 21:11:16] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:11:16] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:11:16] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:11:16] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:11:16] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:11:16] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://localhost:5001/lan_check | timeout=20
+[2026-04-26 21:11:16] ERROR | app | [TASK] check_registered_devices_on_lan ERROR | error=HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /lan_check (Caused by NewConnectionError("HTTPConnection(host='localhost', port=5001): Failed to establish a new connection: [Errno 111] Connection refused"))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/local/lib/python3.11/http/client.py", line 1318, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.11/http/client.py", line 1078, in _send_output
+    self.send(msg)
+  File "/usr/local/lib/python3.11/http/client.py", line 1016, in send
+    self.connect()
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 219, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='localhost', port=5001): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /lan_check (Caused by NewConnectionError("HTTPConnection(host='localhost', port=5001): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/app/polling_tasks.py", line 202, in check_registered_devices_on_lan
+    r = requests.get(lan_check_url, timeout=timeout_seconds)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 678, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /lan_check (Caused by NewConnectionError("HTTPConnection(host='localhost', port=5001): Failed to establish a new connection: [Errno 111] Connection refused"))
+[2026-04-26 21:12:21] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-26 21:12:21] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-26 21:12:21] INFO | app | Polling loop avviato | device_id=416360187241136128 | data_source=1 | interval_seconds=120
+[2026-04-26 21:12:21] INFO | app | Thread background polling avviato
+[2026-04-26 21:12:21] INFO | app | Polling START
+[2026-04-26 21:12:21] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:12:21] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:12:21] INFO | solar_client | Sessione o token assenti: eseguo login
+[2026-04-26 21:12:21] INFO | solar_client | Avvio login remoto
+[2026-04-26 21:12:21] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
+[2026-04-26 21:12:22] INFO | auth | Login remoto HTTP END | status_code=200
+[2026-04-26 21:12:22] INFO | auth | Login remoto OK | access_token=558DB7...FB5A | access_exp=2026-04-26T21:12:22Z | refresh_exp=2026-05-26T19:12:22Z
+[2026-04-26 21:12:22] INFO | solar_client | Login OK | token=558DB7...FB5A | access_exp=2026-04-26T21:12:22Z | refresh_exp=2026-05-26T19:12:22Z
+[2026-04-26 21:12:22] INFO | solar_client | Token salvato nel DB | token=558DB7...FB5A
+[2026-04-26 21:12:22] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=558DB7...FB5A
+[2026-04-26 21:12:22] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:12:22] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:12:22] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:08:47Z | update_time_rome=2026-04-26 21:08:47
+[2026-04-26 21:12:22] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:12:22] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:12:22] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:12:22] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:12:22] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:12:22] INFO | solar_client | Controllo scadenza token | token=558DB7...FB5A | now=2026-04-26T19:12:22.519726+00:00 | exp=2026-04-26T21:12:22+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:12:22] INFO | solar_client | Riutilizzo token esistente | token=558DB7...FB5A | access_exp=2026-04-26T21:12:22Z
+[2026-04-26 21:12:22] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=558DB7...FB5A
+[2026-04-26 21:12:22] INFO | solar_client | Header auth pronti | token=558DB7...FB5A | timezone=Europe/Rome
+[2026-04-26 21:12:23] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:12:23] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:12:23] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:12:23] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:12:23] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:12:23] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://host.docker.internal:5001/lan_check | timeout=20
+[2026-04-26 21:12:23] ERROR | app | [TASK] check_registered_devices_on_lan ERROR | error=HTTPConnectionPool(host='host.docker.internal', port=5001): Max retries exceeded with url: /lan_check (Caused by NameResolutionError("HTTPConnection(host='host.docker.internal', port=5001): Failed to resolve 'host.docker.internal' ([Errno -2] Name or service not known)"))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/socket.py", line 974, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno -2] Name or service not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/local/lib/python3.11/http/client.py", line 1318, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.11/http/client.py", line 1078, in _send_output
+    self.send(msg)
+  File "/usr/local/lib/python3.11/http/client.py", line 1016, in send
+    self.connect()
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 211, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: HTTPConnection(host='host.docker.internal', port=5001): Failed to resolve 'host.docker.internal' ([Errno -2] Name or service not known)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='host.docker.internal', port=5001): Max retries exceeded with url: /lan_check (Caused by NameResolutionError("HTTPConnection(host='host.docker.internal', port=5001): Failed to resolve 'host.docker.internal' ([Errno -2] Name or service not known)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/app/polling_tasks.py", line 202, in check_registered_devices_on_lan
+    r = requests.get(lan_check_url, timeout=timeout_seconds)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 678, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='host.docker.internal', port=5001): Max retries exceeded with url: /lan_check (Caused by NameResolutionError("HTTPConnection(host='host.docker.internal', port=5001): Failed to resolve 'host.docker.internal' ([Errno -2] Name or service not known)"))
+[2026-04-26 21:14:23] INFO | app | Polling START
+[2026-04-26 21:14:23] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:14:23] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:14:23] INFO | solar_client | Controllo scadenza token | token=558DB7...FB5A | now=2026-04-26T19:14:23.798518+00:00 | exp=2026-04-26T21:12:22+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:14:23] INFO | solar_client | Riutilizzo token esistente | token=558DB7...FB5A | access_exp=2026-04-26T21:12:22Z
+[2026-04-26 21:14:23] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=558DB7...FB5A
+[2026-04-26 21:14:24] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:14:24] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:14:24] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:13:48Z | update_time_rome=2026-04-26 21:13:48
+[2026-04-26 21:14:24] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:14:24] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:14:24] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:14:24] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:14:24] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:14:24] INFO | solar_client | Controllo scadenza token | token=558DB7...FB5A | now=2026-04-26T19:14:24.510286+00:00 | exp=2026-04-26T21:12:22+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:14:24] INFO | solar_client | Riutilizzo token esistente | token=558DB7...FB5A | access_exp=2026-04-26T21:12:22Z
+[2026-04-26 21:14:24] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=558DB7...FB5A
+[2026-04-26 21:14:24] INFO | solar_client | Header auth pronti | token=558DB7...FB5A | timezone=Europe/Rome
+[2026-04-26 21:14:26] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:14:26] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:14:26] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:14:26] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:14:26] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:14:26] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://host.docker.internal:5001/lan_check | timeout=20
+[2026-04-26 21:14:26] ERROR | app | [TASK] check_registered_devices_on_lan ERROR | error=HTTPConnectionPool(host='host.docker.internal', port=5001): Max retries exceeded with url: /lan_check (Caused by NameResolutionError("HTTPConnection(host='host.docker.internal', port=5001): Failed to resolve 'host.docker.internal' ([Errno -2] Name or service not known)"))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/socket.py", line 974, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno -2] Name or service not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/local/lib/python3.11/http/client.py", line 1318, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.11/http/client.py", line 1078, in _send_output
+    self.send(msg)
+  File "/usr/local/lib/python3.11/http/client.py", line 1016, in send
+    self.connect()
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connection.py", line 211, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: HTTPConnection(host='host.docker.internal', port=5001): Failed to resolve 'host.docker.internal' ([Errno -2] Name or service not known)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 645, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='host.docker.internal', port=5001): Max retries exceeded with url: /lan_check (Caused by NameResolutionError("HTTPConnection(host='host.docker.internal', port=5001): Failed to resolve 'host.docker.internal' ([Errno -2] Name or service not known)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/app/polling_tasks.py", line 202, in check_registered_devices_on_lan
+    r = requests.get(lan_check_url, timeout=timeout_seconds)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/requests/adapters.py", line 678, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='host.docker.internal', port=5001): Max retries exceeded with url: /lan_check (Caused by NameResolutionError("HTTPConnection(host='host.docker.internal', port=5001): Failed to resolve 'host.docker.internal' ([Errno -2] Name or service not known)"))
+[2026-04-26 21:14:43] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-26 21:14:43] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-26 21:14:43] INFO | app | Polling loop avviato | device_id=416360187241136128 | data_source=1 | interval_seconds=120
+[2026-04-26 21:14:43] INFO | app | Thread background polling avviato
+[2026-04-26 21:14:43] INFO | app | Polling START
+[2026-04-26 21:14:43] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:14:43] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:14:43] INFO | solar_client | Sessione o token assenti: eseguo login
+[2026-04-26 21:14:43] INFO | solar_client | Avvio login remoto
+[2026-04-26 21:14:43] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
+[2026-04-26 21:14:43] INFO | auth | Login remoto HTTP END | status_code=200
+[2026-04-26 21:14:43] INFO | auth | Login remoto OK | access_token=A3926C...5850 | access_exp=2026-04-26T21:14:43Z | refresh_exp=2026-05-26T19:14:43Z
+[2026-04-26 21:14:43] INFO | solar_client | Login OK | token=A3926C...5850 | access_exp=2026-04-26T21:14:43Z | refresh_exp=2026-05-26T19:14:43Z
+[2026-04-26 21:14:43] INFO | solar_client | Token salvato nel DB | token=A3926C...5850
+[2026-04-26 21:14:43] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=A3926C...5850
+[2026-04-26 21:14:44] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:14:44] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:14:44] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:13:48Z | update_time_rome=2026-04-26 21:13:48
+[2026-04-26 21:14:44] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:14:44] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:14:44] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:14:44] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:14:44] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:14:44] INFO | solar_client | Controllo scadenza token | token=A3926C...5850 | now=2026-04-26T19:14:44.208257+00:00 | exp=2026-04-26T21:14:43+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:14:44] INFO | solar_client | Riutilizzo token esistente | token=A3926C...5850 | access_exp=2026-04-26T21:14:43Z
+[2026-04-26 21:14:44] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=A3926C...5850
+[2026-04-26 21:14:44] INFO | solar_client | Header auth pronti | token=A3926C...5850 | timezone=Europe/Rome
+[2026-04-26 21:14:45] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:14:45] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:14:45] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:14:45] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:14:45] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:14:45] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://host.docker.internal:5001/lan_check | timeout=20
+[2026-04-26 21:14:46] INFO | app | [TASK] LAN check result | ok=True | strategy=last_ip_only | registered=3 | found=3 | missing=0
+[2026-04-26 21:14:46] INFO | app | [TASK] LAN tutti i dispositivi registrati risultano online
+[2026-04-26 21:16:45] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-26 21:16:45] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-26 21:16:45] INFO | app | Polling loop avviato | device_id=416360187241136128 | data_source=1 | interval_seconds=120
+[2026-04-26 21:16:45] INFO | app | Thread background polling avviato
+[2026-04-26 21:16:45] INFO | app | Polling START
+[2026-04-26 21:16:45] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:16:45] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:16:45] INFO | solar_client | Sessione o token assenti: eseguo login
+[2026-04-26 21:16:45] INFO | solar_client | Avvio login remoto
+[2026-04-26 21:16:45] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
+[2026-04-26 21:16:46] INFO | auth | Login remoto HTTP END | status_code=200
+[2026-04-26 21:16:46] INFO | auth | Login remoto OK | access_token=D94750...B150 | access_exp=2026-04-26T21:16:46Z | refresh_exp=2026-05-26T19:16:46Z
+[2026-04-26 21:16:46] INFO | solar_client | Login OK | token=D94750...B150 | access_exp=2026-04-26T21:16:46Z | refresh_exp=2026-05-26T19:16:46Z
+[2026-04-26 21:16:46] INFO | solar_client | Token salvato nel DB | token=D94750...B150
+[2026-04-26 21:16:46] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=D94750...B150
+[2026-04-26 21:16:46] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:16:46] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:16:46] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:13:48Z | update_time_rome=2026-04-26 21:13:48
+[2026-04-26 21:16:46] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:16:46] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:16:46] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:16:46] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:16:46] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:16:46] INFO | solar_client | Controllo scadenza token | token=D94750...B150 | now=2026-04-26T19:16:46.680169+00:00 | exp=2026-04-26T21:16:46+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:16:46] INFO | solar_client | Riutilizzo token esistente | token=D94750...B150 | access_exp=2026-04-26T21:16:46Z
+[2026-04-26 21:16:46] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=D94750...B150
+[2026-04-26 21:16:46] INFO | solar_client | Header auth pronti | token=D94750...B150 | timezone=Europe/Rome
+[2026-04-26 21:16:48] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:16:48] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:16:48] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:16:48] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:16:48] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:16:48] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://host.docker.internal:5001/lan_check | timeout=20 | attempts=3 | retry_sleep=30
+[2026-04-26 21:16:48] INFO | app | [TASK] LAN check attempt 1/3 | url=http://host.docker.internal:5001/lan_check
+[2026-04-26 21:16:49] INFO | app | [TASK] LAN check result | ok=True | strategy=last_ip_only | registered=3 | found=3 | missing=0
+[2026-04-26 21:16:49] INFO | app | [TASK] LAN tutti i dispositivi registrati risultano online
+[2026-04-26 21:18:49] INFO | app | Polling START
+[2026-04-26 21:18:49] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:18:49] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:18:49] INFO | solar_client | Controllo scadenza token | token=D94750...B150 | now=2026-04-26T19:18:49.402129+00:00 | exp=2026-04-26T21:16:46+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:18:49] INFO | solar_client | Riutilizzo token esistente | token=D94750...B150 | access_exp=2026-04-26T21:16:46Z
+[2026-04-26 21:18:49] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=D94750...B150
+[2026-04-26 21:18:50] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:18:50] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:18:50] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:18:48Z | update_time_rome=2026-04-26 21:18:48
+[2026-04-26 21:18:50] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:18:50] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:18:50] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:18:50] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:18:50] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:18:50] INFO | solar_client | Controllo scadenza token | token=D94750...B150 | now=2026-04-26T19:18:50.122235+00:00 | exp=2026-04-26T21:16:46+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:18:50] INFO | solar_client | Riutilizzo token esistente | token=D94750...B150 | access_exp=2026-04-26T21:16:46Z
+[2026-04-26 21:18:50] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=D94750...B150
+[2026-04-26 21:18:50] INFO | solar_client | Header auth pronti | token=D94750...B150 | timezone=Europe/Rome
+[2026-04-26 21:18:51] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:18:51] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:18:51] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:18:51] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:18:51] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:18:51] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://host.docker.internal:5001/lan_check | timeout=20 | attempts=3 | retry_sleep=30
+[2026-04-26 21:18:51] INFO | app | [TASK] LAN check attempt 1/3 | url=http://host.docker.internal:5001/lan_check
+[2026-04-26 21:18:52] INFO | app | [TASK] LAN check result | ok=True | strategy=last_ip_only | registered=3 | found=3 | missing=0
+[2026-04-26 21:18:52] INFO | app | [TASK] LAN tutti i dispositivi registrati risultano online
+[2026-04-26 21:20:52] INFO | app | Polling START
+[2026-04-26 21:20:52] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:20:52] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:20:52] INFO | solar_client | Controllo scadenza token | token=D94750...B150 | now=2026-04-26T19:20:52.281285+00:00 | exp=2026-04-26T21:16:46+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:20:52] INFO | solar_client | Riutilizzo token esistente | token=D94750...B150 | access_exp=2026-04-26T21:16:46Z
+[2026-04-26 21:20:52] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=D94750...B150
+[2026-04-26 21:20:52] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:20:52] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:20:52] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:18:48Z | update_time_rome=2026-04-26 21:18:48
+[2026-04-26 21:20:52] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:20:52] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:20:52] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:20:52] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:20:52] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:20:52] INFO | solar_client | Controllo scadenza token | token=D94750...B150 | now=2026-04-26T19:20:52.964259+00:00 | exp=2026-04-26T21:16:46+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:20:52] INFO | solar_client | Riutilizzo token esistente | token=D94750...B150 | access_exp=2026-04-26T21:16:46Z
+[2026-04-26 21:20:52] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=D94750...B150
+[2026-04-26 21:20:52] INFO | solar_client | Header auth pronti | token=D94750...B150 | timezone=Europe/Rome
+[2026-04-26 21:20:54] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:20:54] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:20:54] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:20:54] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:20:54] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:20:54] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://host.docker.internal:5001/lan_check | timeout=20 | attempts=3 | retry_sleep=30
+[2026-04-26 21:20:54] INFO | app | [TASK] LAN check attempt 1/3 | url=http://host.docker.internal:5001/lan_check
+[2026-04-26 21:21:04] WARNING | app | [TASK] LAN check failed | attempt=1/3 | error=404 Client Error: NOT FOUND for url: http://host.docker.internal:5001/lan_check
+[2026-04-26 21:21:04] INFO | app | [TASK] LAN check retry tra 30 secondi
+[2026-04-26 21:21:04] ERROR | app | Polling ERROR | error=name 'time' is not defined
+Traceback (most recent call last):
+  File "/app/polling_tasks.py", line 206, in check_registered_devices_on_lan
+    r.raise_for_status()
+  File "/usr/local/lib/python3.11/site-packages/requests/models.py", line 1028, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 404 Client Error: NOT FOUND for url: http://host.docker.internal:5001/lan_check
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/app/app.py", line 42, in polling_loop
+    check_registered_devices_on_lan(logger)
+  File "/app/polling_tasks.py", line 254, in check_registered_devices_on_lan
+    time.sleep(retry_sleep_seconds)
+    ^^^^
+NameError: name 'time' is not defined
+[2026-04-26 21:23:04] INFO | app | Polling START
+[2026-04-26 21:23:04] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:23:04] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:23:04] INFO | solar_client | Controllo scadenza token | token=D94750...B150 | now=2026-04-26T19:23:04.958427+00:00 | exp=2026-04-26T21:16:46+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:23:04] INFO | solar_client | Riutilizzo token esistente | token=D94750...B150 | access_exp=2026-04-26T21:16:46Z
+[2026-04-26 21:23:04] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=D94750...B150
+[2026-04-26 21:23:05] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:23:05] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:23:05] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:18:48Z | update_time_rome=2026-04-26 21:18:48
+[2026-04-26 21:23:05] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:23:05] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:23:05] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:23:05] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:23:05] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:23:05] INFO | solar_client | Controllo scadenza token | token=D94750...B150 | now=2026-04-26T19:23:05.628372+00:00 | exp=2026-04-26T21:16:46+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:23:05] INFO | solar_client | Riutilizzo token esistente | token=D94750...B150 | access_exp=2026-04-26T21:16:46Z
+[2026-04-26 21:23:05] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=D94750...B150
+[2026-04-26 21:23:05] INFO | solar_client | Header auth pronti | token=D94750...B150 | timezone=Europe/Rome
+[2026-04-26 21:23:06] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:23:06] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:23:06] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:23:06] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:23:06] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:23:06] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://host.docker.internal:5001/lan_check | timeout=20 | attempts=3 | retry_sleep=30
+[2026-04-26 21:23:06] INFO | app | [TASK] LAN check attempt 1/3 | url=http://host.docker.internal:5001/lan_check
+[2026-04-26 21:23:17] WARNING | app | [TASK] LAN check failed | attempt=1/3 | error=404 Client Error: NOT FOUND for url: http://host.docker.internal:5001/lan_check
+[2026-04-26 21:23:17] INFO | app | [TASK] LAN check retry tra 30 secondi
+[2026-04-26 21:23:17] ERROR | app | Polling ERROR | error=name 'time' is not defined
+Traceback (most recent call last):
+  File "/app/polling_tasks.py", line 206, in check_registered_devices_on_lan
+    r.raise_for_status()
+  File "/usr/local/lib/python3.11/site-packages/requests/models.py", line 1028, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 404 Client Error: NOT FOUND for url: http://host.docker.internal:5001/lan_check
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/app/app.py", line 42, in polling_loop
+    check_registered_devices_on_lan(logger)
+  File "/app/polling_tasks.py", line 254, in check_registered_devices_on_lan
+    time.sleep(retry_sleep_seconds)
+    ^^^^
+NameError: name 'time' is not defined
+[2026-04-26 21:25:17] INFO | app | Polling START
+[2026-04-26 21:25:17] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:25:17] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:25:17] INFO | solar_client | Controllo scadenza token | token=D94750...B150 | now=2026-04-26T19:25:17.730294+00:00 | exp=2026-04-26T21:16:46+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:25:17] INFO | solar_client | Riutilizzo token esistente | token=D94750...B150 | access_exp=2026-04-26T21:16:46Z
+[2026-04-26 21:25:17] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=D94750...B150
+[2026-04-26 21:25:18] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:25:18] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:25:18] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:23:48Z | update_time_rome=2026-04-26 21:23:48
+[2026-04-26 21:25:18] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:25:18] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:25:18] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:25:18] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:25:18] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:25:18] INFO | solar_client | Controllo scadenza token | token=D94750...B150 | now=2026-04-26T19:25:18.420092+00:00 | exp=2026-04-26T21:16:46+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:25:18] INFO | solar_client | Riutilizzo token esistente | token=D94750...B150 | access_exp=2026-04-26T21:16:46Z
+[2026-04-26 21:25:18] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=D94750...B150
+[2026-04-26 21:25:18] INFO | solar_client | Header auth pronti | token=D94750...B150 | timezone=Europe/Rome
+[2026-04-26 21:25:19] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:25:19] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:25:19] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:25:19] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:25:19] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:25:19] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://host.docker.internal:5001/lan_check | timeout=20 | attempts=3 | retry_sleep=30
+[2026-04-26 21:25:19] INFO | app | [TASK] LAN check attempt 1/3 | url=http://host.docker.internal:5001/lan_check
+[2026-04-26 21:25:30] WARNING | app | [TASK] LAN check failed | attempt=1/3 | error=404 Client Error: NOT FOUND for url: http://host.docker.internal:5001/lan_check
+[2026-04-26 21:25:30] INFO | app | [TASK] LAN check retry tra 30 secondi
+[2026-04-26 21:25:30] ERROR | app | Polling ERROR | error=name 'time' is not defined
+Traceback (most recent call last):
+  File "/app/polling_tasks.py", line 206, in check_registered_devices_on_lan
+    r.raise_for_status()
+  File "/usr/local/lib/python3.11/site-packages/requests/models.py", line 1028, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 404 Client Error: NOT FOUND for url: http://host.docker.internal:5001/lan_check
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/app/app.py", line 42, in polling_loop
+    check_registered_devices_on_lan(logger)
+  File "/app/polling_tasks.py", line 254, in check_registered_devices_on_lan
+    time.sleep(retry_sleep_seconds)
+    ^^^^
+NameError: name 'time' is not defined
+[2026-04-26 21:27:31] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-26 21:27:31] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-26 21:27:31] INFO | app | Polling loop avviato | device_id=416360187241136128 | data_source=1 | interval_seconds=120
+[2026-04-26 21:27:31] INFO | app | Thread background polling avviato
+[2026-04-26 21:27:31] INFO | app | Polling START
+[2026-04-26 21:27:31] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:27:31] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:27:31] INFO | solar_client | Sessione o token assenti: eseguo login
+[2026-04-26 21:27:31] INFO | solar_client | Avvio login remoto
+[2026-04-26 21:27:31] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
+[2026-04-26 21:27:32] INFO | auth | Login remoto HTTP END | status_code=200
+[2026-04-26 21:27:32] INFO | auth | Login remoto OK | access_token=8059AB...B310 | access_exp=2026-04-26T21:27:31Z | refresh_exp=2026-05-26T19:27:31Z
+[2026-04-26 21:27:32] INFO | solar_client | Login OK | token=8059AB...B310 | access_exp=2026-04-26T21:27:31Z | refresh_exp=2026-05-26T19:27:31Z
+[2026-04-26 21:27:32] INFO | solar_client | Token salvato nel DB | token=8059AB...B310
+[2026-04-26 21:27:32] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=8059AB...B310
+[2026-04-26 21:27:32] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:27:32] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:27:32] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:23:48Z | update_time_rome=2026-04-26 21:23:48
+[2026-04-26 21:27:32] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:27:32] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:27:32] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:27:32] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:27:32] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:27:32] INFO | solar_client | Controllo scadenza token | token=8059AB...B310 | now=2026-04-26T19:27:32.319008+00:00 | exp=2026-04-26T21:27:31+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:27:32] INFO | solar_client | Riutilizzo token esistente | token=8059AB...B310 | access_exp=2026-04-26T21:27:31Z
+[2026-04-26 21:27:32] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=8059AB...B310
+[2026-04-26 21:27:32] INFO | solar_client | Header auth pronti | token=8059AB...B310 | timezone=Europe/Rome
+[2026-04-26 21:27:33] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:27:33] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:27:33] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:27:33] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:27:33] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:27:33] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://host.docker.internal:5001/lan_check | timeout=20 | attempts=3 | retry_sleep=30
+[2026-04-26 21:27:33] INFO | app | [TASK] LAN check attempt 1/3 | url=http://host.docker.internal:5001/lan_check
+[2026-04-26 21:27:44] WARNING | app | [TASK] LAN check failed | attempt=1/3 | error=404 Client Error: NOT FOUND for url: http://host.docker.internal:5001/lan_check
+[2026-04-26 21:27:44] INFO | app | [TASK] LAN check retry tra 30 secondi
+[2026-04-26 21:28:14] INFO | app | [TASK] LAN check attempt 2/3 | url=http://host.docker.internal:5001/lan_check
+[2026-04-26 21:28:25] WARNING | app | [TASK] LAN check failed | attempt=2/3 | error=404 Client Error: NOT FOUND for url: http://host.docker.internal:5001/lan_check
+[2026-04-26 21:28:25] INFO | app | [TASK] LAN check retry tra 30 secondi
+[2026-04-26 21:28:55] INFO | app | [TASK] LAN check attempt 3/3 | url=http://host.docker.internal:5001/lan_check
+[2026-04-26 21:29:06] WARNING | app | [TASK] LAN check failed | attempt=3/3 | error=404 Client Error: NOT FOUND for url: http://host.docker.internal:5001/lan_check
+[2026-04-26 21:29:06] ERROR | app | [TASK] check_registered_devices_on_lan ERROR definitivo dopo 3 tentativi | error=404 Client Error: NOT FOUND for url: http://host.docker.internal:5001/lan_check
+NoneType: None
+[2026-04-26 21:31:06] INFO | app | Polling START
+[2026-04-26 21:31:06] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:31:06] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:31:06] INFO | solar_client | Controllo scadenza token | token=8059AB...B310 | now=2026-04-26T19:31:06.689363+00:00 | exp=2026-04-26T21:27:31+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:31:06] INFO | solar_client | Riutilizzo token esistente | token=8059AB...B310 | access_exp=2026-04-26T21:27:31Z
+[2026-04-26 21:31:06] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=8059AB...B310
+[2026-04-26 21:31:07] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:31:07] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:31:07] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:28:48Z | update_time_rome=2026-04-26 21:28:48
+[2026-04-26 21:31:07] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:31:07] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:31:07] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:31:07] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:31:07] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:31:07] INFO | solar_client | Controllo scadenza token | token=8059AB...B310 | now=2026-04-26T19:31:07.419524+00:00 | exp=2026-04-26T21:27:31+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:31:07] INFO | solar_client | Riutilizzo token esistente | token=8059AB...B310 | access_exp=2026-04-26T21:27:31Z
+[2026-04-26 21:31:07] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=8059AB...B310
+[2026-04-26 21:31:07] INFO | solar_client | Header auth pronti | token=8059AB...B310 | timezone=Europe/Rome
+[2026-04-26 21:31:08] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:31:08] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:31:08] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:31:08] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:31:08] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:31:08] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://host.docker.internal:5001/lan_check | timeout=20 | attempts=3 | retry_sleep=30
+[2026-04-26 21:31:08] INFO | app | [TASK] LAN check attempt 1/3 | url=http://host.docker.internal:5001/lan_check
+[2026-04-26 21:31:09] INFO | app | [TASK] LAN check result | ok=True | strategy=last_ip_only | registered=3 | found=3 | missing=0
+[2026-04-26 21:31:09] INFO | app | [TASK] LAN tutti i dispositivi registrati risultano online
+[2026-04-26 21:31:21] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-26 21:31:21] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-26 21:31:21] INFO | app | Polling loop avviato | device_id=416360187241136128 | data_source=1 | interval_seconds=120
+[2026-04-26 21:31:21] INFO | app | Thread background polling avviato
+[2026-04-26 21:31:21] INFO | app | Polling START
+[2026-04-26 21:31:21] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:31:21] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:31:21] INFO | solar_client | Sessione o token assenti: eseguo login
+[2026-04-26 21:31:21] INFO | solar_client | Avvio login remoto
+[2026-04-26 21:31:21] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
+[2026-04-26 21:31:21] INFO | auth | Login remoto HTTP END | status_code=200
+[2026-04-26 21:31:21] INFO | auth | Login remoto OK | access_token=2A5BE6...8AC5 | access_exp=2026-04-26T21:31:21Z | refresh_exp=2026-05-26T19:31:21Z
+[2026-04-26 21:31:21] INFO | solar_client | Login OK | token=2A5BE6...8AC5 | access_exp=2026-04-26T21:31:21Z | refresh_exp=2026-05-26T19:31:21Z
+[2026-04-26 21:31:21] INFO | solar_client | Token salvato nel DB | token=2A5BE6...8AC5
+[2026-04-26 21:31:21] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=2A5BE6...8AC5
+[2026-04-26 21:31:22] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:31:22] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:31:22] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:28:48Z | update_time_rome=2026-04-26 21:28:48
+[2026-04-26 21:31:22] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:31:22] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:31:22] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:31:22] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:31:22] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:31:22] INFO | solar_client | Controllo scadenza token | token=2A5BE6...8AC5 | now=2026-04-26T19:31:22.199495+00:00 | exp=2026-04-26T21:31:21+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:31:22] INFO | solar_client | Riutilizzo token esistente | token=2A5BE6...8AC5 | access_exp=2026-04-26T21:31:21Z
+[2026-04-26 21:31:22] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=2A5BE6...8AC5
+[2026-04-26 21:31:22] INFO | solar_client | Header auth pronti | token=2A5BE6...8AC5 | timezone=Europe/Rome
+[2026-04-26 21:31:23] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:31:23] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:31:23] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:31:23] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:31:23] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:31:23] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://host.docker.internal:5001/lan_check | timeout=20 | attempts=3 | retry_sleep=30
+[2026-04-26 21:31:23] INFO | app | [TASK] LAN check attempt 1/3 | url=http://host.docker.internal:5001/lan_check
+[2026-04-26 21:31:24] INFO | app | [TASK] LAN check result | ok=True | strategy=last_ip_only | registered=3 | found=3 | missing=0
+[2026-04-26 21:31:24] INFO | app | [TASK] LAN tutti i dispositivi registrati risultano online
+[2026-04-26 21:33:24] INFO | app | Polling START
+[2026-04-26 21:33:24] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:33:24] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:33:24] INFO | solar_client | Controllo scadenza token | token=2A5BE6...8AC5 | now=2026-04-26T19:33:24.105237+00:00 | exp=2026-04-26T21:31:21+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:33:24] INFO | solar_client | Riutilizzo token esistente | token=2A5BE6...8AC5 | access_exp=2026-04-26T21:31:21Z
+[2026-04-26 21:33:24] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=2A5BE6...8AC5
+[2026-04-26 21:33:24] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:33:24] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:33:24] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:28:48Z | update_time_rome=2026-04-26 21:28:48
+[2026-04-26 21:33:24] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:33:24] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:33:24] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:33:24] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:33:24] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:33:24] INFO | solar_client | Controllo scadenza token | token=2A5BE6...8AC5 | now=2026-04-26T19:33:24.777102+00:00 | exp=2026-04-26T21:31:21+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:33:24] INFO | solar_client | Riutilizzo token esistente | token=2A5BE6...8AC5 | access_exp=2026-04-26T21:31:21Z
+[2026-04-26 21:33:24] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=2A5BE6...8AC5
+[2026-04-26 21:33:24] INFO | solar_client | Header auth pronti | token=2A5BE6...8AC5 | timezone=Europe/Rome
+[2026-04-26 21:33:26] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:33:26] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:33:26] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:33:26] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:33:26] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:33:26] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://host.docker.internal:5001/lan_check | timeout=20 | attempts=3 | retry_sleep=30
+[2026-04-26 21:33:26] INFO | app | [TASK] LAN check attempt 1/3 | url=http://host.docker.internal:5001/lan_check
+[2026-04-26 21:33:27] INFO | app | [TASK] LAN check result | ok=True | strategy=last_ip_only | registered=3 | found=3 | missing=0
+[2026-04-26 21:33:27] INFO | app | [TASK] LAN tutti i dispositivi registrati risultano online
+[2026-04-26 21:34:18] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-26 21:34:19] INFO | solar_client | SolarClient inizializzato | base_url=https://solar.siseli.com | account=sersebasti
+[2026-04-26 21:34:19] INFO | app | Polling loop avviato | device_id=416360187241136128 | data_source=1 | interval_seconds=120
+[2026-04-26 21:34:19] INFO | app | Thread background polling avviato
+[2026-04-26 21:34:19] INFO | app | Polling START
+[2026-04-26 21:34:19] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:34:19] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:34:19] INFO | solar_client | Sessione o token assenti: eseguo login
+[2026-04-26 21:34:19] INFO | solar_client | Avvio login remoto
+[2026-04-26 21:34:19] INFO | auth | Login remoto START | account=sersebasti | base=https://solar.siseli.com
+[2026-04-26 21:34:19] INFO | auth | Login remoto HTTP END | status_code=200
+[2026-04-26 21:34:19] INFO | auth | Login remoto OK | access_token=AC7395...A772 | access_exp=2026-04-26T21:34:19Z | refresh_exp=2026-05-26T19:34:19Z
+[2026-04-26 21:34:19] INFO | solar_client | Login OK | token=AC7395...A772 | access_exp=2026-04-26T21:34:19Z | refresh_exp=2026-05-26T19:34:19Z
+[2026-04-26 21:34:19] INFO | solar_client | Token salvato nel DB | token=AC7395...A772
+[2026-04-26 21:34:19] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=AC7395...A772
+[2026-04-26 21:34:19] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:34:19] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:34:19] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:33:49Z | update_time_rome=2026-04-26 21:33:49
+[2026-04-26 21:34:19] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:34:19] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:34:19] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:34:19] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:34:19] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:34:19] INFO | solar_client | Controllo scadenza token | token=AC7395...A772 | now=2026-04-26T19:34:19.985547+00:00 | exp=2026-04-26T21:34:19+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:34:19] INFO | solar_client | Riutilizzo token esistente | token=AC7395...A772 | access_exp=2026-04-26T21:34:19Z
+[2026-04-26 21:34:19] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=AC7395...A772
+[2026-04-26 21:34:19] INFO | solar_client | Header auth pronti | token=AC7395...A772 | timezone=Europe/Rome
+[2026-04-26 21:34:21] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:34:21] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:34:21] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:34:21] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:34:21] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:34:21] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://host.docker.internal:5001/lan_check | timeout=20 | attempts=3 | retry_sleep=30
+[2026-04-26 21:34:21] INFO | app | [TASK] LAN check attempt 1/3 | url=http://host.docker.internal:5001/lan_check
+[2026-04-26 21:34:32] WARNING | app | [TASK] LAN check failed | attempt=1/3 | error=404 Client Error: NOT FOUND for url: http://host.docker.internal:5001/lan_check
+[2026-04-26 21:34:32] INFO | app | [TASK] LAN check retry tra 30 secondi
+[2026-04-26 21:35:02] INFO | app | [TASK] LAN check attempt 2/3 | url=http://host.docker.internal:5001/lan_check
+[2026-04-26 21:35:14] WARNING | app | [TASK] LAN check failed | attempt=2/3 | error=404 Client Error: NOT FOUND for url: http://host.docker.internal:5001/lan_check
+[2026-04-26 21:35:14] INFO | app | [TASK] LAN check retry tra 30 secondi
+[2026-04-26 21:35:44] INFO | app | [TASK] LAN check attempt 3/3 | url=http://host.docker.internal:5001/lan_check
+[2026-04-26 21:35:55] WARNING | app | [TASK] LAN check failed | attempt=3/3 | error=404 Client Error: NOT FOUND for url: http://host.docker.internal:5001/lan_check
+[2026-04-26 21:35:55] ERROR | app | [TASK] check_registered_devices_on_lan ERROR definitivo dopo 3 tentativi | error=404 Client Error: NOT FOUND for url: http://host.docker.internal:5001/lan_check
+NoneType: None
+[2026-04-26 21:37:55] INFO | app | Polling START
+[2026-04-26 21:37:55] INFO | app | [TASK] acquire_and_save_device_state | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:37:55] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:37:55] INFO | solar_client | Controllo scadenza token | token=AC7395...A772 | now=2026-04-26T19:37:55.457040+00:00 | exp=2026-04-26T21:34:19+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:37:55] INFO | solar_client | Riutilizzo token esistente | token=AC7395...A772 | access_exp=2026-04-26T21:34:19Z
+[2026-04-26 21:37:55] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=AC7395...A772
+[2026-04-26 21:37:56] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-04-26 21:37:56] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-04-26 21:37:56] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-04-26T19:33:49Z | update_time_rome=2026-04-26 21:33:49
+[2026-04-26 21:37:56] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-04-26 21:37:56] INFO | app | [TASK] acquire_and_save_device_state OK
+[2026-04-26 21:37:56] INFO | app | [TASK] check_battery_and_bms | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-04-26 21:37:56] INFO | app | [TASK] battery_voltage=51.7 | raw_battery_voltage=51.7
+[2026-04-26 21:37:56] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-04-26 21:37:56] INFO | solar_client | Controllo scadenza token | token=AC7395...A772 | now=2026-04-26T19:37:56.188580+00:00 | exp=2026-04-26T21:34:19+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-04-26 21:37:56] INFO | solar_client | Riutilizzo token esistente | token=AC7395...A772 | access_exp=2026-04-26T21:34:19Z
+[2026-04-26 21:37:56] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=AC7395...A772
+[2026-04-26 21:37:56] INFO | solar_client | Header auth pronti | token=AC7395...A772 | timezone=Europe/Rome
+[2026-04-26 21:37:57] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-04-26 21:37:57] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-04-26 21:37:57] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-04-26 21:37:57] INFO | app | [TASK] BMS stato attuale | current_value=2 | current_display=ON | desired_value=2
+[2026-04-26 21:37:57] INFO | app | [TASK] BMS già corretto | battery_voltage=51.7 | value=2
+[2026-04-26 21:37:57] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://host.docker.internal:5001/lan_check | timeout=20 | attempts=3 | retry_sleep=30
+[2026-04-26 21:37:57] INFO | app | [TASK] LAN check attempt 1/3 | url=http://host.docker.internal:5001/lan_check
+[2026-04-26 21:38:10] INFO | app | [TASK] LAN check result | ok=True | strategy=last_ip_then_sweep_lan | registered=3 | found=3 | missing=0
+[2026-04-26 21:38:10] INFO | app | [TASK] LAN tutti i dispositivi registrati risultano online

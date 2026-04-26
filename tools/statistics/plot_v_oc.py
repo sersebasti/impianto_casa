@@ -12,7 +12,7 @@ OUTPUT_PATH = BASE_DIR / "v_oc_vs_battery_voltage.png"
 
 # Coefficienti modello semplice
 A_LOAD = 0.020
-B_CHARGE = 0.010
+B_CHARGE = 0.008
 
 
 def to_float(value):
