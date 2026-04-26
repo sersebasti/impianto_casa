@@ -77,3 +77,30 @@ CREATE INDEX IF NOT EXISTS idx_device_snapshots_flat_device_row_key
 
 CREATE INDEX IF NOT EXISTS idx_device_snapshots_flat_created_at
     ON device_snapshots_flat (created_at);
+
+
+CREATE TABLE IF NOT EXISTS tesla_vehicle_snapshots (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TEXT NOT NULL,
+
+    vin TEXT NOT NULL,
+    state TEXT,
+
+    battery_level REAL,
+    charging_state TEXT,
+    charge_limit_soc REAL,
+    charger_power REAL,
+
+    inside_temp REAL,
+    outside_temp REAL,
+
+    locked INTEGER,
+
+    charge_port_door_open INTEGER,
+    charge_port_latch TEXT,
+    charge_port_color TEXT,
+    conn_charge_cable TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_tesla_vehicle_snapshots_vin_created_at
+ON tesla_vehicle_snapshots (vin, created_at);

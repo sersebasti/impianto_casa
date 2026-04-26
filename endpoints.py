@@ -11,7 +11,7 @@ from db import (
     get_device_metric_history,
 )
 from zoneinfo import ZoneInfo
-from tesla_client import exchange_code_for_token, refresh_tesla_token, wake_up_vehicle
+from tesla_client import exchange_code_for_token, refresh_tesla_token, wake_up_vehicle, get_vehicle_data, tesla_charge_start, tesla_charge_stop, tesla_set_charging_amps
 
 bp = Blueprint("api_endpoints", __name__)
 
@@ -479,4 +479,108 @@ def tesla_wake_up():
 
     except Exception as e:
         logger.exception("Errore wake_up Tesla | error=%s", e)
+        return jsonify({"ok": False, "error": str(e)}), 500
+    
+@bp.route("/api/tesla/vehicle-data", methods=["GET"])
+def tesla_vehicle_data():
+    try:
+        vin = request.args.get("vin") or os.getenv("TESLA_VIN", "")
+
+        if not vin:
+            return jsonify({"ok": False, "error": "TESLA_VIN mancante"}), 500
+
+        data = get_vehicle_data(vin)
+
+        return jsonify({
+            "ok": True,
+            "vin": vin,
+            "data": data,
+        })
+
+    except Exception as e:
+        logger.exception("Errore vehicle_data Tesla | error=%s", e)
+        return jsonify({"ok": False, "error": str(e)}), 500
+    
+
+@bp.route("/api/tesla/charge/start", methods=["POST", "GET"])
+def api_tesla_charge_start():
+    try:
+        vin = request.args.get("vin") or os.getenv("TESLA_VIN", "")
+
+        if not vin:
+            return jsonify({"ok": False, "error": "TESLA_VIN mancante"}), 500
+
+        data = tesla_charge_start(vin)
+
+        return jsonify({
+            "ok": True,
+            "vin": vin,
+            "command": "charge_start",
+            "response": data,
+        })
+
+    except Exception as e:
+        logger.exception("Errore charge_start Tesla | error=%s", e)
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@bp.route("/api/tesla/charge/stop", methods=["POST", "GET"])
+def api_tesla_charge_stop():
+    try:
+        vin = request.args.get("vin") or os.getenv("TESLA_VIN", "")
+
+        if not vin:
+            return jsonify({"ok": False, "error": "TESLA_VIN mancante"}), 500
+
+        data = tesla_charge_stop(vin)
+
+        return jsonify({
+            "ok": True,
+            "vin": vin,
+            "command": "charge_stop",
+            "response": data,
+        })
+
+    except Exception as e:
+        logger.exception("Errore charge_stop Tesla | error=%s", e)
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@bp.route("/api/tesla/charge/amps", methods=["POST", "GET"])
+def api_tesla_set_charging_amps():
+    try:
+        vin = request.args.get("vin") or os.getenv("TESLA_VIN", "")
+
+        if not vin:
+            return jsonify({"ok": False, "error": "TESLA_VIN mancante"}), 500
+
+        data = request.get_json(silent=True) or {}
+
+        amps = (
+            data.get("charging_amps")
+            or data.get("amps")
+            or request.args.get("charging_amps")
+            or request.args.get("amps")
+        )
+
+        if amps is None:
+            return jsonify({
+                "ok": False,
+                "error": "Parametro mancante: charging_amps oppure amps"
+            }), 400
+
+        amps = int(amps)
+
+        response = tesla_set_charging_amps(vin, amps)
+
+        return jsonify({
+            "ok": True,
+            "vin": vin,
+            "command": "set_charging_amps",
+            "charging_amps": amps,
+            "response": response,
+        })
+
+    except Exception as e:
+        logger.exception("Errore set_charging_amps Tesla | error=%s", e)
         return jsonify({"ok": False, "error": str(e)}), 500

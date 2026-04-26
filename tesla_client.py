@@ -75,11 +75,13 @@
 
 import json
 import os
+import requests
 from pathlib import Path
 from datetime import datetime
 from zoneinfo import ZoneInfo
+from db import insert_tesla_vehicle_snapshot
 
-import requests
+
 
 
 TESLA_CALLBACK_FILE = Path("data/tesla_callback_code.json")
@@ -302,3 +304,72 @@ def wake_up_vehicle(vin: str) -> dict:
         raise RuntimeError(f"Errore wake_up Tesla HTTP {r.status_code}: {data}")
 
     return data
+
+
+def get_vehicle_data(vin: str, save_to_db: bool = True) -> dict:
+    token = load_access_token()
+
+    fleet_base = os.getenv(
+        "TESLA_FLEET_BASE_URL",
+        "https://fleet-api.prd.eu.vn.cloud.tesla.com",
+    ).rstrip("/")
+
+    url = f"{fleet_base}/api/1/vehicles/{vin}/vehicle_data"
+
+    r = requests.get(
+        url,
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Accept": "application/json",
+        },
+        timeout=30,
+    )
+
+    try:
+        data = r.json()
+    except Exception:
+        data = {"raw_response": r.text}
+
+    if r.status_code >= 400:
+        raise RuntimeError(f"Errore vehicle_data Tesla HTTP {r.status_code}: {data}")
+
+    if save_to_db:
+        resp = data.get("response", {}) or {}
+        charge = resp.get("charge_state", {}) or {}
+        climate = resp.get("climate_state", {}) or {}
+        vehicle_state = resp.get("vehicle_state", {}) or {}
+
+        insert_tesla_vehicle_snapshot(
+            vin=vin,
+            state=resp.get("state"),
+            battery_level=charge.get("battery_level"),
+            charging_state=charge.get("charging_state"),
+            charge_limit_soc=charge.get("charge_limit_soc"),
+            charger_power=charge.get("charger_power"),
+            inside_temp=climate.get("inside_temp"),
+            outside_temp=climate.get("outside_temp"),
+            locked=vehicle_state.get("locked"),
+            charge_port_door_open=charge.get("charge_port_door_open"),
+            charge_port_latch=charge.get("charge_port_latch"),
+            charge_port_color=charge.get("charge_port_color"),
+            conn_charge_cable=charge.get("conn_charge_cable"),
+        )
+
+    return data
+
+
+def tesla_charge_start(vin: str) -> dict:
+    return tesla_proxy_command(vin, "charge_start")
+
+
+def tesla_charge_stop(vin: str) -> dict:
+    return tesla_proxy_command(vin, "charge_stop")
+
+def tesla_set_charging_amps(vin: str, amps: int) -> dict:
+    return tesla_proxy_command(
+        vin,
+        "set_charging_amps",
+        payload={
+            "charging_amps": int(amps)
+        }
+    )

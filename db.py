@@ -309,3 +309,61 @@ def get_device_metric_history(
         return [dict(row) for row in rows]
     finally:
         conn.close()
+
+
+def insert_tesla_vehicle_snapshot(
+    vin: str,
+    state: str | None,
+    battery_level,
+    charging_state: str | None,
+    charge_limit_soc,
+    charger_power,
+    inside_temp,
+    outside_temp,
+    locked,
+    charge_port_door_open,
+    charge_port_latch: str | None,
+    charge_port_color: str | None,
+    conn_charge_cable: str | None,
+) -> int:
+    conn = get_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute("""
+            INSERT INTO tesla_vehicle_snapshots (
+                created_at,
+                vin,
+                state,
+                battery_level,
+                charging_state,
+                charge_limit_soc,
+                charger_power,
+                inside_temp,
+                outside_temp,
+                locked,
+                charge_port_door_open,
+                charge_port_latch,
+                charge_port_color,
+                conn_charge_cable
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            now_rome_str(),
+            vin,
+            state,
+            battery_level,
+            charging_state,
+            charge_limit_soc,
+            charger_power,
+            inside_temp,
+            outside_temp,
+            1 if locked else 0 if locked is not None else None,
+            1 if charge_port_door_open else 0 if charge_port_door_open is not None else None,
+            charge_port_latch,
+            charge_port_color,
+            conn_charge_cable,
+        ))
+        conn.commit()
+        return cur.lastrowid
+    finally:
+        conn.close()
