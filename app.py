@@ -7,7 +7,7 @@ from solar_client import SolarClient
 from logger import get_logger
 from zoneinfo import ZoneInfo
 from datetime import datetime
-from polling_tasks import acquire_and_save_device_state, check_battery_and_bms, check_registered_devices_on_lan
+from polling_tasks import acquire_and_save_inverter_state, check_and_set_bms_communication, check_registered_devices_on_lan, acquire_and_save_sensors_data, check_and_refresh_tesla_token
 
 logger = get_logger("app")
 app = Flask(__name__)
@@ -32,14 +32,31 @@ def polling_loop():
 
     while True:
         try:
-            logger.info("Polling START")
-            # 1) Acquisisci e salva i dati
-            data = acquire_and_save_device_state(client, logger, device_id, data_source)
-            # 2) Esegui il task di controllo BMS usando i dati appena acquisiti
-            check_battery_and_bms(client, logger, device_id, data_source, interval_seconds, data)
-            # Qui potrai aggiungere altri task in futuro
+            logger.info("##################################################################")
+            logger.info("##################### Polling START ##############################")
+            logger.info("##################################################################")
 
-            check_registered_devices_on_lan(logger)
+            check_and_refresh_tesla_token(logger)
+           
+            data = acquire_and_save_inverter_state(client, logger, device_id, data_source)
+           
+            check_and_set_bms_communication(client, logger, device_id, data_source, interval_seconds, data)
+            
+            lan_result = check_registered_devices_on_lan(logger)
+
+            found_count = 0
+            if lan_result:
+                found_count = int(lan_result.get("found_registered_count") or 0)
+
+            if found_count > 0:
+                acquire_and_save_sensors_data(logger, lan_result)
+            else:
+                logger.warning(
+                    "[TASK] nuovo_task SKIP | nessun dispositivo LAN trovato | result=%s",
+                    lan_result,
+                )    
+
+
             
         except Exception as e:
             logger.exception("Polling ERROR | error=%s", e)

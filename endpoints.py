@@ -13,6 +13,8 @@ from db import (
 from zoneinfo import ZoneInfo
 from tesla_client import exchange_code_for_token, refresh_tesla_token, wake_up_vehicle, get_vehicle_data, tesla_charge_start, tesla_charge_stop, tesla_set_charging_amps
 
+
+
 bp = Blueprint("api_endpoints", __name__)
 
 logger = get_logger("endpoints")

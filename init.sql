@@ -104,3 +104,24 @@ CREATE TABLE IF NOT EXISTS tesla_vehicle_snapshots (
 
 CREATE INDEX IF NOT EXISTS idx_tesla_vehicle_snapshots_vin_created_at
 ON tesla_vehicle_snapshots (vin, created_at);
+
+
+CREATE TABLE IF NOT EXISTS sensor_snapshots (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created_at TEXT NOT NULL,
+    sensor_name TEXT NOT NULL,
+    sensor_type TEXT,
+    ip TEXT,
+    macaddress TEXT,
+    endpoint TEXT,
+    channel_index INTEGER,
+    ok INTEGER,
+    voltage REAL,
+    current REAL,
+    power REAL,
+    power_factor REAL,
+    frequency REAL,
+    energy REAL,
+    total_power REAL,
+    raw_json TEXT
+);
