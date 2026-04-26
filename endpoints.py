@@ -1,6 +1,8 @@
+import json
+import os
 from flask import Blueprint, jsonify, request, render_template_string
 from datetime import datetime, timedelta
-
+from pathlib import Path
 from solar_client import SolarClient
 from logger import get_logger
 from db import (
@@ -9,6 +11,7 @@ from db import (
     get_device_metric_history,
 )
 from zoneinfo import ZoneInfo
+from tesla_client import exchange_code_for_token, refresh_tesla_token, wake_up_vehicle
 
 bp = Blueprint("api_endpoints", __name__)
 
@@ -389,3 +392,91 @@ punti: ${data.count}`;
     </body>
     </html>
     """)
+
+
+
+
+
+##########################################################################
+######### ENDPINTS FOR TESLA API #########################################
+##########################################################################
+
+TESLA_CALLBACK_FILE = Path("data/tesla_callback_code.json")
+
+
+@bp.route("/callback", methods=["GET"])
+def tesla_callback():
+    try:
+        code = request.args.get("code")
+        state = request.args.get("state")
+        error = request.args.get("error")
+        error_description = request.args.get("error_description")
+
+        if error:
+            return jsonify({
+                "ok": False,
+                "error": error,
+                "error_description": error_description,
+            }), 400
+
+        if not code:
+            return jsonify({"ok": False, "error": "Code Tesla mancante"}), 400
+
+        data = exchange_code_for_token(code=code)
+
+        return jsonify({
+            "ok": True,
+            "message": "Code ricevuto, token Tesla ottenuto e salvato",
+            "has_access_token": bool(data.get("access_token")),
+            "has_refresh_token": bool(data.get("refresh_token")),
+            "expires_in": data.get("expires_in"),
+            "token_type": data.get("token_type"),
+            "saved_at": data.get("saved_at"),
+            "state": state,
+        })
+
+    except Exception as e:
+        logger.exception("Errore callback Tesla | error=%s", e)
+        return jsonify({"ok": False, "error": str(e)}), 500
+    
+@bp.route("/api/tesla/refresh-token", methods=["POST", "GET"])
+def tesla_refresh_token():
+    try:
+        data = refresh_tesla_token()
+
+        return jsonify({
+            "ok": True,
+            "message": "Token Tesla aggiornato correttamente",
+            "has_access_token": bool(data.get("access_token")),
+            "has_refresh_token": bool(data.get("refresh_token")),
+            "expires_in": data.get("expires_in"),
+            "token_type": data.get("token_type"),
+            "saved_at": data.get("saved_at"),
+            "audience": data.get("audience"),
+        })
+
+    except Exception as e:
+        logger.exception("Errore refresh token Tesla | error=%s", e)
+        return jsonify({"ok": False, "error": str(e)}), 500
+    
+
+@bp.route("/api/tesla/wake-up", methods=["POST", "GET"])
+def tesla_wake_up():
+    try:
+        vin = request.args.get("vin") or os.getenv("TESLA_VIN", "")
+
+        if not vin:
+            return jsonify({"ok": False, "error": "TESLA_VIN mancante"}), 500
+
+        data = wake_up_vehicle(vin)
+
+        return jsonify({
+            "ok": True,
+            "vin": vin,
+            "command": "wake_up",
+            "response": data,
+        })
+
+    except Exception as e:
+        logger.exception("Errore wake_up Tesla | error=%s", e)
+        return jsonify({"ok": False, "error": str(e)}), 500

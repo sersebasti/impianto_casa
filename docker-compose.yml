@@ -11,6 +11,8 @@ services:
       - ./logs:/app/logs
     restart: unless-stopped
     command: ["python", "app.py"]
+    depends_on:
+      - tesla_http_proxy
 
   battery_fit:
     build: .
@@ -23,3 +25,21 @@ services:
       - ./tools/statistics:/app/tools/statistics
     restart: "no"
     command: ["tail", "-f", "/dev/null"]
+
+  tesla_http_proxy:
+    image: tesla/vehicle-command:latest
+    container_name: tesla_http_proxy
+    ports:
+      - "4443:4443"
+    environment:
+      - TESLA_HTTP_PROXY_TLS_CERT=/config/cert.pem
+      - TESLA_HTTP_PROXY_TLS_KEY=/config/key.pem
+      - TESLA_HTTP_PROXY_HOST=0.0.0.0
+      - TESLA_HTTP_PROXY_PORT=4443
+      - TESLA_HTTP_PROXY_TIMEOUT=10s
+      - TESLA_KEY_FILE=/config/private-key.pem
+      - TESLA_VERBOSE=true
+    volumes:
+      - ./tesla-proxy-config:/config
+      - ./tesla-proxy-home:/home/nonroot
+    restart: unless-stopped

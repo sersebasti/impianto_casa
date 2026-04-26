@@ -1,0 +1,8 @@
+{
+  "received_at": "2026-04-26 10:37:52",
+  "code": "EU_y9qj8f0a9vkzea789ba90e6vl2gtb7m5yr9j0mvt91o39dkm",
+  "state": "manual-test",
+  "error": null,
+  "error_description": null,
+  "full_query": "code=EU_y9qj8f0a9vkzea789ba90e6vl2gtb7m5yr9j0mvt91o39dkm&issuer=https%3A%2F%2Fauth.tesla.com%2Foauth2%2Fv3&state=manual-test"
+}
