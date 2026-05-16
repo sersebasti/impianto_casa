@@ -266,235 +266,852 @@ def check_registered_devices_on_lan(logger):
     return None
 
 
-def acquire_and_save_sensors_data(logger, lan_result):
-    """
-    Task: acquisisce dati dai sensori LAN trovati da lan_scanner e li salva su SQLite.
+def acquire_and_save_sensors_status_data(logger):
 
-    Sensori gestiti:
-    - Produzione Fronius:
-        http://IP/power_sensor?id=pz1
+    import os
+    import json
+    import time
+    import sqlite3
+    import requests
 
-    - Shelly EM3 Assorbimenti da ENEL:
-        http://IP/status
-    """
+    from datetime import datetime
 
-    logger.info(
-        "[TASK] acquire_and_save_sensors_data START | found_registered_count=%s | missing_count=%s",
-        lan_result.get("found_registered_count"),
-        lan_result.get("missing_count"),
+    session = requests.Session()
+
+    db_path = os.getenv(
+        "DB_PATH",
+        "data/solar.db",
     )
 
-    db_path = Path(os.getenv("DB_PATH", "data/solar.db"))
-    timeout_seconds = int(os.getenv("SENSORS_HTTP_TIMEOUT_SECONDS", "10"))
+    try:
 
-    found_devices = lan_result.get("found_registered_devices", []) or []
-
-    if not found_devices:
-        logger.warning(
-            "[TASK] acquire_and_save_sensors_data SKIP | nessun dispositivo trovato"
+        devices_url = (
+            "http://host.docker.internal:5001/devices"
         )
-        return None
 
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row
+        logger.info(
+            "[TASK] devices request START | url=%s",
+            devices_url,
+        )
+
+        r = session.get(
+            devices_url,
+            timeout=(3, 10),
+        )
+
+        r.raise_for_status()
+
+        devices = r.json()
+
+        logger.info(
+            "[TASK] devices loaded OK | count=%s",
+            len(devices),
+        )
+
+    except Exception as e:
+
+        logger.exception(
+            "[TASK] devices request FAILED | error=%s",
+            e,
+        )
+
+        session.close()
+
+        return False
+
+    conn = None
 
     try:
+
+        conn = sqlite3.connect(
+            db_path,
+            timeout=30,
+        )
+
         cur = conn.cursor()
-        saved_count = 0
 
-        for dev in found_devices:
-            description = dev.get("description")
-            ip = dev.get("ip")
-            macaddress = dev.get("macaddress")
-            configured_type = dev.get("configured_type")
+        for dev in devices:
 
-            if not ip:
-                logger.warning(
-                    "[TASK] sensore SKIP | description=%s | motivo=ip mancante",
-                    description,
+            device_id = dev.get("id")
+            device_description = dev.get("description")
+            device_type = dev.get("device_type")
+
+            try:
+
+                url = (
+                    f"http://host.docker.internal:5001/"
+                    f"{device_id}/measurment"
+                    f"?endpoint=status"
                 )
-                continue
-
-            # =========================================================
-            # 1) Produzione Fronius / ESP32
-            # =========================================================
-            if description == "Produzione Fronius":
-                channel_index = 1
-                endpoint = f"http://{ip}/power_sensor?id=pz{channel_index}"
 
                 logger.info(
-                    "[TASK] Lettura sensore START | name=%s | endpoint=%s",
-                    description,
-                    endpoint,
+                    "[TASK] status request START | "
+                    "device_id=%s | desc=%s | type=%s",
+                    device_id,
+                    device_description,
+                    device_type,
                 )
 
-                try:
-                    r = requests.get(endpoint, timeout=timeout_seconds)
-                    r.raise_for_status()
-                    payload = r.json()
+                started = time.time()
 
-                    data = payload.get("data", {}) or {}
+                r = session.get(
+                    url,
+                    timeout=(3, 10),
+                )
 
-                    cur.execute("""
-                        INSERT INTO sensor_snapshots (
+                elapsed = round(
+                    time.time() - started,
+                    2,
+                )
+
+                r.raise_for_status()
+
+                resp = r.json()
+
+                logger.info(
+                    "[TASK] status response OK | "
+                    "device_id=%s | elapsed=%ss",
+                    device_id,
+                    elapsed,
+                )
+
+                if not resp.get("ok"):
+
+                    logger.error(
+                        "[TASK] status response NOT OK | "
+                        "device_id=%s | resp=%s",
+                        device_id,
+                        resp,
+                    )
+
+                    session.close()
+
+                    conn.close()
+
+                    return False
+
+                response = resp.get("response") or {}
+
+                if device_type == "esp32":
+
+                    cur.execute(
+                        '''
+                        INSERT INTO sensor_status_snapshots (
                             created_at,
-                            sensor_name,
-                            sensor_type,
-                            ip,
-                            macaddress,
-                            endpoint,
-                            channel_index,
+                            device_id,
                             ok,
-                            voltage,
-                            current,
-                            power,
-                            power_factor,
-                            frequency,
-                            energy,
-                            total_power,
+                            ip_status,
+                            wifi_ssid,
+                            wifi_rssi,
+                            uptime_s,
+                            heap_free,
+                            version,
                             raw_json
                         )
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    """, (
-                        datetime.now().isoformat(timespec="seconds"),
-                        description,
-                        configured_type,
-                        ip,
-                        macaddress,
-                        endpoint,
-                        channel_index,
-                        1 if payload.get("ok") else 0,
-                        data.get("voltage"),
-                        data.get("current"),
-                        data.get("power"),
-                        data.get("power_factor"),
-                        data.get("frequency"),
-                        data.get("energy"),
-                        None,
-                        json.dumps(payload, ensure_ascii=False),
-                    ))
-
-                    saved_count += 1
-
-                    logger.info(
-                        "[TASK] Lettura sensore OK | name=%s | channel=%s | voltage=%s | current=%s | power=%s",
-                        description,
-                        channel_index,
-                        data.get("voltage"),
-                        data.get("current"),
-                        data.get("power"),
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        ''',
+                        (
+                            datetime.now().isoformat(
+                                timespec="seconds"
+                            ),
+                            device_id,
+                            1,
+                            response.get("ip"),
+                            response.get("ssid"),
+                            response.get("rssi"),
+                            response.get("uptime_s"),
+                            response.get("heap_free"),
+                            response.get("version"),
+                            json.dumps(
+                                resp,
+                                ensure_ascii=False,
+                            ),
+                        )
                     )
 
-                except Exception as e:
-                    logger.exception(
-                        "[TASK] Lettura sensore ERROR | name=%s | endpoint=%s | error=%s",
-                        description,
-                        endpoint,
-                        e,
+                elif device_type == "shelly":
+
+                    wifi_sta = (
+                        response.get("wifi_sta")
+                        or {}
                     )
 
-            # =========================================================
-            # 2) Shelly EM3
-            # =========================================================
-            elif description == "Shelly EM3 Assorbimenti da ENEL":
-                endpoint = f"http://{ip}/status"
+                    cur.execute(
+                        '''
+                        INSERT INTO sensor_status_snapshots (
+                            created_at,
+                            device_id,
+                            ok,
+                            ip_status,
+                            wifi_ssid,
+                            wifi_rssi,
+                            uptime_s,
+                            heap_free,
+                            version,
+                            raw_json
+                        )
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        ''',
+                        (
+                            datetime.now().isoformat(
+                                timespec="seconds"
+                            ),
+                            device_id,
+                            1,
+                            wifi_sta.get("ip"),
+                            wifi_sta.get("ssid"),
+                            wifi_sta.get("rssi"),
+                            response.get("uptime"),
+                            response.get("ram_free"),
+                            (
+                                response.get("update", {})
+                                .get("old_version")
+                            ),
+                            json.dumps(
+                                resp,
+                                ensure_ascii=False,
+                            ),
+                        )
+                    )
+
+                else:
+
+                    logger.error(
+                        "[TASK] unsupported device type | "
+                        "device_id=%s | type=%s",
+                        device_id,
+                        device_type,
+                    )
+
+                    session.close()
+
+                    conn.close()
+
+                    return False
 
                 logger.info(
-                    "[TASK] Lettura Shelly START | name=%s | endpoint=%s",
-                    description,
-                    endpoint,
+                    "[TASK] status snapshot saved | "
+                    "device_id=%s",
+                    device_id,
                 )
 
-                try:
-                    r = requests.get(endpoint, timeout=timeout_seconds)
-                    r.raise_for_status()
-                    payload = r.json()
+            except Exception as e:
 
-                    emeters = payload.get("emeters", []) or []
-                    total_power = payload.get("total_power")
-
-                    for idx, em in enumerate(emeters):
-                        channel_index = idx
-
-                        cur.execute("""
-                            INSERT INTO sensor_snapshots (
-                                created_at,
-                                sensor_name,
-                                sensor_type,
-                                ip,
-                                macaddress,
-                                endpoint,
-                                channel_index,
-                                ok,
-                                voltage,
-                                current,
-                                power,
-                                power_factor,
-                                frequency,
-                                energy,
-                                total_power,
-                                raw_json
-                            )
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                        """, (
-                            datetime.now().isoformat(timespec="seconds"),
-                            f"{description} L{idx + 1}",
-                            configured_type,
-                            ip,
-                            macaddress,
-                            endpoint,
-                            channel_index,
-                            1 if em.get("is_valid") else 0,
-                            em.get("voltage"),
-                            em.get("current"),
-                            em.get("power"),
-                            em.get("pf"),
-                            None,
-                            em.get("total"),
-                            total_power,
-                            json.dumps(payload, ensure_ascii=False),
-                        ))
-
-                        saved_count += 1
-
-                    logger.info(
-                        "[TASK] Lettura Shelly OK | name=%s | channels=%s | total_power=%s",
-                        description,
-                        len(emeters),
-                        total_power,
-                    )
-
-                except Exception as e:
-                    logger.exception(
-                        "[TASK] Lettura Shelly ERROR | name=%s | endpoint=%s | error=%s",
-                        description,
-                        endpoint,
-                        e,
-                    )
-
-            else:
-                logger.info(
-                    "[TASK] sensore ignorato | description=%s | ip=%s | type=%s",
-                    description,
-                    ip,
-                    configured_type,
+                logger.exception(
+                    "[TASK] device FAILED | "
+                    "device_id=%s | error=%s",
+                    device_id,
+                    e,
                 )
+
+                session.close()
+
+                conn.close()
+
+                return False
 
         conn.commit()
 
         logger.info(
-            "[TASK] acquire_and_save_sensors_data END | saved_count=%s",
-            saved_count,
+            "[TASK] all status snapshots saved OK"
         )
 
-        return {
-            "ok": True,
-            "saved_count": saved_count,
-        }
+        session.close()
 
-    finally:
         conn.close()
 
+        return True
+
+    except Exception as e:
+
+        logger.exception(
+            "[TASK] global acquire status FAILED | error=%s",
+            e,
+        )
+
+        try:
+            if conn:
+                conn.close()
+        except:
+            pass
+
+        session.close()
+
+        return False
+
+
+def acquire_and_save_sensors_measurements_data(logger):
+
+    import os
+    import json
+    import time
+    import sqlite3
+    import requests
+
+    from datetime import datetime
+
+    session = requests.Session()
+
+    db_path = os.getenv(
+        "DB_PATH",
+        "data/solar.db",
+    )
+
+    #
+    # CONFIGURABLE COOLDOWNS
+    #
+
+    same_device_sleep = float(
+        os.getenv(
+            "MEASUREMENT_SAME_DEVICE_SLEEP_SECONDS",
+            "2",
+        )
+    )
+
+    different_device_sleep = float(
+        os.getenv(
+            "MEASUREMENT_DIFFERENT_DEVICE_SLEEP_SECONDS",
+            "0.5",
+        )
+    )
+
+    connect_timeout = int(
+        os.getenv(
+            "MEASUREMENT_CONNECT_TIMEOUT_SECONDS",
+            "5",
+        )
+    )
+
+    read_timeout = int(
+        os.getenv(
+            "MEASUREMENT_READ_TIMEOUT_SECONDS",
+            "40",
+        )
+    )
+
+    conn = None
+
+    try:
+
+        ##################################################################
+        # LOAD CONFIG
+        ##################################################################
+
+        logger.info("")
+        logger.info("##################################################################")
+        logger.info("################ LOAD MEASUREMENTS CONFIG #######################")
+        logger.info("##################################################################")
+
+        logger.info(
+            "[TASK] Loading sensor measurements config"
+        )
+
+        conn = sqlite3.connect(
+            db_path,
+            timeout=30,
+        )
+
+        conn.row_factory = sqlite3.Row
+
+        cur = conn.cursor()
+
+        cur.execute(
+            '''
+            SELECT *
+            FROM sensor_measurements_config
+            WHERE enabled = 1
+            ORDER BY device_id, id
+            '''
+        )
+
+        configs = [
+            dict(row)
+            for row in cur.fetchall()
+        ]
+
+        logger.info(
+            "[TASK] Loaded measurement configs | count=%s",
+            len(configs),
+        )
+
+        ##################################################################
+        # EXECUTE MEASUREMENTS
+        ##################################################################
+
+        previous_device_id = None
+
+        for cfg in configs:
+
+            config_id = cfg.get("id")
+
+            device_id = cfg.get("device_id")
+
+            endpoint_query = cfg.get(
+                "endpoint_query"
+            )
+
+            description = cfg.get(
+                "description"
+            )
+
+            http_method = (
+                cfg.get("http_method")
+                or "GET"
+            ).upper()
+
+            ##################################################################
+            # DEVICE COOLDOWN
+            ##################################################################
+
+            if previous_device_id == device_id:
+
+                logger.info("")
+                logger.info("############################################################")
+                logger.info("############ SAME DEVICE COOLDOWN ##########################")
+                logger.info("############################################################")
+
+                logger.info(
+                    "[TASK] Cooldown START | "
+                    "same device | "
+                    "device_id=%s | "
+                    "sleep=%ss",
+                    device_id,
+                    same_device_sleep,
+                )
+
+                time.sleep(
+                    same_device_sleep
+                )
+
+                logger.info(
+                    "[TASK] Cooldown END | "
+                    "same device | "
+                    "device_id=%s",
+                    device_id,
+                )
+
+            else:
+
+                logger.info("")
+                logger.info("############################################################")
+                logger.info("########### DIFFERENT DEVICE COOLDOWN ######################")
+                logger.info("############################################################")
+
+                logger.info(
+                    "[TASK] Cooldown START | "
+                    "device switch | "
+                    "device_id=%s | "
+                    "sleep=%ss",
+                    device_id,
+                    different_device_sleep,
+                )
+
+                time.sleep(
+                    different_device_sleep
+                )
+
+                logger.info(
+                    "[TASK] Cooldown END | "
+                    "device switch | "
+                    "device_id=%s",
+                    device_id,
+                )
+
+            previous_device_id = device_id
+
+            ##################################################################
+            # START REQUEST
+            ##################################################################
+
+            logger.info("")
+            logger.info("############################################################")
+            logger.info("################# MEASUREMENT REQUEST ######################")
+            logger.info("############################################################")
+
+            logger.info(
+                "[TASK] Measurement START | "
+                "config_id=%s | "
+                "device_id=%s | "
+                "description=%s",
+                config_id,
+                device_id,
+                description,
+            )
+
+            try:
+
+                url = (
+                    f"http://host.docker.internal:5001/"
+                    f"{device_id}/measurment"
+                    f"?endpoint={endpoint_query}"
+                )
+
+                logger.info(
+                    "[TASK] HTTP request START | "
+                    "method=%s | "
+                    "url=%s | "
+                    "connect_timeout=%s | "
+                    "read_timeout=%s",
+                    http_method,
+                    url,
+                    connect_timeout,
+                    read_timeout,
+                )
+
+                started = time.time()
+
+                ##################################################################
+                # HTTP CALL
+                ##################################################################
+
+                if http_method == "GET":
+
+                    r = session.get(
+                        url,
+                        timeout=(
+                            connect_timeout,
+                            read_timeout,
+                        ),
+                    )
+
+                else:
+
+                    logger.error(
+                        "[TASK] Unsupported HTTP method | "
+                        "config_id=%s | "
+                        "method=%s",
+                        config_id,
+                        http_method,
+                    )
+
+                    session.close()
+
+                    conn.close()
+
+                    return False
+
+                elapsed = round(
+                    time.time() - started,
+                    2,
+                )
+
+                logger.info(
+                    "[TASK] HTTP request END | "
+                    "status_code=%s | "
+                    "elapsed=%ss",
+                    r.status_code,
+                    elapsed,
+                )
+
+                r.raise_for_status()
+
+                resp = r.json()
+
+                ##################################################################
+                # VALIDATE RESPONSE
+                ##################################################################
+
+                if not resp.get("ok"):
+
+                    logger.error(
+                        "[TASK] Measurement NOT OK | "
+                        "config_id=%s | "
+                        "response=%s",
+                        config_id,
+                        resp,
+                    )
+
+                    session.close()
+
+                    conn.close()
+
+                    return False
+
+                logger.info(
+                    "[TASK] Measurement response VALID | "
+                    "config_id=%s",
+                    config_id,
+                )
+
+                response = (
+                    resp.get("response")
+                    or {}
+                )
+
+                ##################################################################
+                # NORMALIZATION
+                ##################################################################
+
+                voltage = None
+                current = None
+                power = None
+                power_factor = None
+                energy = None
+                frequency = None
+                apparent_power = None
+                total_power = None
+
+                #
+                # Shelly emeter/*
+                #
+
+                if isinstance(response, dict):
+
+                    voltage = (
+                        response.get("voltage")
+                        or voltage
+                    )
+
+                    current = (
+                        response.get("current")
+                        or current
+                    )
+
+                    power = (
+                        response.get("power")
+                        or power
+                    )
+
+                    power_factor = (
+                        response.get("pf")
+                        or power_factor
+                    )
+
+                    energy = (
+                        response.get("total")
+                        or energy
+                    )
+
+                    frequency = (
+                        response.get("frequency")
+                        or frequency
+                    )
+
+                    total_power = (
+                        response.get("total_power")
+                        or total_power
+                    )
+
+                #
+                # ESP32 power_sensor
+                #
+
+                data = (
+                    response.get("data")
+                    if isinstance(response, dict)
+                    else None
+                )
+
+                if isinstance(data, dict):
+
+                    voltage = (
+                        data.get("voltage")
+                        or voltage
+                    )
+
+                    current = (
+                        data.get("current")
+                        or current
+                    )
+
+                    power = (
+                        data.get("power")
+                        or power
+                    )
+
+                    power_factor = (
+                        data.get("power_factor")
+                        or power_factor
+                    )
+
+                    energy = (
+                        data.get("energy")
+                        or energy
+                    )
+
+                    frequency = (
+                        data.get("frequency")
+                        or frequency
+                    )
+
+                #
+                # ESP32 power
+                #
+
+                if isinstance(response, dict):
+
+                    voltage = (
+                        response.get("volts_rms")
+                        or voltage
+                    )
+
+                    current = (
+                        response.get("amps_rms")
+                        or current
+                    )
+
+                    power = (
+                        response.get("power_w")
+                        or power
+                    )
+
+                    power_factor = (
+                        response.get("power_factor")
+                        or power_factor
+                    )
+
+                    apparent_power = (
+                        response.get(
+                            "apparent_power_va"
+                        )
+                        or apparent_power
+                    )
+
+                logger.info(
+                    "[TASK] Normalization END | "
+                    "power=%s | "
+                    "voltage=%s | "
+                    "current=%s | "
+                    "pf=%s",
+                    power,
+                    voltage,
+                    current,
+                    power_factor,
+                )
+
+                ##################################################################
+                # SAVE SNAPSHOT
+                ##################################################################
+
+                cur.execute(
+                    '''
+                    INSERT INTO
+                    sensor_measurement_snapshots (
+
+                        created_at,
+
+                        device_id,
+
+                        measurement_config_id,
+
+                        ok,
+
+                        voltage,
+
+                        current,
+
+                        power,
+
+                        power_factor,
+
+                        energy,
+
+                        frequency,
+
+                        apparent_power,
+
+                        total_power,
+
+                        raw_json
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ''',
+                    (
+                        datetime.now().isoformat(
+                            timespec="seconds"
+                        ),
+
+                        device_id,
+
+                        config_id,
+
+                        1,
+
+                        voltage,
+
+                        current,
+
+                        power,
+
+                        power_factor,
+
+                        energy,
+
+                        frequency,
+
+                        apparent_power,
+
+                        total_power,
+
+                        json.dumps(
+                            resp,
+                            ensure_ascii=False,
+                        ),
+                    )
+                )
+
+                conn.commit()
+
+                logger.info(
+                    "[TASK] Snapshot saved OK | "
+                    "config_id=%s",
+                    config_id,
+                )
+
+            except Exception as e:
+
+                logger.exception(
+                    "[TASK] Measurement FAILED | "
+                    "config_id=%s | "
+                    "device_id=%s | "
+                    "description=%s | "
+                    "error=%s",
+                    config_id,
+                    device_id,
+                    description,
+                    e,
+                )
+
+                session.close()
+
+                conn.close()
+
+                return False
+
+        ##################################################################
+        # END
+        ##################################################################
+
+        logger.info("")
+        logger.info("##################################################################")
+        logger.info("############ ALL MEASUREMENTS COMPLETED #########################")
+        logger.info("##################################################################")
+
+        session.close()
+
+        conn.close()
+
+        return True
+
+    except Exception as e:
+
+        logger.exception(
+            "[TASK] acquire_and_save_sensors_measurements_data FAILED | "
+            "error=%s",
+            e,
+        )
+
+        try:
+
+            if conn:
+                conn.close()
+
+        except:
+            pass
+
+        session.close()
+
+        return False
 
 
 

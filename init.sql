@@ -125,3 +125,403 @@ CREATE TABLE IF NOT EXISTS sensor_snapshots (
     total_power REAL,
     raw_json TEXT
 );
+/*
+CREATE TABLE sensor_measurements_config (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    device_id INTEGER NOT NULL,
+
+    call_type TEXT NOT NULL,
+
+    http_method TEXT DEFAULT 'GET',
+
+    endpoint_query TEXT NOT NULL,
+
+    payload TEXT,
+
+    response_structure TEXT,
+
+    description TEXT,
+
+    enabled INTEGER DEFAULT 1
+);
+
+-- Shelly EM3 fase 1
+INSERT INTO sensor_measurements_config (
+    device_id,
+    call_type,
+    http_method,
+    endpoint_query,
+    payload,
+    response_structure,
+    description,
+    enabled
+)
+VALUES (
+    2,
+    'measurment',
+    'GET',
+    'emeter/1',
+    NULL,
+    '{
+        "response": {
+            "current": "<float>",
+            "is_valid": "<bool>",
+            "pf": "<float>",
+            "power": "<float>",
+            "total": "<float>",
+            "total_returned": "<float>",
+            "voltage": "<float>"
+        }
+    }',
+    'Assorbimento Totale da Manyi',
+    1
+);
+
+-- Shelly EM3 fase 2
+INSERT INTO sensor_measurements_config (
+    device_id,
+    call_type,
+    http_method,
+    endpoint_query,
+    payload,
+    response_structure,
+    description,
+    enabled
+)
+VALUES (
+    2,
+    'measurment',
+    'GET',
+    'emeter/2',
+    NULL,
+    '{
+        "response": {
+            "current": "<float>",
+            "is_valid": "<bool>",
+            "pf": "<float>",
+            "power": "<float>",
+            "total": "<float>",
+            "total_returned": "<float>",
+            "voltage": "<float>"
+        }
+    }',
+    'Assorbimento Auto da Manyi',
+    1
+);
+
+-- Shelly status
+INSERT INTO sensor_measurements_config (
+    device_id,
+    call_type,
+    http_method,
+    endpoint_query,
+    payload,
+    response_structure,
+    description,
+    enabled
+)
+VALUES (
+    2,
+    'measurment',
+    'GET',
+    'status',
+    NULL,
+    '{
+        "response": {
+            "actions_stats": {},
+            "cloud": {},
+            "emeters": [],
+            "mqtt": {},
+            "relays": [],
+            "update": {},
+            "wifi_sta": {}
+        }
+    }',
+    'Shelly Status',
+    1
+);
+
+-- ESP32 Fronius power_sensor
+INSERT INTO sensor_measurements_config (
+    device_id,
+    call_type,
+    http_method,
+    endpoint_query,
+    payload,
+    response_structure,
+    description,
+    enabled
+)
+VALUES (
+    1,
+    'measurment',
+    'GET',
+    'power_sensor&id=pz1',
+    NULL,
+    '{
+        "response": {
+            "data": {
+                "alarm": "<int>",
+                "current": "<float>",
+                "energy": "<float>",
+                "frequency": "<float>",
+                "power": "<float>",
+                "power_factor": "<float>",
+                "voltage": "<float>"
+            },
+            "ok": "<bool>"
+        }
+    }',
+    'Produzione Fronius',
+    1
+);
+
+-- ESP32 Fronius status
+INSERT INTO sensor_measurements_config (
+    device_id,
+    call_type,
+    http_method,
+    endpoint_query,
+    payload,
+    response_structure,
+    description,
+    enabled
+)
+VALUES (
+    1,
+    'measurment',
+    'GET',
+    'status',
+    NULL,
+    '{
+        "response": {
+            "heap_free": "<int>",
+            "ip": "<string>",
+            "mac_sta": "<string>",
+            "name": "<string>",
+            "rssi": "<int>",
+            "ssid": "<string>",
+            "uptime_s": "<int>",
+            "version": "<string>"
+        }
+    }',
+    'ESP32 Fronius Status',
+    1
+);
+
+-- ESP32 Main Status
+INSERT INTO sensor_measurements_config (
+    device_id,
+    call_type,
+    http_method,
+    endpoint_query,
+    payload,
+    response_structure,
+    description,
+    enabled
+)
+VALUES (
+    3,
+    'measurment',
+    'GET',
+    'status',
+    NULL,
+    '{
+        "response": {
+            "heap_free": "<int>",
+            "ip": "<string>",
+            "mac_sta": "<string>",
+            "name": "<string>",
+            "rssi": "<int>",
+            "ssid": "<string>",
+            "uptime_s": "<int>",
+            "version": "<string>"
+        }
+    }',
+    'ESP32 Main Status',
+    1
+);
+
+-- Assorbimento Input Manyi
+INSERT INTO sensor_measurements_config (
+    device_id,
+    call_type,
+    http_method,
+    endpoint_query,
+    payload,
+    response_structure,
+    description,
+    enabled
+)
+VALUES (
+    3,
+    'measurment',
+    'GET',
+    'power&voltage_sensor_id=v1&current_sensor_id=c1&n=800&sr=4000&fast=1&phase_shift=1',
+    NULL,
+    '{
+        "response": {
+            "amps_rms": "<float>",
+            "power_w": "<float>",
+            "volts_rms": "<float>",
+            "power_factor": "<float>"
+        }
+    }',
+    'Assorbimento Input Manyi',
+    1
+);
+
+-- Assorbimento Totale da ENEL BIS
+INSERT INTO sensor_measurements_config (
+    device_id,
+    call_type,
+    http_method,
+    endpoint_query,
+    payload,
+    response_structure,
+    description,
+    enabled
+)
+VALUES (
+    3,
+    'measurment',
+    'GET',
+    'power&voltage_sensor_id=v1&current_sensor_id=c2&n=800&sr=4000&fast=1&phase_shift=1',
+    NULL,
+    '{
+        "response": {
+            "amps_rms": "<float>",
+            "power_w": "<float>",
+            "volts_rms": "<float>",
+            "power_factor": "<float>"
+        }
+    }',
+    'Assorbimento Totale da ENEL BIS',
+    1
+);
+
+-- Assorbimento Auto da ENEL
+INSERT INTO sensor_measurements_config (
+    device_id,
+    call_type,
+    http_method,
+    endpoint_query,
+    payload,
+    response_structure,
+    description,
+    enabled
+)
+VALUES (
+    3,
+    'measurment',
+    'GET',
+    'power&voltage_sensor_id=v1&current_sensor_id=c3&n=800&sr=4000&fast=1&phase_shift=1',
+    NULL,
+    '{
+        "response": {
+            "amps_rms": "<float>",
+            "power_w": "<float>",
+            "volts_rms": "<float>",
+            "power_factor": "<float>"
+        }
+    }',
+    'Assorbimento Auto da ENEL',
+    1
+);
+
+-- Assorbimento Casa da ENEL
+INSERT INTO sensor_measurements_config (
+    device_id,
+    call_type,
+    http_method,
+    endpoint_query,
+    payload,
+    response_structure,
+    description,
+    enabled
+)
+VALUES (
+    3,
+    'measurment',
+    'GET',
+    'power&voltage_sensor_id=v1&current_sensor_id=c4&n=800&sr=4000&fast=1&phase_shift=1',
+    NULL,
+    '{
+        "response": {
+            "amps_rms": "<float>",
+            "power_w": "<float>",
+            "volts_rms": "<float>",
+            "power_factor": "<float>"
+        }
+    }',
+    'Assorbimento Casa da ENEL',
+    1
+);
+
+-- Relay status
+INSERT INTO sensor_measurements_config (
+    device_id,
+    call_type,
+    http_method,
+    endpoint_query,
+    payload,
+    response_structure,
+    description,
+    enabled
+)
+VALUES (
+    3,
+    'measurment',
+    'GET',
+    'relay',
+    NULL,
+    '{
+        "response": [
+            {
+                "id": "<string>",
+                "is_on": "<bool>",
+                "real_state": "<bool|null>"
+            }
+        ]
+    }',
+    'Stato Relays e Controllo',
+    1
+);
+
+INSERT INTO sensor_measurements_config (
+    device_id,
+    call_type,
+    http_method,
+    endpoint_query,
+    payload,
+    response_structure,
+    description,
+    enabled
+)
+VALUES (
+    3,
+    'measurment',
+    'GET',
+    'power_sensor&id=pz1',
+    NULL,
+    '{
+        "response": {
+            "data": {
+                "alarm": "<int>",
+                "current": "<float>",
+                "energy": "<float>",
+                "frequency": "<float>",
+                "power": "<float>",
+                "power_factor": "<float>",
+                "voltage": "<float>"
+            },
+            "ok": "<bool>"
+        }
+    }',
+    'Assorbimento Totale da ENEL',
+    1
+);
+
+
+*/

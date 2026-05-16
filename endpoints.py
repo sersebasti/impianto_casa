@@ -11,9 +11,7 @@ from db import (
     get_device_metric_history,
 )
 from zoneinfo import ZoneInfo
-from tesla_client import exchange_code_for_token, refresh_tesla_token, wake_up_vehicle, get_vehicle_data, tesla_charge_start, tesla_charge_stop, tesla_set_charging_amps
-
-
+from tesla_client import exchange_code_for_token, refresh_tesla_token, wake_up_vehicle, get_vehicle_data
 
 bp = Blueprint("api_endpoints", __name__)
 
@@ -395,6 +393,355 @@ punti: ${data.count}`;
     </html>
     """)
 
+@bp.route("/sensors", methods=["GET"])
+def sensors_page():
+
+    return render_template_string("""
+    <!doctype html>
+    <html lang="it">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Dashboard Sensori</title>
+
+        <style>
+
+            body {
+                font-family: Arial, sans-serif;
+                background: #f3f4f6;
+                margin: 0;
+                padding: 20px;
+            }
+
+            h1 {
+                margin-bottom: 20px;
+            }
+
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 20px;
+            }
+
+            .card {
+                background: white;
+                border-radius: 16px;
+                padding: 20px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            }
+
+            .device-type {
+                display: inline-block;
+                background: #dbeafe;
+                color: #1d4ed8;
+                padding: 4px 10px;
+                border-radius: 999px;
+                font-size: 12px;
+                margin-top: 8px;
+            }
+
+            .measurements {
+                margin-top: 20px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            button {
+                border: 1px solid #d1d5db;
+                background: #f9fafb;
+                border-radius: 10px;
+                padding: 12px;
+                cursor: pointer;
+                text-align: left;
+                transition: 0.2s;
+            }
+
+            button:hover {
+                background: #eff6ff;
+                border-color: #60a5fa;
+            }
+
+            pre {
+                background: #111827;
+                color: #f9fafb;
+                padding: 16px;
+                border-radius: 12px;
+                overflow: auto;
+                margin-top: 30px;
+            }
+
+        </style>
+    </head>
+
+    <body>
+
+        <h1>Dashboard Sensori</h1>
+
+        <div id="devices" class="grid"></div>
+
+        <pre id="output">Nessuna misura selezionata</pre>
+
+        <script>
+
+            async function loadDevices() {
+
+                const res = await fetch('/api/devices');
+
+                const devices = await res.json();
+
+                const container =
+                    document.getElementById('devices');
+
+                for (const dev of devices) {
+
+                    const card =
+                        document.createElement('div');
+
+                    card.className = 'card';
+
+                    card.innerHTML = `
+                        <h2>${dev.description}</h2>
+
+                        <div class="device-type">
+                            ${dev.device_type}
+                        </div>
+
+                        <div style="margin-top:8px;">
+                            Device ID: ${dev.id}
+                        </div>
+
+                        <div
+                            class="measurements"
+                            id="measurements-${dev.id}"
+                        >
+                        </div>
+                    `;
+
+                    container.appendChild(card);
+
+                    await loadMeasurements(dev.id);
+                }
+            }
+
+            async function loadMeasurements(deviceId) {
+
+                const res = await fetch(
+                    `/api/sensor-measurements-config?device_id=${deviceId}`
+                );
+
+                const data = await res.json();
+
+                console.log(
+                    'Measurements device',
+                    deviceId,
+                    data
+                );
+
+                const container =
+                    document.getElementById(
+                        `measurements-${deviceId}`
+                    );
+
+                if (!data.ok) {
+
+                    container.innerHTML =
+                        '<div>Errore caricamento misure</div>';
+
+                    return;
+                }
+
+                if (!data.rows || data.rows.length === 0) {
+
+                    container.innerHTML =
+                        '<div>Nessuna misura configurata</div>';
+
+                    return;
+                }
+
+                for (const row of data.rows) {
+
+                    const btn =
+                        document.createElement('button');
+
+                    btn.innerText =
+                        row.description || row.endpoint_query;
+
+                    btn.onclick = () =>
+                        executeMeasurement(row);
+
+                    container.appendChild(btn);
+                }
+            }
+
+            async function executeMeasurement(row) {
+
+                try {
+
+                    const url =
+                        `/api/device-measurement?device_id=${row.device_id}&endpoint_query=${encodeURIComponent(row.endpoint_query)}`;
+
+                    console.log('Measurement URL:', url);
+
+                    const res = await fetch(url);
+
+                    const data = await res.json();
+
+                    document.getElementById('output').textContent =
+                        JSON.stringify(data, null, 2);
+
+                } catch (err) {
+
+                    document.getElementById('output').textContent =
+                        'Errore: ' + err;
+                }
+            }
+
+            loadDevices();
+
+        </script>
+
+    </body>
+
+    </html>
+    """)
+
+
+@bp.route("/api/devices", methods=["GET"])
+def api_devices():
+
+    try:
+
+        import requests
+
+        r = requests.get(
+            "http://host.docker.internal:5001/devices",
+            timeout=10,
+        )
+
+        r.raise_for_status()
+
+        data = r.json()
+
+        return jsonify(data)
+
+    except Exception as e:
+
+        logger.exception(
+            "Errore api_devices | error=%s",
+            e,
+        )
+
+        return jsonify({
+            "ok": False,
+            "error": str(e),
+        }), 500
+
+
+@bp.route("/api/device-measurement", methods=["GET"])
+def api_device_measurement():
+
+    try:
+
+        import requests
+
+        device_id = request.args.get("device_id")
+        endpoint_query = request.args.get("endpoint_query")
+
+        url = (
+            f"http://host.docker.internal:5001/"
+            f"{device_id}/measurment"
+            f"?endpoint={endpoint_query}"
+        )
+
+        r = requests.get(
+            url,
+            timeout=20,
+        )
+
+        r.raise_for_status()
+
+        data = r.json()
+
+        return jsonify(data)
+
+    except Exception as e:
+
+        logger.exception(
+            "Errore api_device_measurement | error=%s",
+            e,
+        )
+
+        return jsonify({
+            "ok": False,
+            "error": str(e),
+        }), 500
+
+
+@bp.route("/api/sensor-measurements-config", methods=["GET"])
+def sensor_measurements_config():
+
+    try:
+
+        import sqlite3
+
+        device_id = request.args.get("device_id")
+
+        conn = sqlite3.connect("data/solar.db")
+
+        conn.row_factory = sqlite3.Row
+
+        cur = conn.cursor()
+
+        if device_id:
+
+            cur.execute(
+                '''
+                SELECT *
+                FROM sensor_measurements_config
+                WHERE device_id = ?
+                AND enabled = 1
+                ORDER BY id
+                ''',
+                (device_id,)
+            )
+
+        else:
+
+            cur.execute(
+                '''
+                SELECT *
+                FROM sensor_measurements_config
+                WHERE enabled = 1
+                ORDER BY device_id, id
+                '''
+            )
+
+        rows = [
+            dict(row)
+            for row in cur.fetchall()
+        ]
+
+        conn.close()
+
+        return jsonify({
+            "ok": True,
+            "count": len(rows),
+            "rows": rows,
+        })
+
+    except Exception as e:
+
+        logger.exception(
+            "Errore sensor_measurements_config | error=%s",
+            e,
+        )
+
+        return jsonify({
+            "ok": False,
+            "error": str(e),
+        }), 500
 
 
 
@@ -501,88 +848,4 @@ def tesla_vehicle_data():
 
     except Exception as e:
         logger.exception("Errore vehicle_data Tesla | error=%s", e)
-        return jsonify({"ok": False, "error": str(e)}), 500
-    
-
-@bp.route("/api/tesla/charge/start", methods=["POST", "GET"])
-def api_tesla_charge_start():
-    try:
-        vin = request.args.get("vin") or os.getenv("TESLA_VIN", "")
-
-        if not vin:
-            return jsonify({"ok": False, "error": "TESLA_VIN mancante"}), 500
-
-        data = tesla_charge_start(vin)
-
-        return jsonify({
-            "ok": True,
-            "vin": vin,
-            "command": "charge_start",
-            "response": data,
-        })
-
-    except Exception as e:
-        logger.exception("Errore charge_start Tesla | error=%s", e)
-        return jsonify({"ok": False, "error": str(e)}), 500
-
-
-@bp.route("/api/tesla/charge/stop", methods=["POST", "GET"])
-def api_tesla_charge_stop():
-    try:
-        vin = request.args.get("vin") or os.getenv("TESLA_VIN", "")
-
-        if not vin:
-            return jsonify({"ok": False, "error": "TESLA_VIN mancante"}), 500
-
-        data = tesla_charge_stop(vin)
-
-        return jsonify({
-            "ok": True,
-            "vin": vin,
-            "command": "charge_stop",
-            "response": data,
-        })
-
-    except Exception as e:
-        logger.exception("Errore charge_stop Tesla | error=%s", e)
-        return jsonify({"ok": False, "error": str(e)}), 500
-
-
-@bp.route("/api/tesla/charge/amps", methods=["POST", "GET"])
-def api_tesla_set_charging_amps():
-    try:
-        vin = request.args.get("vin") or os.getenv("TESLA_VIN", "")
-
-        if not vin:
-            return jsonify({"ok": False, "error": "TESLA_VIN mancante"}), 500
-
-        data = request.get_json(silent=True) or {}
-
-        amps = (
-            data.get("charging_amps")
-            or data.get("amps")
-            or request.args.get("charging_amps")
-            or request.args.get("amps")
-        )
-
-        if amps is None:
-            return jsonify({
-                "ok": False,
-                "error": "Parametro mancante: charging_amps oppure amps"
-            }), 400
-
-        amps = int(amps)
-
-        response = tesla_set_charging_amps(vin, amps)
-
-        return jsonify({
-            "ok": True,
-            "vin": vin,
-            "command": "set_charging_amps",
-            "charging_amps": amps,
-            "response": response,
-        })
-
-    except Exception as e:
-        logger.exception("Errore set_charging_amps Tesla | error=%s", e)
         return jsonify({"ok": False, "error": str(e)}), 500

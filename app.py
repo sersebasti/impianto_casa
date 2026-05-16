@@ -7,7 +7,7 @@ from solar_client import SolarClient
 from logger import get_logger
 from zoneinfo import ZoneInfo
 from datetime import datetime
-from polling_tasks import acquire_and_save_inverter_state, check_and_set_bms_communication, check_registered_devices_on_lan, acquire_and_save_sensors_data, check_and_refresh_tesla_token
+from polling_tasks import acquire_and_save_inverter_state, check_and_set_bms_communication, check_registered_devices_on_lan, acquire_and_save_sensors_status_data, check_and_refresh_tesla_token, acquire_and_save_sensors_measurements_data
 
 logger = get_logger("app")
 app = Flask(__name__)
@@ -31,36 +31,208 @@ def polling_loop():
     )
 
     while True:
+
         try:
+
+            logger.info("")
             logger.info("##################################################################")
-            logger.info("##################### Polling START ##############################")
+            logger.info("######################## POLLING START ###########################")
             logger.info("##################################################################")
 
-            check_and_refresh_tesla_token(logger)
-           
-            data = acquire_and_save_inverter_state(client, logger, device_id, data_source)
-           
-            check_and_set_bms_communication(client, logger, device_id, data_source, interval_seconds, data)
-            
-            lan_result = check_registered_devices_on_lan(logger)
+            ##################################################################
+            # TESLA TOKEN
+            ##################################################################
+
+            logger.info("")
+            logger.info("##################################################################")
+            logger.info("######################## TESLA TOKEN #############################")
+            logger.info("##################################################################")
+
+            logger.info("[STEP START] Tesla token check")
+
+            check_and_refresh_tesla_token(
+                logger
+            )
+
+            logger.info("[STEP END] Tesla token check")
+
+            ##################################################################
+            # INVERTER STATE
+            ##################################################################
+
+            logger.info("")
+            logger.info("##################################################################")
+            logger.info("#################### INVERTER STATE ##############################")
+            logger.info("##################################################################")
+
+            logger.info("[STEP START] Inverter state acquisition")
+
+            data = acquire_and_save_inverter_state(
+                client,
+                logger,
+                device_id,
+                data_source,
+            )
+
+            logger.info("[STEP END] Inverter state acquisition")
+
+            ##################################################################
+            # BMS CONTROL
+            ##################################################################
+
+            logger.info("")
+            logger.info("##################################################################")
+            logger.info("######################## BMS CONTROL #############################")
+            logger.info("##################################################################")
+
+            logger.info("[STEP START] BMS control")
+
+            check_and_set_bms_communication(
+                client,
+                logger,
+                device_id,
+                data_source,
+                interval_seconds,
+                data,
+            )
+
+            logger.info("[STEP END] BMS control")
+
+            ##################################################################
+            # LAN DEVICES CHECK
+            ##################################################################
+
+            logger.info("")
+            logger.info("##################################################################")
+            logger.info("###################### LAN DEVICES CHECK #########################")
+            logger.info("##################################################################")
+
+            logger.info("[STEP START] LAN devices check")
+
+            lan_result = check_registered_devices_on_lan(
+                logger
+            )
 
             found_count = 0
+
             if lan_result:
-                found_count = int(lan_result.get("found_registered_count") or 0)
+
+                found_count = int(
+                    lan_result.get(
+                        "found_registered_count"
+                    ) or 0
+                )
+
+            logger.info(
+                "[STEP END] LAN devices check | found_count=%s",
+                found_count,
+            )
+
+            ##################################################################
+            # SENSOR STATUS SNAPSHOTS
+            ##################################################################
+
+            logger.info("")
+            logger.info("##################################################################")
+            logger.info("################### SENSOR STATUS SNAPSHOTS #####################")
+            logger.info("##################################################################")
 
             if found_count > 0:
-                acquire_and_save_sensors_data(logger, lan_result)
+
+                logger.info(
+                    "[STEP START] Sensor status acquisition"
+                )
+
+                status_ok = (
+                    acquire_and_save_sensors_status_data(
+                        logger
+                    )
+                )
+
+                if status_ok:
+
+                    logger.info(
+                        "[STEP END] Sensor status acquisition OK"
+                    )
+
+                else:
+
+                    logger.error(
+                        "[STEP END] Sensor status acquisition FAILED"
+                    )
+
             else:
+
                 logger.warning(
-                    "[TASK] nuovo_task SKIP | nessun dispositivo LAN trovato | result=%s",
-                    lan_result,
-                )    
+                    "[STEP SKIPPED] Sensor status acquisition | "
+                    "nessun dispositivo LAN trovato"
+                )
 
+            ##################################################################
+            # SENSOR MEASUREMENTS SNAPSHOTS
+            ##################################################################
 
-            
+            logger.info("")
+            logger.info("##################################################################")
+            logger.info("################ SENSOR MEASUREMENTS SNAPSHOTS ##################")
+            logger.info("##################################################################")
+
+            if found_count > 0:
+
+                logger.info(
+                    "[STEP START] Sensor measurements acquisition"
+                )
+
+                measurements_ok = (
+                    acquire_and_save_sensors_measurements_data(
+                        logger
+                    )
+                )
+
+                if measurements_ok:
+
+                    logger.info(
+                        "[STEP END] Sensor measurements acquisition OK"
+                    )
+
+                else:
+
+                    logger.error(
+                        "[STEP END] Sensor measurements acquisition FAILED"
+                    )
+
+            else:
+
+                logger.warning(
+                    "[STEP SKIPPED] Sensor measurements acquisition | "
+                    "nessun dispositivo LAN trovato"
+                )
+
+            logger.info("")
+            logger.info("##################################################################")
+            logger.info("######################### POLLING END ############################")
+            logger.info("##################################################################")
+
         except Exception as e:
-            logger.exception("Polling ERROR | error=%s", e)
-        time.sleep(interval_seconds)
+
+            logger.exception(
+                "Polling ERROR | error=%s",
+                e,
+            )
+
+        finally:
+
+            logger.info("")
+            logger.info("##################################################################")
+            logger.info("######################## POLLING SLEEP ###########################")
+            logger.info("##################################################################")
+
+            logger.info(
+                "[POLLING SLEEP] seconds=%s",
+                interval_seconds,
+            )
+
+            time.sleep(interval_seconds)
 
 
 def start_background_polling():
