@@ -3,3 +3,5 @@ requests
 pycryptodome
 numpy
 matplotlib
+flask-cors
+sqlalchemy 

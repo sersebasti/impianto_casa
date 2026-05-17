@@ -283,42 +283,6 @@ def acquire_and_save_sensors_status_data(logger):
         "data/solar.db",
     )
 
-    try:
-
-        devices_url = (
-            "http://host.docker.internal:5001/devices"
-        )
-
-        logger.info(
-            "[TASK] devices request START | url=%s",
-            devices_url,
-        )
-
-        r = session.get(
-            devices_url,
-            timeout=(3, 10),
-        )
-
-        r.raise_for_status()
-
-        devices = r.json()
-
-        logger.info(
-            "[TASK] devices loaded OK | count=%s",
-            len(devices),
-        )
-
-    except Exception as e:
-
-        logger.exception(
-            "[TASK] devices request FAILED | error=%s",
-            e,
-        )
-
-        session.close()
-
-        return False
-
     conn = None
 
     try:
@@ -328,35 +292,68 @@ def acquire_and_save_sensors_status_data(logger):
             timeout=30,
         )
 
+        conn.row_factory = sqlite3.Row
+
         cur = conn.cursor()
 
-        for dev in devices:
+        cur.execute(
+            '''
+            SELECT *
+            FROM sensor_measurements_config
+            WHERE enabled = 1
+              AND call_type = 'status'
+            ORDER BY device_id, id
+            '''
+        )
 
-            device_id = dev.get("id")
-            device_description = dev.get("description")
-            device_type = dev.get("device_type")
+        configs = cur.fetchall()
+
+        logger.info(
+            "[TASK] status configs loaded | count=%s",
+            len(configs),
+        )
+
+        for cfg in configs:
+
+            config_id = cfg["id"]
+            device_id = cfg["device_id"]
+            endpoint_query = cfg["endpoint_query"]
+            http_method = cfg["http_method"]
+            description = cfg["description"]
 
             try:
 
+                logger.info("")
+                logger.info("############################################################")
+                logger.info("################### STATUS REQUEST #########################")
+                logger.info("############################################################")
+
+                logger.info(
+                    "[TASK] Status START | "
+                    "config_id=%s | device_id=%s | desc=%s",
+                    config_id,
+                    device_id,
+                    description,
+                )
+
                 url = (
                     f"http://host.docker.internal:5001/"
-                    f"{device_id}/measurment"
-                    f"?endpoint=status"
+                    f"{device_id}/status"
+                    f"?endpoint={endpoint_query}"
                 )
 
                 logger.info(
-                    "[TASK] status request START | "
-                    "device_id=%s | desc=%s | type=%s",
-                    device_id,
-                    device_description,
-                    device_type,
+                    "[TASK] HTTP request START | "
+                    "method=%s | url=%s",
+                    http_method,
+                    url,
                 )
 
                 started = time.time()
 
                 r = session.get(
                     url,
-                    timeout=(3, 10),
+                    timeout=(5, 20),
                 )
 
                 elapsed = round(
@@ -364,70 +361,69 @@ def acquire_and_save_sensors_status_data(logger):
                     2,
                 )
 
+                logger.info(
+                    "[TASK] HTTP request END | "
+                    "status_code=%s | elapsed=%ss",
+                    r.status_code,
+                    elapsed,
+                )
+
                 r.raise_for_status()
 
                 resp = r.json()
-
-                logger.info(
-                    "[TASK] status response OK | "
-                    "device_id=%s | elapsed=%ss",
-                    device_id,
-                    elapsed,
-                )
 
                 if not resp.get("ok"):
 
                     logger.error(
                         "[TASK] status response NOT OK | "
-                        "device_id=%s | resp=%s",
-                        device_id,
+                        "config_id=%s | resp=%s",
+                        config_id,
                         resp,
                     )
 
-                    session.close()
+                    continue
 
-                    conn.close()
+                logger.info(
+                    "[TASK] Status response VALID | "
+                    "config_id=%s",
+                    config_id,
+                )
 
-                    return False
+                device_type = resp.get("device_type")
 
-                response = resp.get("response") or {}
+                response = (
+                    resp.get("response")
+                    or {}
+                )
+
+                ip_status = None
+                wifi_ssid = None
+                wifi_rssi = None
+                uptime_s = None
+                heap_free = None
+                version = None
+
+                #
+                # ESP32
+                #
 
                 if device_type == "esp32":
 
-                    cur.execute(
-                        '''
-                        INSERT INTO sensor_status_snapshots (
-                            created_at,
-                            device_id,
-                            ok,
-                            ip_status,
-                            wifi_ssid,
-                            wifi_rssi,
-                            uptime_s,
-                            heap_free,
-                            version,
-                            raw_json
-                        )
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                        ''',
-                        (
-                            datetime.now().isoformat(
-                                timespec="seconds"
-                            ),
-                            device_id,
-                            1,
-                            response.get("ip"),
-                            response.get("ssid"),
-                            response.get("rssi"),
-                            response.get("uptime_s"),
-                            response.get("heap_free"),
-                            response.get("version"),
-                            json.dumps(
-                                resp,
-                                ensure_ascii=False,
-                            ),
-                        )
-                    )
+                    ip_status = response.get("ip")
+
+                    wifi_ssid = response.get("ssid")
+
+                    wifi_rssi = response.get("rssi")
+
+                    uptime_s = response.get("uptime_s")
+
+                    heap_free = response.get("heap_free")
+
+                    version = response.get("version")
+
+                #
+                # SHELLY
+                #
 
                 elif device_type == "shelly":
 
@@ -436,43 +432,53 @@ def acquire_and_save_sensors_status_data(logger):
                         or {}
                     )
 
-                    cur.execute(
-                        '''
-                        INSERT INTO sensor_status_snapshots (
-                            created_at,
-                            device_id,
-                            ok,
-                            ip_status,
-                            wifi_ssid,
-                            wifi_rssi,
-                            uptime_s,
-                            heap_free,
-                            version,
-                            raw_json
-                        )
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                        ''',
-                        (
-                            datetime.now().isoformat(
-                                timespec="seconds"
-                            ),
-                            device_id,
-                            1,
-                            wifi_sta.get("ip"),
-                            wifi_sta.get("ssid"),
-                            wifi_sta.get("rssi"),
-                            response.get("uptime"),
-                            response.get("ram_free"),
-                            (
-                                response.get("update", {})
-                                .get("old_version")
-                            ),
-                            json.dumps(
-                                resp,
-                                ensure_ascii=False,
-                            ),
-                        )
+                    ip_status = wifi_sta.get("ip")
+
+                    wifi_ssid = wifi_sta.get("ssid")
+
+                    wifi_rssi = wifi_sta.get("rssi")
+
+                    uptime_s = response.get("uptime")
+
+                    heap_free = response.get("ram_free")
+
+                    version = (
+                        response.get("update", {})
+                        .get("old_version")
                     )
+
+                #
+                # BACKEND HOST
+                #
+
+                elif device_type == "backend_host":
+
+                    ip_status = response.get("ip")
+
+                    wifi_ssid = (
+                        response.get("service_id")
+                    )
+
+                    wifi_rssi = None
+
+                    uptime_s = None
+
+                    heap_free = None
+
+                    version = (
+                        response.get("service")
+                    )
+
+                    logger.info(
+                        "[TASK] backend_host detected | "
+                        "ip=%s | service_id=%s",
+                        ip_status,
+                        wifi_ssid,
+                    )
+
+                #
+                # UNKNOWN
+                #
 
                 else:
 
@@ -483,38 +489,77 @@ def acquire_and_save_sensors_status_data(logger):
                         device_type,
                     )
 
-                    session.close()
+                    continue
 
-                    conn.close()
+                cur.execute(
+                    '''
+                    INSERT INTO sensor_status_snapshots (
 
-                    return False
+                        created_at,
+                        device_id,
+                        ok,
+
+                        ip_status,
+                        wifi_ssid,
+                        wifi_rssi,
+
+                        uptime_s,
+                        heap_free,
+                        version,
+
+                        raw_json
+
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ''',
+                    (
+                        datetime.now().isoformat(
+                            timespec="seconds"
+                        ),
+
+                        device_id,
+
+                        1,
+
+                        ip_status,
+                        wifi_ssid,
+                        wifi_rssi,
+
+                        uptime_s,
+                        heap_free,
+                        version,
+
+                        json.dumps(
+                            resp,
+                            ensure_ascii=False,
+                        ),
+                    )
+                )
 
                 logger.info(
-                    "[TASK] status snapshot saved | "
-                    "device_id=%s",
-                    device_id,
+                    "[TASK] Status snapshot saved OK | "
+                    "config_id=%s",
+                    config_id,
                 )
+
+                conn.commit()
 
             except Exception as e:
 
                 logger.exception(
-                    "[TASK] device FAILED | "
-                    "device_id=%s | error=%s",
+                    "[TASK] Status FAILED | "
+                    "config_id=%s | device_id=%s | error=%s",
+                    config_id,
                     device_id,
                     e,
                 )
 
-                session.close()
+                continue
 
-                conn.close()
-
-                return False
-
-        conn.commit()
-
-        logger.info(
-            "[TASK] all status snapshots saved OK"
-        )
+        logger.info("")
+        logger.info("############################################################")
+        logger.info("############# ALL STATUS COMPLETED #########################")
+        logger.info("############################################################")
 
         session.close()
 
@@ -525,19 +570,453 @@ def acquire_and_save_sensors_status_data(logger):
     except Exception as e:
 
         logger.exception(
-            "[TASK] global acquire status FAILED | error=%s",
+            "[TASK] acquire_and_save_sensors_status_data FAILED | error=%s",
             e,
         )
 
         try:
+
             if conn:
                 conn.close()
+
         except:
             pass
 
         session.close()
 
         return False
+
+
+
+def acquire_and_save_relays_status_data(logger):
+
+    import os
+    import json
+    import sqlite3
+    import requests
+
+    from datetime import datetime
+
+    session = requests.Session()
+
+    db_path = os.getenv(
+        "DB_PATH",
+        "data/solar.db",
+    )
+
+    conn = None
+
+    try:
+
+        logger.info("")
+        logger.info("##################################################################")
+        logger.info("################### RELAYS STATUS SNAPSHOTS #####################")
+        logger.info("##################################################################")
+
+        ##################################################################
+        # DB
+        ##################################################################
+
+        conn = sqlite3.connect(
+            db_path,
+            timeout=30,
+        )
+
+        conn.row_factory = sqlite3.Row
+
+        cur = conn.cursor()
+
+        ##################################################################
+        # LOAD CONFIG
+        ##################################################################
+
+        cur.execute(
+            '''
+            SELECT *
+            FROM sensor_measurements_config
+            WHERE enabled = 1
+              AND id = 13
+            ORDER BY id
+            '''
+        )
+
+        configs = [
+            dict(row)
+            for row in cur.fetchall()
+        ]
+
+        logger.info(
+            "[TASK] Relay configs loaded | count=%s",
+            len(configs),
+        )
+
+        ##################################################################
+        # RELAY STATE SUMMARY
+        ##################################################################
+
+        relay_state_summary = {}
+
+        ##################################################################
+        # LOOP CONFIGS
+        ##################################################################
+
+        for cfg in configs:
+
+            config_id = cfg.get("id")
+
+            device_id = cfg.get("device_id")
+
+            endpoint_query = cfg.get(
+                "endpoint_query"
+            )
+
+            description = cfg.get(
+                "description"
+            )
+
+            http_method = (
+                cfg.get("http_method")
+                or "GET"
+            ).upper()
+
+            call_type = (
+                cfg.get("call_type")
+                or "relay_state"
+            )
+
+            ##################################################################
+            # REQUEST
+            ##################################################################
+
+            logger.info("")
+            logger.info("############################################################")
+            logger.info("################## RELAY REQUEST ###########################")
+            logger.info("############################################################")
+
+            logger.info(
+                "[TASK] Relay request START | "
+                "config_id=%s | "
+                "device_id=%s | "
+                "description=%s",
+                config_id,
+                device_id,
+                description,
+            )
+
+            try:
+
+                ##################################################################
+                # URL
+                ##################################################################
+
+                url = (
+                    f"http://host.docker.internal:5001/"
+                    f"{device_id}/{call_type}"
+                    f"?endpoint={endpoint_query}"
+                )
+
+                logger.info(
+                    "[TASK] HTTP request START | "
+                    "method=%s | "
+                    "url=%s",
+                    http_method,
+                    url,
+                )
+
+                ##################################################################
+                # HTTP CALL
+                ##################################################################
+
+                if http_method == "GET":
+
+                    r = session.get(
+                        url,
+                        timeout=(5, 20),
+                    )
+
+                else:
+
+                    logger.error(
+                        "[TASK] Unsupported HTTP method | "
+                        "config_id=%s | "
+                        "method=%s",
+                        config_id,
+                        http_method,
+                    )
+
+                    continue
+
+                logger.info(
+                    "[TASK] HTTP request END | "
+                    "status_code=%s",
+                    r.status_code,
+                )
+
+                r.raise_for_status()
+
+                resp = r.json()
+
+                ##################################################################
+                # VALIDATE RESPONSE
+                ##################################################################
+
+                if not resp.get("ok"):
+
+                    logger.warning(
+                        "[TASK] Relay response NOT OK | "
+                        "config_id=%s | "
+                        "device_id=%s",
+                        config_id,
+                        device_id,
+                    )
+
+                    continue
+
+                response = (
+                    resp.get("response")
+                    or []
+                )
+
+                if not isinstance(response, list):
+
+                    logger.warning(
+                        "[TASK] Relay response invalid | "
+                        "config_id=%s | "
+                        "device_id=%s",
+                        config_id,
+                        device_id,
+                    )
+
+                    continue
+
+                ##################################################################
+                # SAVE RELAYS
+                ##################################################################
+
+                relay_saved_count = 0
+
+                for relay in response:
+
+                    try:
+
+                        relay_id = relay.get("id")
+
+                        is_on = relay.get("is_on")
+
+                        real_state = relay.get(
+                            "real_state"
+                        )
+
+                        feedback_invert = relay.get(
+                            "feedback_invert"
+                        )
+
+                        feedback_pin = relay.get(
+                            "feedback_pin"
+                        )
+
+                        relay_pin = relay.get(
+                            "pin"
+                        )
+
+                        ##################################################################
+                        # BOOL -> INT
+                        ##################################################################
+
+                        if is_on is not None:
+                            is_on = int(bool(is_on))
+
+                        if real_state is not None:
+                            real_state = int(
+                                bool(real_state)
+                            )
+
+                        if feedback_invert is not None:
+                            feedback_invert = int(
+                                bool(feedback_invert)
+                            )
+
+                        ##################################################################
+                        # SAVE SUMMARY
+                        ##################################################################
+
+                        relay_key_prefix = (
+                            f"device_{device_id}_{relay_id}"
+                        )
+
+                        relay_state_summary[
+                            f"{relay_key_prefix}_is_on"
+                        ] = is_on
+
+                        relay_state_summary[
+                            f"{relay_key_prefix}_real_state"
+                        ] = real_state
+
+                        #
+                        # Shortcut relay1
+                        #
+
+                        if relay_id == "relay1":
+
+                            relay_state_summary[
+                                "relay1_real_state"
+                            ] = real_state
+
+                            relay_state_summary[
+                                "relay1_is_on"
+                            ] = is_on
+
+                        ##################################################################
+                        # DB INSERT
+                        ##################################################################
+
+                        cur.execute(
+                            '''
+                            INSERT INTO
+                            relay_status_snapshots (
+
+                                created_at,
+
+                                device_id,
+
+                                relay_id,
+
+                                is_on,
+
+                                real_state,
+
+                                feedback_invert,
+
+                                feedback_pin,
+
+                                relay_pin,
+
+                                raw_json
+
+                            )
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                            ''',
+                            (
+                                datetime.now().isoformat(
+                                    timespec="seconds"
+                                ),
+
+                                device_id,
+
+                                relay_id,
+
+                                is_on,
+
+                                real_state,
+
+                                feedback_invert,
+
+                                feedback_pin,
+
+                                relay_pin,
+
+                                json.dumps(
+                                    relay,
+                                    ensure_ascii=False,
+                                ),
+                            )
+                        )
+
+                        relay_saved_count += 1
+
+                        logger.info(
+                            "[TASK] Relay snapshot prepared | "
+                            "device_id=%s | "
+                            "relay_id=%s | "
+                            "is_on=%s | "
+                            "real_state=%s",
+                            device_id,
+                            relay_id,
+                            is_on,
+                            real_state,
+                        )
+
+                    except Exception as e:
+
+                        logger.exception(
+                            "[TASK] Relay save FAILED | "
+                            "device_id=%s | "
+                            "relay=%s | "
+                            "error=%s",
+                            device_id,
+                            relay,
+                            e,
+                        )
+
+                conn.commit()
+
+                logger.info(
+                    "[TASK] Relay snapshot saved | "
+                    "config_id=%s | "
+                    "device_id=%s | "
+                    "count=%s",
+                    config_id,
+                    device_id,
+                    relay_saved_count,
+                )
+
+            except Exception as e:
+
+                logger.exception(
+                    "[TASK] Relay acquisition FAILED | "
+                    "config_id=%s | "
+                    "device_id=%s | "
+                    "error=%s",
+                    config_id,
+                    device_id,
+                    e,
+                )
+
+        ##################################################################
+        # END
+        ##################################################################
+
+        logger.info("")
+        logger.info("##################################################################")
+        logger.info("############ RELAYS STATUS COMPLETED ############################")
+        logger.info("##################################################################")
+
+        logger.info(
+            "[TASK] Relay summary | %s",
+            relay_state_summary,
+        )
+
+        session.close()
+
+        conn.close()
+
+        return {
+            "ok": True,
+            "relay_state_summary": relay_state_summary,
+        }
+
+    except Exception as e:
+
+        logger.exception(
+            "[TASK] acquire_and_save_relays_status_data FAILED | "
+            "error=%s",
+            e,
+        )
+
+        try:
+
+            if conn:
+                conn.close()
+
+        except:
+            pass
+
+        session.close()
+
+        return {
+            "ok": False,
+            "relay_state_summary": {},
+        }
 
 
 def acquire_and_save_sensors_measurements_data(logger):
@@ -551,6 +1030,67 @@ def acquire_and_save_sensors_measurements_data(logger):
     from datetime import datetime
 
     session = requests.Session()
+
+    ##################################################################
+    # HELPERS
+    ##################################################################
+
+    def assign_if_not_none(current_value, new_value):
+
+        """
+        Mantiene current_value solo se new_value è None.
+        Permette invece 0 / 0.0 / False.
+        """
+
+        return (
+            new_value
+            if new_value is not None
+            else current_value
+        )
+
+    def normalize_float(
+        value,
+        *,
+        min_value=None,
+        max_value=None,
+    ):
+
+        """
+        Converte in float e valida range.
+
+        Restituisce:
+            - float valido
+            - None se invalido
+        """
+
+        if value is None:
+            return None
+
+        try:
+
+            value = float(value)
+
+        except Exception:
+
+            return None
+
+        #
+        # Range validation
+        #
+
+        if (
+            min_value is not None
+            and value < min_value
+        ):
+            return None
+
+        if (
+            max_value is not None
+            and value > max_value
+        ):
+            return None
+
+        return value
 
     db_path = os.getenv(
         "DB_PATH",
@@ -620,6 +1160,7 @@ def acquire_and_save_sensors_measurements_data(logger):
             SELECT *
             FROM sensor_measurements_config
             WHERE enabled = 1
+              AND call_type = 'measurment'
             ORDER BY device_id, id
             '''
         )
@@ -658,6 +1199,10 @@ def acquire_and_save_sensors_measurements_data(logger):
                 cfg.get("http_method")
                 or "GET"
             ).upper()
+
+            call_type = cfg.get(
+                "call_type"
+            )
 
             ##################################################################
             # DEVICE COOLDOWN
@@ -732,17 +1277,23 @@ def acquire_and_save_sensors_measurements_data(logger):
                 "[TASK] Measurement START | "
                 "config_id=%s | "
                 "device_id=%s | "
-                "description=%s",
+                "description=%s | "
+                "call_type=%s",
                 config_id,
                 device_id,
                 description,
+                call_type,
             )
 
             try:
 
+                ##################################################################
+                # URL
+                ##################################################################
+
                 url = (
                     f"http://host.docker.internal:5001/"
-                    f"{device_id}/measurment"
+                    f"{device_id}/{call_type}"
                     f"?endpoint={endpoint_query}"
                 )
 
@@ -784,11 +1335,7 @@ def acquire_and_save_sensors_measurements_data(logger):
                         http_method,
                     )
 
-                    session.close()
-
-                    conn.close()
-
-                    return False
+                    continue
 
                 elapsed = round(
                     time.time() - started,
@@ -821,11 +1368,7 @@ def acquire_and_save_sensors_measurements_data(logger):
                         resp,
                     )
 
-                    session.close()
-
-                    conn.close()
-
-                    return False
+                    continue
 
                 logger.info(
                     "[TASK] Measurement response VALID | "
@@ -857,39 +1400,39 @@ def acquire_and_save_sensors_measurements_data(logger):
 
                 if isinstance(response, dict):
 
-                    voltage = (
-                        response.get("voltage")
-                        or voltage
+                    voltage = assign_if_not_none(
+                        voltage,
+                        response.get("voltage"),
                     )
 
-                    current = (
-                        response.get("current")
-                        or current
+                    current = assign_if_not_none(
+                        current,
+                        response.get("current"),
                     )
 
-                    power = (
-                        response.get("power")
-                        or power
+                    power = assign_if_not_none(
+                        power,
+                        response.get("power"),
                     )
 
-                    power_factor = (
-                        response.get("pf")
-                        or power_factor
+                    power_factor = assign_if_not_none(
+                        power_factor,
+                        response.get("pf"),
                     )
 
-                    energy = (
-                        response.get("total")
-                        or energy
+                    energy = assign_if_not_none(
+                        energy,
+                        response.get("total"),
                     )
 
-                    frequency = (
-                        response.get("frequency")
-                        or frequency
+                    frequency = assign_if_not_none(
+                        frequency,
+                        response.get("frequency"),
                     )
 
-                    total_power = (
-                        response.get("total_power")
-                        or total_power
+                    total_power = assign_if_not_none(
+                        total_power,
+                        response.get("total_power"),
                     )
 
                 #
@@ -904,34 +1447,34 @@ def acquire_and_save_sensors_measurements_data(logger):
 
                 if isinstance(data, dict):
 
-                    voltage = (
-                        data.get("voltage")
-                        or voltage
+                    voltage = assign_if_not_none(
+                        voltage,
+                        data.get("voltage"),
                     )
 
-                    current = (
-                        data.get("current")
-                        or current
+                    current = assign_if_not_none(
+                        current,
+                        data.get("current"),
                     )
 
-                    power = (
-                        data.get("power")
-                        or power
+                    power = assign_if_not_none(
+                        power,
+                        data.get("power"),
                     )
 
-                    power_factor = (
-                        data.get("power_factor")
-                        or power_factor
+                    power_factor = assign_if_not_none(
+                        power_factor,
+                        data.get("power_factor"),
                     )
 
-                    energy = (
-                        data.get("energy")
-                        or energy
+                    energy = assign_if_not_none(
+                        energy,
+                        data.get("energy"),
                     )
 
-                    frequency = (
-                        data.get("frequency")
-                        or frequency
+                    frequency = assign_if_not_none(
+                        frequency,
+                        data.get("frequency"),
                     )
 
                 #
@@ -940,32 +1483,78 @@ def acquire_and_save_sensors_measurements_data(logger):
 
                 if isinstance(response, dict):
 
-                    voltage = (
-                        response.get("volts_rms")
-                        or voltage
+                    voltage = assign_if_not_none(
+                        voltage,
+                        response.get("volts_rms"),
                     )
 
-                    current = (
-                        response.get("amps_rms")
-                        or current
+                    current = assign_if_not_none(
+                        current,
+                        response.get("amps_rms"),
                     )
 
-                    power = (
-                        response.get("power_w")
-                        or power
+                    power = assign_if_not_none(
+                        power,
+                        response.get("power_w"),
                     )
 
-                    power_factor = (
-                        response.get("power_factor")
-                        or power_factor
+                    power_factor = assign_if_not_none(
+                        power_factor,
+                        response.get("power_factor"),
                     )
 
-                    apparent_power = (
+                    apparent_power = assign_if_not_none(
+                        apparent_power,
                         response.get(
                             "apparent_power_va"
-                        )
-                        or apparent_power
+                        ),
                     )
+
+                ##################################################################
+                # SANITY NORMALIZATION
+                ##################################################################
+
+                voltage = normalize_float(
+                    voltage,
+                    min_value=100,
+                    max_value=300,
+                )
+
+                current = normalize_float(
+                    current,
+                    min_value=0,
+                    max_value=200,
+                )
+
+                power = normalize_float(
+                    power,
+                    min_value=-50000,
+                    max_value=50000,
+                )
+
+                power_factor = normalize_float(
+                    power_factor,
+                    min_value=-1.2,
+                    max_value=1.2,
+                )
+
+                frequency = normalize_float(
+                    frequency,
+                    min_value=40,
+                    max_value=70,
+                )
+
+                apparent_power = normalize_float(
+                    apparent_power,
+                    min_value=0,
+                    max_value=50000,
+                )
+
+                total_power = normalize_float(
+                    total_power,
+                    min_value=-50000,
+                    max_value=50000,
+                )
 
                 logger.info(
                     "[TASK] Normalization END | "
@@ -1072,11 +1661,7 @@ def acquire_and_save_sensors_measurements_data(logger):
                     e,
                 )
 
-                session.close()
-
-                conn.close()
-
-                return False
+                continue
 
         ##################################################################
         # END
@@ -1112,7 +1697,6 @@ def acquire_and_save_sensors_measurements_data(logger):
         session.close()
 
         return False
-
 
 
 def check_and_refresh_tesla_token(logger):

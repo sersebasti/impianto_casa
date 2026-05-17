@@ -3,14 +3,16 @@ import threading
 import time
 
 from flask import Flask
+from flask_cors import CORS
 from solar_client import SolarClient
 from logger import get_logger
 from zoneinfo import ZoneInfo
 from datetime import datetime
-from polling_tasks import acquire_and_save_inverter_state, check_and_set_bms_communication, check_registered_devices_on_lan, acquire_and_save_sensors_status_data, check_and_refresh_tesla_token, acquire_and_save_sensors_measurements_data
+from polling_tasks import acquire_and_save_inverter_state, check_and_set_bms_communication, check_registered_devices_on_lan, acquire_and_save_sensors_status_data, check_and_refresh_tesla_token, acquire_and_save_sensors_measurements_data, acquire_and_save_relays_status_data
 
 logger = get_logger("app")
 app = Flask(__name__)
+CORS(app)
 client = SolarClient()
 
 
@@ -169,6 +171,66 @@ def polling_loop():
                 )
 
             ##################################################################
+            # RELAYS STATUS SNAPSHOTS
+            ##################################################################
+
+            logger.info("")
+            logger.info("##################################################################")
+            logger.info("################### RELAYS STATUS SNAPSHOTS #####################")
+            logger.info("##################################################################")
+
+            relay_result = None
+
+            relay1_real_state = None
+
+            if found_count > 0:
+
+                logger.info(
+                    "[STEP START] Relay status acquisition"
+                )
+
+                relay_result = (
+                    acquire_and_save_relays_status_data(
+                        logger
+                    )
+                )
+
+                if (
+                    relay_result
+                    and relay_result.get("ok")
+                ):
+
+                    relay1_real_state = (
+                        relay_result
+                        .get(
+                            "relay_state_summary",
+                            {},
+                        )
+                        .get(
+                            "relay1_real_state"
+                        )
+                    )
+
+                    logger.info(
+                        "[STEP END] Relay status acquisition OK | "
+                        "relay1_real_state=%s",
+                        relay1_real_state,
+                    )
+
+                else:
+
+                    logger.error(
+                        "[STEP END] Relay status acquisition FAILED"
+                    )
+
+            else:
+
+                logger.warning(
+                    "[STEP SKIPPED] Relay status acquisition | "
+                    "nessun dispositivo LAN trovato"
+                )
+
+            ##################################################################
             # SENSOR MEASUREMENTS SNAPSHOTS
             ##################################################################
 
@@ -177,7 +239,20 @@ def polling_loop():
             logger.info("################ SENSOR MEASUREMENTS SNAPSHOTS ##################")
             logger.info("##################################################################")
 
-            if found_count > 0:
+            #
+            # Measurements consentiti SOLO se:
+            #
+            # relay1_real_state == True
+            #
+
+            measurements_allowed = (
+                relay1_real_state is not None
+            )
+
+            if (
+                found_count > 0
+                and measurements_allowed
+            ):
 
                 logger.info(
                     "[STEP START] Sensor measurements acquisition"
@@ -205,7 +280,10 @@ def polling_loop():
 
                 logger.warning(
                     "[STEP SKIPPED] Sensor measurements acquisition | "
-                    "nessun dispositivo LAN trovato"
+                    "relay1_real_state=%s | "
+                    "found_count=%s",
+                    relay1_real_state,
+                    found_count,
                 )
 
             logger.info("")

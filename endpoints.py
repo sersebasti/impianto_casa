@@ -9,9 +9,14 @@ from db import (
     get_last_token_row,
     get_last_user_info_row,
     get_device_metric_history,
+    get_connection
 )
+import requests
+
 from zoneinfo import ZoneInfo
 from tesla_client import exchange_code_for_token, refresh_tesla_token, wake_up_vehicle, get_vehicle_data
+from commands import execute_command_by_config_id
+from sqlalchemy import text
 
 bp = Blueprint("api_endpoints", __name__)
 
@@ -26,6 +31,73 @@ def now_rome():
 @bp.route("/api/health", methods=["GET"])
 def health():
     return jsonify({"ok": True})
+
+
+##########################################################################
+######### DEVICE INFO ####################################################
+##########################################################################
+
+
+
+@bp.route("/api/device-info", methods=["GET"])
+def device_info():
+
+    try:
+
+        import socket
+        import os
+
+        hostname = socket.gethostname()
+
+        host_mac = os.getenv(
+            "HOST_MAC",
+            ""
+        )
+
+        host_id = os.getenv(
+            "HOST_ID",
+            "backend_host"
+        )
+
+        return jsonify({
+
+            "ok": True,
+
+            "device_type":
+                "backend_host",
+
+            "service":
+                "esprimo_flask",
+
+            "service_id":
+                host_id,
+
+            "hostname":
+                hostname,
+
+            "ip":
+                request.host.split(":")[0],
+
+            "macaddress":
+                host_mac,
+
+        })
+
+    except Exception as e:
+
+        logger.exception(
+            "Errore device_info | error=%s",
+            e,
+        )
+
+        return jsonify({
+
+            "ok": False,
+
+            "error": str(e),
+
+        }), 500
+
 
 
 @bp.route("/api/login", methods=["POST", "GET"])
@@ -81,6 +153,377 @@ def device_state_latest():
         return jsonify({"ok": True, "data": data})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
+
+
+@bp.route(
+    "/api/execute-config/<int:config_id>",
+    methods=["GET", "POST"],
+)
+def execute_config(config_id):
+
+    try:
+
+        ################################################################
+        # LOAD CONFIG
+        ################################################################
+
+        conn = get_connection()
+
+        try:
+
+            cur = conn.cursor()
+
+            cur.execute("""
+
+                SELECT
+                    id,
+                    device_id,
+                    call_type,
+                    http_method,
+                    endpoint_query,
+                    payload,
+                    response_structure,
+                    description,
+                    enabled,
+                    port
+                FROM sensor_measurements_config
+                WHERE id = ?
+
+            """, (config_id,))
+
+            row = cur.fetchone()
+
+            if row:
+                row = dict(row)
+
+        finally:
+
+            conn.close()
+
+        if not row:
+
+            return jsonify({
+
+                "ok": False,
+                "error": "config non trovata",
+                "config_id": config_id,
+
+            }), 404
+
+        ################################################################
+        # ENABLED CHECK
+        ################################################################
+
+        if not row["enabled"]:
+
+            return jsonify({
+
+                "ok": False,
+                "error": "config disabilitata",
+                "config_id": config_id,
+
+            }), 400
+
+        ################################################################
+        # LAN CHECK
+        ################################################################
+
+        lan_check_url = (
+            "http://host.docker.internal:5001/"
+            "lan_check"
+        )
+
+        lan_resp = requests.get(
+            lan_check_url,
+            timeout=20,
+        )
+
+        lan_data = lan_resp.json()
+
+        if not lan_resp.ok:
+
+            return jsonify({
+
+                "ok": False,
+                "error": "lan_check failed",
+                "config_id": config_id,
+                "lan_check_url": lan_check_url,
+
+            }), 500
+
+        ################################################################
+        # FIND TARGET DEVICE
+        ################################################################
+
+        target_device = None
+
+        found_devices = (
+            lan_data.get(
+                "detected_devices",
+                []
+            )
+        )
+
+        for dev in found_devices:
+
+            device_info = dev.get("device", {})
+
+            
+            # alcuni endpoint potrebbero avere
+            # struttura diversa
+            #
+
+            current_device_id = (
+                device_info.get("id")
+                or dev.get("id")
+            )
+
+            if current_device_id == row["device_id"]:
+
+                target_device = dev
+                break
+
+        ################################################################
+        # DEVICE NOT FOUND
+        ################################################################
+
+        if not target_device:
+
+            return jsonify({
+
+                "ok": False,
+
+                "error":
+                    "device not found in LAN",
+
+                "config_id":
+                    config_id,
+
+                "device_id":
+                    row["device_id"],
+
+                "lan_check":
+                    lan_data,
+
+            }), 404
+
+        ################################################################
+        # LOG MISSING DEVICES
+        ################################################################
+
+        missing_devices = (
+            lan_data.get(
+                "missing_devices",
+                []
+            )
+        )
+
+        if missing_devices:
+
+            print(
+                "WARNING missing devices:",
+                missing_devices
+            )
+
+        ################################################################
+        # TARGET IP
+        ################################################################
+
+        target_ip = target_device.get("ip")
+
+        if not target_ip:
+
+            return jsonify({
+
+                "ok": False,
+
+                "error":
+                    "target ip missing",
+
+                "config_id":
+                    config_id,
+
+                "device":
+                    target_device,
+
+            }), 500
+
+        ################################################################
+        # PORT
+        ################################################################
+
+        port = (
+            row["port"]
+            or 80
+        )
+
+        ################################################################
+        # ENDPOINT
+        ################################################################
+
+        endpoint_query = (
+            row["endpoint_query"]
+            or ""
+        )
+
+        endpoint_query = (
+            endpoint_query.lstrip("/")
+        )
+
+        ################################################################
+        # FINAL URL
+        ################################################################
+
+        url = (
+            f"http://{target_ip}:{port}/"
+            f"{endpoint_query}"
+        )
+
+        ################################################################
+        # PAYLOAD
+        ################################################################
+
+        payload = None
+
+        if row["payload"]:
+
+            try:
+
+                payload = json.loads(
+                    row["payload"]
+                )
+
+            except Exception:
+
+                payload = row["payload"]
+
+        ################################################################
+        # METHOD
+        ################################################################
+
+        method = (
+            row["http_method"]
+            or "GET"
+        ).upper()
+
+        ################################################################
+        # DEBUG
+        ################################################################
+
+        print("EXECUTE CONFIG")
+        print("config_id =", config_id)
+        print("device_id =", row["device_id"])
+        print("target_ip =", target_ip)
+        print("port =", port)
+        print("endpoint_query =", endpoint_query)
+        print("url =", url)
+        print("method =", method)
+        print("payload =", payload)
+
+        ################################################################
+        # EXECUTE REQUEST
+        ################################################################
+
+        if method == "POST":
+
+            r = requests.post(
+
+                url,
+
+                json=payload,
+
+                timeout=30,
+
+            )
+
+        else:
+
+            r = requests.get(
+
+                url,
+
+                timeout=30,
+
+            )
+
+        ################################################################
+        # RESPONSE JSON
+        ################################################################
+
+        try:
+
+            response_payload = r.json()
+
+        except Exception:
+
+            response_payload = {
+
+                "raw_text":
+                    r.text
+
+            }
+
+        ################################################################
+        # RETURN
+        ################################################################
+
+        return jsonify({
+
+            "ok":
+                r.ok,
+
+            "config_id":
+                config_id,
+
+            "description":
+                row["description"],
+
+            "device_id":
+                row["device_id"],
+
+            "target_ip":
+                target_ip,
+
+            "port":
+                port,
+
+            "endpoint_query":
+                endpoint_query,
+
+            "url":
+                url,
+
+            "method":
+                method,
+
+            "payload":
+                payload,
+
+            "response":
+                response_payload,
+
+            "status_code":
+                r.status_code,
+
+        }), r.status_code
+
+    except Exception as e:
+
+        import traceback
+
+        traceback.print_exc()
+
+        return jsonify({
+
+            "ok": False,
+
+            "error":
+                str(e),
+
+            "config_id":
+                config_id,
+
+        }), 500
 
 
 @bp.route("/api/chart-data", methods=["GET"])
@@ -743,6 +1186,101 @@ def sensor_measurements_config():
             "error": str(e),
         }), 500
 
+
+#########################################################################
+######### ENDPINTS FOR COMMANDS #########################################
+#########################################################################
+
+@bp.route("/api/device-command", methods=["POST"])
+def api_device_command():
+
+    try:
+
+        data = request.get_json(
+            silent=True
+        ) or {}
+
+        config_id = data.get(
+            "config_id"
+        )
+
+        if not config_id:
+
+            return jsonify({
+                "ok": False,
+                "error": "config_id mancante",
+            }), 400
+
+        result = execute_command_by_config_id(
+            logger=logger,
+            config_id=int(config_id),
+        )
+
+        return jsonify(result)
+
+    except Exception as e:
+
+        logger.exception(
+            "Errore api_device_command | error=%s",
+            e,
+        )
+
+        return jsonify({
+            "ok": False,
+            "error": str(e),
+        }), 500
+
+
+
+##########################################################################
+######### REFRESH RELAY STATUS SNAPSHOTS #################################
+##########################################################################
+
+@bp.route("/api/refresh-relay-status", methods=["POST"])
+def refresh_relay_status():
+
+    try:
+
+        from polling_tasks import (
+            acquire_and_save_relays_status_data
+        )
+
+        logger.info("")
+        logger.info("############################################################")
+        logger.info("############ MANUAL RELAY STATUS REFRESH ###################")
+        logger.info("############################################################")
+
+        result = (
+            acquire_and_save_relays_status_data(
+                logger
+            )
+        )
+
+        return jsonify({
+
+            "ok": True,
+
+            "message":
+                "Relay status snapshots aggiornati",
+
+            "result": result,
+
+        })
+
+    except Exception as e:
+
+        logger.exception(
+            "Errore refresh_relay_status | error=%s",
+            e,
+        )
+
+        return jsonify({
+
+            "ok": False,
+
+            "error": str(e),
+
+        }), 500
 
 
 

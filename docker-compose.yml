@@ -16,17 +16,39 @@ services:
     depends_on:
       - tesla_http_proxy
 
-  battery_fit:
-    build: .
-    container_name: battery_fit
-    env_file:
-      - .env
-    volumes:
-      - ./data:/app/data
-      - ./logs:/app/logs
-      - ./tools/statistics:/app/tools/statistics
-    restart: "no"
-    command: ["tail", "-f", "/dev/null"]
+
+  grafana:
+      image: grafana/grafana-oss:latest
+      container_name: grafana
+      restart: unless-stopped
+      ports:
+        - "3000:3000"
+      environment:
+        - GF_SECURITY_ADMIN_USER=admin
+        - GF_SECURITY_ADMIN_PASSWORD=mercatello
+        - GF_INSTALL_PLUGINS=frser-sqlite-datasource
+        - GF_AUTH_ANONYMOUS_ENABLED=true
+        - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
+      volumes:
+        - grafana_data:/var/lib/grafana
+        - ./data:/data
+      extra_hosts:
+        - "host.docker.internal:host-gateway"  
+      depends_on:
+        - inverter_manyi
+  
+  # battery_fit:
+  #   build: .
+  #   container_name: battery_fit
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ./data:/app/data
+  #     - ./logs:/app/logs
+  #     - ./tools/statistics:/app/tools/statistics
+  #   restart: "no"
+  #   command: ["tail", "-f", "/dev/null"]
+
 
   tesla_http_proxy:
     image: tesla/vehicle-command:latest
@@ -45,3 +67,7 @@ services:
       - ./tesla-proxy-config:/config
       - ./tesla-proxy-home:/home/nonroot
     restart: unless-stopped
+
+
+volumes:
+  grafana_data:
