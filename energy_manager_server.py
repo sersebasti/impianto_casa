@@ -8,7 +8,19 @@ from solar_client import SolarClient
 from logger import get_logger
 from zoneinfo import ZoneInfo
 from datetime import datetime
-from polling_tasks import acquire_and_save_inverter_state, check_and_set_bms_communication, check_registered_devices_on_lan, acquire_and_save_sensors_status_data, check_and_refresh_tesla_token, acquire_and_save_sensors_measurements_data, acquire_and_save_relays_status_data, acquire_and_save_host_status_data
+from polling_tasks import (
+    acquire_and_save_inverter_state, 
+    check_and_set_bms_communication, 
+    check_registered_devices_on_lan, 
+    acquire_and_save_sensors_status_data, 
+    check_and_refresh_tesla_token, 
+    acquire_and_save_sensors_measurements_data, 
+    acquire_and_save_relays_status_data, 
+    acquire_and_save_host_status_data)
+
+from smart_ev_power_manager import (
+    refresh_ev_charging_state
+)
 
 logger = get_logger("app")
 app = Flask(__name__)
@@ -40,6 +52,7 @@ def polling_loop():
             logger.info("##################################################################")
             logger.info("######################## POLLING START ###########################")
             logger.info("##################################################################")
+            polling_started = time.time()
 
             ##################################################################
             # TESLA TOKEN
@@ -341,7 +354,17 @@ def polling_loop():
             )
 
         finally:
+            
+            elapsed = round(
+                time.time() - polling_started,
+                2
+            )
 
+            logger.info(
+                "[POLLING TOTAL ELAPSED] %ss",
+                elapsed,
+            )
+            
             logger.info("")
             logger.info("##################################################################")
             logger.info("######################## POLLING SLEEP ###########################")
@@ -352,7 +375,19 @@ def polling_loop():
                 interval_seconds,
             )
 
-            time.sleep(interval_seconds)
+            mini_interval = 20
+
+            cycles = int(
+                interval_seconds / mini_interval
+            )
+
+            for i in range(cycles):
+
+                refresh_ev_charging_state(
+                    logger
+                )
+
+                time.sleep(mini_interval)
 
 
 def start_background_polling():
