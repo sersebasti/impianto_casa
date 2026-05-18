@@ -6,6 +6,9 @@ import json
 from datetime import datetime, timezone
 from tesla_client import refresh_tesla_token
 from pathlib import Path
+from config_executor import (
+    execute_config_core
+)
 
 
 def acquire_and_save_inverter_state(client, logger, device_id, data_source):
@@ -785,15 +788,23 @@ def acquire_and_save_relays_status_data(logger):
     import os
     import json
     import sqlite3
-    import requests
 
     from datetime import datetime
 
-    session = requests.Session()
+    from config_executor import (
+        execute_config_core
+    )
 
     db_path = os.getenv(
         "DB_PATH",
         "data/solar.db",
+    )
+
+    relay1_comando_teleruttori_id = int(
+        os.getenv(
+            "RELAY1_COMANDO_TELERUTTORI_ID",
+            "13",
+        )
     )
 
     conn = None
@@ -819,350 +830,241 @@ def acquire_and_save_relays_status_data(logger):
         cur = conn.cursor()
 
         ##################################################################
-        # LOAD CONFIG
-        ##################################################################
-
-        cur.execute(
-            '''
-            SELECT *
-            FROM sensor_measurements_config
-            WHERE enabled = 1
-              AND id = 13
-            ORDER BY id
-            '''
-        )
-
-        configs = [
-            dict(row)
-            for row in cur.fetchall()
-        ]
-
-        logger.info(
-            "[TASK] Relay configs loaded | count=%s",
-            len(configs),
-        )
-
-        ##################################################################
         # RELAY STATE SUMMARY
         ##################################################################
 
         relay_state_summary = {}
 
         ##################################################################
-        # LOOP CONFIGS
+        # EXECUTE RELAY CONFIG
         ##################################################################
 
-        for cfg in configs:
+        logger.info("")
+        logger.info("############################################################")
+        logger.info("################## RELAY REQUEST ###########################")
+        logger.info("############################################################")
 
-            config_id = cfg.get("id")
+        logger.info(
+            "[TASK] Relay request START | "
+            "config_id=%s",
+            relay1_comando_teleruttori_id,
+        )
 
-            device_id = cfg.get("device_id")
+        result = execute_config_core(
 
-            endpoint_query = cfg.get(
-                "endpoint_query"
-            )
+            logger=logger,
 
-            description = cfg.get(
-                "description"
-            )
+            config_id=relay1_comando_teleruttori_id,
 
-            http_method = (
-                cfg.get("http_method")
-                or "GET"
-            ).upper()
+        )
 
-            call_type = (
-                cfg.get("call_type")
-                or "relay_state"
-            )
+        ##################################################################
+        # VALIDATE RESPONSE
+        ##################################################################
 
-            ##################################################################
-            # REQUEST
-            ##################################################################
+        if not result.get("ok"):
 
-            logger.info("")
-            logger.info("############################################################")
-            logger.info("################## RELAY REQUEST ###########################")
-            logger.info("############################################################")
+            logger.warning(
 
-            logger.info(
-                "[TASK] Relay request START | "
+                "[TASK] Relay response NOT OK | "
+
                 "config_id=%s | "
-                "device_id=%s | "
-                "description=%s",
-                config_id,
-                device_id,
-                description,
+
+                "error=%s",
+
+                relay1_comando_teleruttori_id,
+
+                result.get("error"),
+
             )
+
+            return {
+                "ok": False,
+                "relay_state_summary": {},
+            }
+
+        response = (
+            result.get("response")
+            or []
+        )
+
+        if not isinstance(response, list):
+
+            logger.warning(
+                "[TASK] Relay response invalid | "
+                "config_id=%s",
+                relay1_comando_teleruttori_id,
+            )
+
+            return {
+                "ok": False,
+                "relay_state_summary": {},
+            }
+
+        ##################################################################
+        # SAVE RELAYS
+        ##################################################################
+
+        relay_saved_count = 0
+
+        for relay in response:
 
             try:
 
-                ##################################################################
-                # URL
-                ##################################################################
+                relay_id = relay.get("id")
 
-                url = (
-                    f"http://host.docker.internal:5001/"
-                    f"{device_id}/{call_type}"
-                    f"?endpoint={endpoint_query}"
+                is_on = relay.get("is_on")
+
+                real_state = relay.get(
+                    "real_state"
                 )
 
-                logger.info(
-                    "[TASK] HTTP request START | "
-                    "method=%s | "
-                    "url=%s",
-                    http_method,
-                    url,
+                feedback_invert = relay.get(
+                    "feedback_invert"
+                )
+
+                feedback_pin = relay.get(
+                    "feedback_pin"
+                )
+
+                relay_pin = relay.get(
+                    "pin"
                 )
 
                 ##################################################################
-                # HTTP CALL
+                # BOOL -> INT
                 ##################################################################
 
-                if http_method == "GET":
+                if is_on is not None:
+                    is_on = int(bool(is_on))
 
-                    r = session.get(
-                        url,
-                        timeout=(5, 20),
+                if real_state is not None:
+                    real_state = int(
+                        bool(real_state)
                     )
 
-                else:
-
-                    logger.error(
-                        "[TASK] Unsupported HTTP method | "
-                        "config_id=%s | "
-                        "method=%s",
-                        config_id,
-                        http_method,
+                if feedback_invert is not None:
+                    feedback_invert = int(
+                        bool(feedback_invert)
                     )
 
-                    continue
+                ##################################################################
+                # SAVE SUMMARY
+                ##################################################################
 
-                logger.info(
-                    "[TASK] HTTP request END | "
-                    "status_code=%s",
-                    r.status_code,
+                relay_key_prefix = (
+                    f"device_{relay_id}"
                 )
 
-                r.raise_for_status()
+                relay_state_summary[
+                    f"{relay_key_prefix}_is_on"
+                ] = is_on
 
-                resp = r.json()
+                relay_state_summary[
+                    f"{relay_key_prefix}_real_state"
+                ] = real_state
+
+                #
+                # Shortcut relay1
+                #
+
+                if relay_id == "relay1":
+
+                    relay_state_summary[
+                        "relay1_real_state"
+                    ] = real_state
+
+                    relay_state_summary[
+                        "relay1_is_on"
+                    ] = is_on
 
                 ##################################################################
-                # VALIDATE RESPONSE
+                # DB INSERT
                 ##################################################################
 
-                if not resp.get("ok"):
+                cur.execute(
+                    '''
+                    INSERT INTO
+                    relay_status_snapshots (
 
-                    logger.warning(
-                        "[TASK] Relay response NOT OK | "
-                        "config_id=%s | "
-                        "device_id=%s",
-                        config_id,
+                        created_at,
+
                         device_id,
+
+                        relay_id,
+
+                        is_on,
+
+                        real_state,
+
+                        feedback_invert,
+
+                        feedback_pin,
+
+                        relay_pin,
+
+                        raw_json
+
                     )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ''',
+                    (
+                        datetime.now().isoformat(
+                            timespec="seconds"
+                        ),
 
-                    continue
+                        result.get("device_id"),
 
-                response = (
-                    resp.get("response")
-                    or []
-                )
+                        relay_id,
 
-                if not isinstance(response, list):
+                        is_on,
 
-                    logger.warning(
-                        "[TASK] Relay response invalid | "
-                        "config_id=%s | "
-                        "device_id=%s",
-                        config_id,
-                        device_id,
-                    )
+                        real_state,
 
-                    continue
+                        feedback_invert,
 
-                ##################################################################
-                # SAVE RELAYS
-                ##################################################################
+                        feedback_pin,
 
-                relay_saved_count = 0
+                        relay_pin,
 
-                for relay in response:
-
-                    try:
-
-                        relay_id = relay.get("id")
-
-                        is_on = relay.get("is_on")
-
-                        real_state = relay.get(
-                            "real_state"
-                        )
-
-                        feedback_invert = relay.get(
-                            "feedback_invert"
-                        )
-
-                        feedback_pin = relay.get(
-                            "feedback_pin"
-                        )
-
-                        relay_pin = relay.get(
-                            "pin"
-                        )
-
-                        ##################################################################
-                        # BOOL -> INT
-                        ##################################################################
-
-                        if is_on is not None:
-                            is_on = int(bool(is_on))
-
-                        if real_state is not None:
-                            real_state = int(
-                                bool(real_state)
-                            )
-
-                        if feedback_invert is not None:
-                            feedback_invert = int(
-                                bool(feedback_invert)
-                            )
-
-                        ##################################################################
-                        # SAVE SUMMARY
-                        ##################################################################
-
-                        relay_key_prefix = (
-                            f"device_{device_id}_{relay_id}"
-                        )
-
-                        relay_state_summary[
-                            f"{relay_key_prefix}_is_on"
-                        ] = is_on
-
-                        relay_state_summary[
-                            f"{relay_key_prefix}_real_state"
-                        ] = real_state
-
-                        #
-                        # Shortcut relay1
-                        #
-
-                        if relay_id == "relay1":
-
-                            relay_state_summary[
-                                "relay1_real_state"
-                            ] = real_state
-
-                            relay_state_summary[
-                                "relay1_is_on"
-                            ] = is_on
-
-                        ##################################################################
-                        # DB INSERT
-                        ##################################################################
-
-                        cur.execute(
-                            '''
-                            INSERT INTO
-                            relay_status_snapshots (
-
-                                created_at,
-
-                                device_id,
-
-                                relay_id,
-
-                                is_on,
-
-                                real_state,
-
-                                feedback_invert,
-
-                                feedback_pin,
-
-                                relay_pin,
-
-                                raw_json
-
-                            )
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                            ''',
-                            (
-                                datetime.now().isoformat(
-                                    timespec="seconds"
-                                ),
-
-                                device_id,
-
-                                relay_id,
-
-                                is_on,
-
-                                real_state,
-
-                                feedback_invert,
-
-                                feedback_pin,
-
-                                relay_pin,
-
-                                json.dumps(
-                                    relay,
-                                    ensure_ascii=False,
-                                ),
-                            )
-                        )
-
-                        relay_saved_count += 1
-
-                        logger.info(
-                            "[TASK] Relay snapshot prepared | "
-                            "device_id=%s | "
-                            "relay_id=%s | "
-                            "is_on=%s | "
-                            "real_state=%s",
-                            device_id,
-                            relay_id,
-                            is_on,
-                            real_state,
-                        )
-
-                    except Exception as e:
-
-                        logger.exception(
-                            "[TASK] Relay save FAILED | "
-                            "device_id=%s | "
-                            "relay=%s | "
-                            "error=%s",
-                            device_id,
+                        json.dumps(
                             relay,
-                            e,
-                        )
+                            ensure_ascii=False,
+                        ),
+                    )
+                )
 
-                conn.commit()
+                relay_saved_count += 1
 
                 logger.info(
-                    "[TASK] Relay snapshot saved | "
-                    "config_id=%s | "
-                    "device_id=%s | "
-                    "count=%s",
-                    config_id,
-                    device_id,
-                    relay_saved_count,
+                    "[TASK] Relay snapshot prepared | "
+                    "relay_id=%s | "
+                    "is_on=%s | "
+                    "real_state=%s",
+                    relay_id,
+                    is_on,
+                    real_state,
                 )
 
             except Exception as e:
 
                 logger.exception(
-                    "[TASK] Relay acquisition FAILED | "
-                    "config_id=%s | "
-                    "device_id=%s | "
+                    "[TASK] Relay save FAILED | "
+                    "relay=%s | "
                     "error=%s",
-                    config_id,
-                    device_id,
+                    relay,
                     e,
                 )
+
+        conn.commit()
+
+        logger.info(
+            "[TASK] Relay snapshot saved | "
+            "config_id=%s | "
+            "count=%s",
+            relay1_comando_teleruttori_id,
+            relay_saved_count,
+        )
 
         ##################################################################
         # END
@@ -1177,8 +1079,6 @@ def acquire_and_save_relays_status_data(logger):
             "[TASK] Relay summary | %s",
             relay_state_summary,
         )
-
-        session.close()
 
         conn.close()
 
@@ -1202,8 +1102,6 @@ def acquire_and_save_relays_status_data(logger):
 
         except:
             pass
-
-        session.close()
 
         return {
             "ok": False,
