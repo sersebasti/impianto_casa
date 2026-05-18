@@ -12,6 +12,7 @@ from db import (
     get_connection
 )
 import requests
+import sqlite3
 
 from zoneinfo import ZoneInfo
 from tesla_client import exchange_code_for_token, refresh_tesla_token, wake_up_vehicle, get_vehicle_data
@@ -243,129 +244,192 @@ def execute_config(config_id):
             }), 400
 
         ################################################################
-        # LAN CHECK
+        # FAST DEVICE LOOKUP (LAST IP)
         ################################################################
 
-        lan_check_url = (
-            "http://host.docker.internal:5001/"
-            "lan_check"
+        target_ip = None
+
+        lanscan_conn = sqlite3.connect(
+
+            "/app/lan_scanner_data/lan_scanner.db"
+
         )
+
+        lanscan_conn.row_factory = sqlite3.Row
 
         try:
 
-            lan_resp = requests.get(
+            cur = lanscan_conn.cursor()
 
-                lan_check_url,
+            cur.execute("""
 
-                timeout=20,
+                SELECT
+                    last_ip
+                FROM device
+                WHERE id = ?
+
+            """, (
+
+                row["device_id"],
+
+            ))
+
+            dev_row = cur.fetchone()
+
+            if dev_row:
+
+                dev_row = dict(dev_row)
+
+                target_ip = (
+                    dev_row.get("last_ip")
+                )
+
+        finally:
+
+            lanscan_conn.close()
+
+        ################################################################
+        # FALLBACK LAN CHECK
+        ################################################################
+
+        if not target_ip:
+
+            logger.warning(
+
+                "Device IP non presente nel DB | "
+                "device_id=%s | fallback LAN CHECK",
+
+                row["device_id"]
 
             )
 
-            lan_resp.raise_for_status()
-
-            lan_data = lan_resp.json()
-
-        except Exception as e:
-
-            logger.exception(
-                "LAN CHECK FAILED"
+            lan_check_url = (
+                "http://host.docker.internal:5001/"
+                "lan_check"
             )
 
-            return jsonify({
+            try:
 
-                "ok": False,
+                lan_resp = requests.get(
 
-                "error":
-                    f"lan_check failed: {str(e)}",
-
-                "config_id":
-                    config_id,
-
-                "lan_check_url":
                     lan_check_url,
 
-            }), 500
+                    timeout=20,
 
+                )
 
-        ################################################################
-        # FIND TARGET DEVICE
-        ################################################################
+                lan_resp.raise_for_status()
 
-        target_device = None
+                lan_data = lan_resp.json()
 
-        found_devices = (
-            lan_data.get(
-                "detected_devices",
-                []
-            )
-        )
+            except Exception as e:
 
-        for dev in found_devices:
+                logger.exception(
+                    "LAN CHECK FAILED"
+                )
 
-            device_info = dev.get("device", {})
+                return jsonify({
 
-            
-            # alcuni endpoint potrebbero avere
-            # struttura diversa
-            #
+                    "ok": False,
 
-            current_device_id = (
-                device_info.get("id")
-                or dev.get("id")
-            )
+                    "error":
+                        f"lan_check failed: {str(e)}",
 
-            if current_device_id == row["device_id"]:
+                    "config_id":
+                        config_id,
 
-                target_device = dev
-                break
+                    "lan_check_url":
+                        lan_check_url,
 
-        ################################################################
-        # DEVICE NOT FOUND
-        ################################################################
+                }), 500
 
-        if not target_device:
+            ################################################################
+            # FIND TARGET DEVICE
+            ################################################################
 
-            return jsonify({
+            target_device = None
 
-                "ok": False,
-
-                "error":
-                    "device not found in LAN",
-
-                "config_id":
-                    config_id,
-
-                "device_id":
-                    row["device_id"],
-
-                "lan_check":
-                    lan_data,
-
-            }), 404
-
-        ################################################################
-        # LOG MISSING DEVICES
-        ################################################################
-
-        missing_devices = (
-            lan_data.get(
-                "missing_devices",
-                []
-            )
-        )
-
-        if missing_devices:
-
-            print(
-                "WARNING missing devices:",
-                missing_devices
+            found_devices = (
+                lan_data.get(
+                    "detected_devices",
+                    []
+                )
             )
 
-        ################################################################
-        # TARGET IP
-        ################################################################
+            for dev in found_devices:
 
-        target_ip = target_device.get("ip")
+                device_info = dev.get(
+                    "device",
+                    {}
+                )
+
+                current_device_id = (
+
+                    device_info.get("id")
+
+                    or dev.get("id")
+
+                )
+
+                if current_device_id == row["device_id"]:
+
+                    target_device = dev
+
+                    break
+
+            ################################################################
+            # DEVICE NOT FOUND
+            ################################################################
+
+            if not target_device:
+
+                return jsonify({
+
+                    "ok": False,
+
+                    "error":
+                        "device not found in LAN",
+
+                    "config_id":
+                        config_id,
+
+                    "device_id":
+                        row["device_id"],
+
+                    "lan_check":
+                        lan_data,
+
+                }), 404
+
+            ################################################################
+            # LOG MISSING DEVICES
+            ################################################################
+
+            missing_devices = (
+                lan_data.get(
+                    "missing_devices",
+                    []
+                )
+            )
+
+            if missing_devices:
+
+                logger.warning(
+                    "Missing devices detected | devices=%s",
+                    missing_devices,
+                )
+
+            ################################################################
+            # TARGET IP
+            ################################################################
+
+            target_ip = (
+                target_device.get("ip")
+            )
+
+        ################################################################
+        # TARGET IP VALIDATION
+        ################################################################
 
         if not target_ip:
 
@@ -379,10 +443,17 @@ def execute_config(config_id):
                 "config_id":
                     config_id,
 
-                "device":
-                    target_device,
-
             }), 500
+
+        logger.info(
+
+            "TARGET DEVICE RESOLVED | "
+            "device_id=%s | ip=%s",
+
+            row["device_id"],
+            target_ip,
+
+        )
 
         ################################################################
         # PORT
@@ -446,15 +517,15 @@ def execute_config(config_id):
         # DEBUG
         ################################################################
 
-        print("EXECUTE CONFIG")
-        print("config_id =", config_id)
-        print("device_id =", row["device_id"])
-        print("target_ip =", target_ip)
-        print("port =", port)
-        print("endpoint_query =", endpoint_query)
-        print("url =", url)
-        print("method =", method)
-        print("payload =", payload)
+        logger.info("EXECUTE CONFIG")
+        logger.info("config_id = %s", config_id)
+        logger.info("device_id = %s", row["device_id"])
+        logger.info("target_ip = %s", target_ip)
+        logger.info("port = %s", port)
+        logger.info("endpoint_query = %s", endpoint_query)
+        logger.info("url = %s", url)
+        logger.info("method = %s", method)
+        logger.info("payload = %s", payload)
 
         ################################################################
         # EXECUTE REQUEST
@@ -545,9 +616,9 @@ def execute_config(config_id):
 
     except Exception as e:
 
-        import traceback
-
-        traceback.print_exc()
+        logger.exception(
+            "execute_config FAILED"
+        )
 
         return jsonify({
 

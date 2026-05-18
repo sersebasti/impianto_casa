@@ -9,6 +9,7 @@ services:
     volumes:
       - ./data:/app/data
       - ./logs:/app/logs
+      - /home/sergio/Scrivania/docker/gestione_impianto/lan_scanner/src/data:/app/lan_scanner_data
     restart: unless-stopped
     command: ["python", "app.py"]
     privileged: true
