@@ -38,7 +38,6 @@ def health():
 ##########################################################################
 
 
-
 @bp.route("/api/device-info", methods=["GET"])
 def device_info():
 
@@ -59,6 +58,25 @@ def device_info():
             "backend_host"
         )
 
+        ####################################################
+        # REAL LAN IP
+        ####################################################
+
+        s = socket.socket(
+            socket.AF_INET,
+            socket.SOCK_DGRAM
+        )
+
+        s.connect(("8.8.8.8", 80))
+
+        local_ip = s.getsockname()[0]
+
+        s.close()
+
+        ####################################################
+        # RESPONSE
+        ####################################################
+
         return jsonify({
 
             "ok": True,
@@ -76,7 +94,7 @@ def device_info():
                 hostname,
 
             "ip":
-                request.host.split(":")[0],
+                local_ip,
 
             "macaddress":
                 host_mac,
@@ -233,23 +251,41 @@ def execute_config(config_id):
             "lan_check"
         )
 
-        lan_resp = requests.get(
-            lan_check_url,
-            timeout=20,
-        )
+        try:
 
-        lan_data = lan_resp.json()
+            lan_resp = requests.get(
 
-        if not lan_resp.ok:
+                lan_check_url,
+
+                timeout=20,
+
+            )
+
+            lan_resp.raise_for_status()
+
+            lan_data = lan_resp.json()
+
+        except Exception as e:
+
+            logger.exception(
+                "LAN CHECK FAILED"
+            )
 
             return jsonify({
 
                 "ok": False,
-                "error": "lan_check failed",
-                "config_id": config_id,
-                "lan_check_url": lan_check_url,
+
+                "error":
+                    f"lan_check failed: {str(e)}",
+
+                "config_id":
+                    config_id,
+
+                "lan_check_url":
+                    lan_check_url,
 
             }), 500
+
 
         ################################################################
         # FIND TARGET DEVICE

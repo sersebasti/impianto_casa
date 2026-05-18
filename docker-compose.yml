@@ -11,6 +11,8 @@ services:
       - ./logs:/app/logs
     restart: unless-stopped
     command: ["python", "app.py"]
+    privileged: true
+    pid: host
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
@@ -22,7 +24,7 @@ services:
       container_name: grafana
       restart: unless-stopped
       ports:
-        - "3000:3000"
+        - "13000:3000"
       environment:
         - GF_SECURITY_ADMIN_USER=admin
         - GF_SECURITY_ADMIN_PASSWORD=mercatello

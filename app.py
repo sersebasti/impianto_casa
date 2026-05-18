@@ -8,7 +8,7 @@ from solar_client import SolarClient
 from logger import get_logger
 from zoneinfo import ZoneInfo
 from datetime import datetime
-from polling_tasks import acquire_and_save_inverter_state, check_and_set_bms_communication, check_registered_devices_on_lan, acquire_and_save_sensors_status_data, check_and_refresh_tesla_token, acquire_and_save_sensors_measurements_data, acquire_and_save_relays_status_data
+from polling_tasks import acquire_and_save_inverter_state, check_and_set_bms_communication, check_registered_devices_on_lan, acquire_and_save_sensors_status_data, check_and_refresh_tesla_token, acquire_and_save_sensors_measurements_data, acquire_and_save_relays_status_data, acquire_and_save_host_status_data
 
 logger = get_logger("app")
 app = Flask(__name__)
@@ -129,6 +129,48 @@ def polling_loop():
                 "[STEP END] LAN devices check | found_count=%s",
                 found_count,
             )
+
+            ##################################################################
+            # HOST STATUS SNAPSHOTS
+            ##################################################################
+
+            logger.info("")
+            logger.info("##################################################################")
+            logger.info("#################### HOST STATUS SNAPSHOTS ######################")
+            logger.info("##################################################################")
+
+            if found_count > 0:
+
+                logger.info(
+                    "[STEP START] Host status acquisition"
+                )
+
+                host_status_ok = (
+                    acquire_and_save_host_status_data(
+                        logger
+                    )
+                )
+
+                if host_status_ok:
+
+                    logger.info(
+                        "[STEP END] Host status acquisition OK"
+                    )
+
+                else:
+
+                    logger.error(
+                        "[STEP END] Host status acquisition FAILED"
+                    )
+
+            else:
+
+                logger.warning(
+                    "[STEP SKIPPED] Host status acquisition | "
+                    "nessun dispositivo LAN trovato"
+                )   
+
+
 
             ##################################################################
             # SENSOR STATUS SNAPSHOTS

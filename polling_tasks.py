@@ -266,6 +266,198 @@ def check_registered_devices_on_lan(logger):
     return None
 
 
+def acquire_and_save_host_status_data(logger):
+
+    import os
+    import re
+    import json
+    import time
+    import sqlite3
+    import subprocess
+
+    from datetime import datetime
+
+    db_path = os.getenv(
+        "DB_PATH",
+        "data/solar.db",
+    )
+
+    conn = None
+
+    try:
+
+        logger.info("")
+        logger.info("##################################################################")
+        logger.info("################### HOST STATUS SNAPSHOTS #######################")
+        logger.info("##################################################################")
+
+        ##################################################################
+        # DB
+        ##################################################################
+
+        conn = sqlite3.connect(
+            db_path,
+            timeout=30,
+        )
+
+        cur = conn.cursor()
+
+        ##################################################################
+        # GET REAL HOST LAN IP
+        ##################################################################
+
+        logger.info(
+            "[TASK] Host LAN IP acquisition START"
+        )
+
+        started = time.time()
+
+        cmd = [
+
+            "nsenter",
+
+            "-t", "1",
+
+            "-n",
+
+            "ip",
+
+            "route",
+
+            "get",
+
+            "8.8.8.8"
+
+        ]
+
+        result = subprocess.check_output(
+
+            cmd,
+
+            text=True,
+
+        )
+
+        #
+        # Example:
+        #
+        # 8.8.8.8 via 192.168.1.1
+        # dev enp1s0
+        # src 192.168.1.155
+        #
+
+        match = re.search(
+
+            r"src\s+(\d+\.\d+\.\d+\.\d+)",
+
+            result
+
+        )
+
+        if not match:
+
+            raise RuntimeError(
+                "Impossibile determinare host LAN IP"
+            )
+
+        ip_status = match.group(1)
+
+        elapsed = round(
+            time.time() - started,
+            2,
+        )
+
+        logger.info(
+            "[TASK] Host LAN IP acquired | "
+            "ip=%s | elapsed=%ss",
+            ip_status,
+            elapsed,
+        )
+
+        ##################################################################
+        # INSERT SNAPSHOT
+        ##################################################################
+
+        cur.execute(
+            '''
+            INSERT INTO host_status_snapshots (
+
+                created_at,
+
+                device_id,
+
+                ok,
+
+                ip_status,
+
+                raw_json
+
+            )
+            VALUES (?, ?, ?, ?, ?)
+            ''',
+            (
+                datetime.now().isoformat(
+                    timespec="seconds"
+                ),
+
+                4,
+
+                1,
+
+                ip_status,
+
+                json.dumps({
+
+                    "ip_status":
+                        ip_status,
+
+                    "source":
+                        "nsenter ip route get 8.8.8.8",
+
+                }),
+            )
+        )
+
+        conn.commit()
+
+        logger.info(
+            "[TASK] Host snapshot saved OK | ip=%s",
+            ip_status,
+        )
+
+        ##################################################################
+        # END
+        ##################################################################
+
+        logger.info("")
+        logger.info("##################################################################")
+        logger.info("############### HOST STATUS COMPLETED ###########################")
+        logger.info("##################################################################")
+
+        conn.close()
+
+        return True
+
+    except Exception as e:
+
+        logger.exception(
+            "[TASK] acquire_and_save_host_status_data FAILED | "
+            "error=%s",
+            e,
+        )
+
+        try:
+
+            if conn:
+                conn.close()
+
+        except:
+            pass
+
+        return False
+
+
+
 def acquire_and_save_sensors_status_data(logger):
 
     import os
