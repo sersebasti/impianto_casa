@@ -6,10 +6,11 @@ import json
 from datetime import datetime, timezone
 from tesla_client import refresh_tesla_token
 from pathlib import Path
+from datetime import datetime
+import os
 from config_executor import (
-    execute_config_core
+        execute_config_core
 )
-
 
 def acquire_and_save_inverter_state(client, logger, device_id, data_source):
     """
@@ -24,11 +25,6 @@ def acquire_and_save_inverter_state(client, logger, device_id, data_source):
     )
     logger.info("[TASK] acquire_and_save_inverter_state OK")
     return data
-
-
-from datetime import datetime
-import os
-
 
 def check_and_set_bms_communication(client, logger, device_id, data_source, interval_seconds, data=None):
     """
@@ -268,7 +264,6 @@ def check_registered_devices_on_lan(logger):
 
     return None
 
-
 def acquire_and_save_host_status_data(logger):
 
     import os
@@ -458,8 +453,6 @@ def acquire_and_save_host_status_data(logger):
             pass
 
         return False
-
-
 
 def acquire_and_save_sensors_status_data(logger):
 
@@ -780,8 +773,6 @@ def acquire_and_save_sensors_status_data(logger):
         session.close()
 
         return False
-
-
 
 def acquire_and_save_relays_status_data(logger):
 
@@ -1108,18 +1099,18 @@ def acquire_and_save_relays_status_data(logger):
             "relay_state_summary": {},
         }
 
-
 def acquire_and_save_sensors_measurements_data(logger):
 
     import os
     import json
     import time
     import sqlite3
-    import requests
 
     from datetime import datetime
 
-    session = requests.Session()
+    from config_executor import (
+        execute_config_core
+    )
 
     ##################################################################
     # HELPERS
@@ -1205,19 +1196,41 @@ def acquire_and_save_sensors_measurements_data(logger):
         )
     )
 
-    connect_timeout = int(
-        os.getenv(
-            "MEASUREMENT_CONNECT_TIMEOUT_SECONDS",
-            "5",
-        )
-    )
+    measurement_config_ids = [
 
-    read_timeout = int(
-        os.getenv(
-            "MEASUREMENT_READ_TIMEOUT_SECONDS",
-            "40",
-        )
-    )
+        int(os.getenv(
+            "MEASUREMENT_ASSORBIMENTO_TOTALE_MANYI_ID"
+        )),
+
+        int(os.getenv(
+            "MEASUREMENT_ASSORBIMENTO_AUTO_MANYI_ID"
+        )),
+
+        int(os.getenv(
+            "MEASUREMENT_PRODUZIONE_FRONIUS_ID"
+        )),
+
+        int(os.getenv(
+            "MEASUREMENT_ASSORBIMENTO_INPUT_MANYI_ID"
+        )),
+
+        int(os.getenv(
+            "MEASUREMENT_ASSORBIMENTO_TOTALE_ENEL_BIS_ID"
+        )),
+
+        int(os.getenv(
+            "MEASUREMENT_ASSORBIMENTO_AUTO_ENEL_ID"
+        )),
+
+        int(os.getenv(
+            "MEASUREMENT_ASSORBIMENTO_CASA_ENEL_ID"
+        )),
+
+        int(os.getenv(
+            "MEASUREMENT_ASSORBIMENTO_TOTALE_ENEL_ID"
+        )),
+
+    ]
 
     conn = None
 
@@ -1245,14 +1258,25 @@ def acquire_and_save_sensors_measurements_data(logger):
 
         cur = conn.cursor()
 
-        cur.execute(
-            '''
+        #
+        # Load ONLY configured measurement ids
+        #
+
+        placeholders = ",".join(
+            ["?"] * len(measurement_config_ids)
+        )
+
+        query = f'''
             SELECT *
             FROM sensor_measurements_config
             WHERE enabled = 1
-              AND call_type = 'measurment'
+              AND id IN ({placeholders})
             ORDER BY device_id, id
-            '''
+        '''
+
+        cur.execute(
+            query,
+            measurement_config_ids,
         )
 
         configs = [
@@ -1277,18 +1301,9 @@ def acquire_and_save_sensors_measurements_data(logger):
 
             device_id = cfg.get("device_id")
 
-            endpoint_query = cfg.get(
-                "endpoint_query"
-            )
-
             description = cfg.get(
                 "description"
             )
-
-            http_method = (
-                cfg.get("http_method")
-                or "GET"
-            ).upper()
 
             call_type = cfg.get(
                 "call_type"
@@ -1378,54 +1393,18 @@ def acquire_and_save_sensors_measurements_data(logger):
             try:
 
                 ##################################################################
-                # URL
+                # EXECUTE CONFIG CORE
                 ##################################################################
-
-                url = (
-                    f"http://host.docker.internal:5001/"
-                    f"{device_id}/{call_type}"
-                    f"?endpoint={endpoint_query}"
-                )
-
-                logger.info(
-                    "[TASK] HTTP request START | "
-                    "method=%s | "
-                    "url=%s | "
-                    "connect_timeout=%s | "
-                    "read_timeout=%s",
-                    http_method,
-                    url,
-                    connect_timeout,
-                    read_timeout,
-                )
 
                 started = time.time()
 
-                ##################################################################
-                # HTTP CALL
-                ##################################################################
+                result = execute_config_core(
 
-                if http_method == "GET":
+                    logger=logger,
 
-                    r = session.get(
-                        url,
-                        timeout=(
-                            connect_timeout,
-                            read_timeout,
-                        ),
-                    )
+                    config_id=config_id,
 
-                else:
-
-                    logger.error(
-                        "[TASK] Unsupported HTTP method | "
-                        "config_id=%s | "
-                        "method=%s",
-                        config_id,
-                        http_method,
-                    )
-
-                    continue
+                )
 
                 elapsed = round(
                     time.time() - started,
@@ -1433,29 +1412,29 @@ def acquire_and_save_sensors_measurements_data(logger):
                 )
 
                 logger.info(
-                    "[TASK] HTTP request END | "
-                    "status_code=%s | "
+                    "[TASK] Measurement execution END | "
                     "elapsed=%ss",
-                    r.status_code,
                     elapsed,
                 )
-
-                r.raise_for_status()
-
-                resp = r.json()
 
                 ##################################################################
                 # VALIDATE RESPONSE
                 ##################################################################
 
-                if not resp.get("ok"):
+                if not result.get("ok"):
 
                     logger.error(
+
                         "[TASK] Measurement NOT OK | "
+
                         "config_id=%s | "
-                        "response=%s",
+
+                        "error=%s",
+
                         config_id,
-                        resp,
+
+                        result.get("error"),
+
                     )
 
                     continue
@@ -1465,6 +1444,8 @@ def acquire_and_save_sensors_measurements_data(logger):
                     "config_id=%s",
                     config_id,
                 )
+
+                resp = result
 
                 response = (
                     resp.get("response")
@@ -1762,8 +1743,6 @@ def acquire_and_save_sensors_measurements_data(logger):
         logger.info("############ ALL MEASUREMENTS COMPLETED #########################")
         logger.info("##################################################################")
 
-        session.close()
-
         conn.close()
 
         return True
@@ -1784,10 +1763,7 @@ def acquire_and_save_sensors_measurements_data(logger):
         except:
             pass
 
-        session.close()
-
         return False
-
 
 def check_and_refresh_tesla_token(logger):
     """
