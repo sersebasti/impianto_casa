@@ -10,7 +10,13 @@ import os
 from config_executor import (
         execute_config_core
 )
-from db import get_connection
+from db import (
+    insert_host_status_snapshot,
+    insert_relay_status_snapshot,
+    insert_sensor_measurement_snapshot,
+    insert_sensor_status_snapshot,
+    list_sensor_measurement_configs,
+)
 
 def acquire_and_save_inverter_state(client, logger, device_id, data_source):
     """
@@ -274,22 +280,12 @@ def acquire_and_save_host_status_data(logger):
 
     from datetime import datetime
 
-    conn = None
-
     try:
 
         logger.info("")
         logger.info("##################################################################")
         logger.info("################### HOST STATUS SNAPSHOTS #######################")
         logger.info("##################################################################")
-
-        ##################################################################
-        # DB
-        ##################################################################
-
-        conn = get_connection(timeout=30)
-
-        cur = conn.cursor()
 
         ##################################################################
         # GET REAL HOST LAN IP
@@ -367,47 +363,18 @@ def acquire_and_save_host_status_data(logger):
         # INSERT SNAPSHOT
         ##################################################################
 
-        cur.execute(
-            '''
-            INSERT INTO host_status_snapshots (
-
-                created_at,
-
-                device_id,
-
-                ok,
-
-                ip_status,
-
-                raw_json
-
-            )
-            VALUES (?, ?, ?, ?, ?)
-            ''',
-            (
-                datetime.now().isoformat(
-                    timespec="seconds"
-                ),
-
-                4,
-
-                1,
-
-                ip_status,
-
-                json.dumps({
-
-                    "ip_status":
-                        ip_status,
-
-                    "source":
-                        "nsenter ip route get 8.8.8.8",
-
-                }),
-            )
+        insert_host_status_snapshot(
+            created_at=datetime.now().isoformat(
+                timespec="seconds"
+            ),
+            device_id=4,
+            ok=1,
+            ip_status=ip_status,
+            raw_json=json.dumps({
+                "ip_status": ip_status,
+                "source": "nsenter ip route get 8.8.8.8",
+            }),
         )
-
-        conn.commit()
 
         logger.info(
             "[TASK] Host snapshot saved OK | ip=%s",
@@ -423,8 +390,6 @@ def acquire_and_save_host_status_data(logger):
         logger.info("############### HOST STATUS COMPLETED ###########################")
         logger.info("##################################################################")
 
-        conn.close()
-
         return True
 
     except Exception as e:
@@ -434,14 +399,6 @@ def acquire_and_save_host_status_data(logger):
             "error=%s",
             e,
         )
-
-        try:
-
-            if conn:
-                conn.close()
-
-        except:
-            pass
 
         return False
 
@@ -456,25 +413,11 @@ def acquire_and_save_sensors_status_data(logger):
 
     session = requests.Session()
 
-    conn = None
-
     try:
 
-        conn = get_connection(timeout=30)
-
-        cur = conn.cursor()
-
-        cur.execute(
-            '''
-            SELECT *
-            FROM sensor_measurements_config
-            WHERE enabled = 1
-              AND call_type = 'status'
-            ORDER BY device_id, id
-            '''
+        configs = list_sensor_measurement_configs(
+            call_type="status",
         )
-
-        configs = cur.fetchall()
 
         logger.info(
             "[TASK] status configs loaded | count=%s",
@@ -659,49 +602,22 @@ def acquire_and_save_sensors_status_data(logger):
 
                     continue
 
-                cur.execute(
-                    '''
-                    INSERT INTO sensor_status_snapshots (
-
-                        created_at,
-                        device_id,
-                        ok,
-
-                        ip_status,
-                        wifi_ssid,
-                        wifi_rssi,
-
-                        uptime_s,
-                        heap_free,
-                        version,
-
-                        raw_json
-
-                    )
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    ''',
-                    (
-                        datetime.now().isoformat(
-                            timespec="seconds"
-                        ),
-
-                        device_id,
-
-                        1,
-
-                        ip_status,
-                        wifi_ssid,
-                        wifi_rssi,
-
-                        uptime_s,
-                        heap_free,
-                        version,
-
-                        json.dumps(
-                            resp,
-                            ensure_ascii=False,
-                        ),
-                    )
+                insert_sensor_status_snapshot(
+                    created_at=datetime.now().isoformat(
+                        timespec="seconds"
+                    ),
+                    device_id=device_id,
+                    ok=1,
+                    ip_status=ip_status,
+                    wifi_ssid=wifi_ssid,
+                    wifi_rssi=wifi_rssi,
+                    uptime_s=uptime_s,
+                    heap_free=heap_free,
+                    version=version,
+                    raw_json=json.dumps(
+                        resp,
+                        ensure_ascii=False,
+                    ),
                 )
 
                 logger.info(
@@ -709,8 +625,6 @@ def acquire_and_save_sensors_status_data(logger):
                     "config_id=%s",
                     config_id,
                 )
-
-                conn.commit()
 
             except Exception as e:
 
@@ -731,8 +645,6 @@ def acquire_and_save_sensors_status_data(logger):
 
         session.close()
 
-        conn.close()
-
         return True
 
     except Exception as e:
@@ -741,14 +653,6 @@ def acquire_and_save_sensors_status_data(logger):
             "[TASK] acquire_and_save_sensors_status_data FAILED | error=%s",
             e,
         )
-
-        try:
-
-            if conn:
-                conn.close()
-
-        except:
-            pass
 
         session.close()
 
@@ -768,22 +672,12 @@ def acquire_and_save_relays_status_data(logger):
         )
     )
 
-    conn = None
-
     try:
 
         logger.info("")
         logger.info("##################################################################")
         logger.info("################### RELAYS STATUS SNAPSHOTS #####################")
         logger.info("##################################################################")
-
-        ##################################################################
-        # DB
-        ##################################################################
-
-        conn = get_connection(timeout=30)
-
-        cur = conn.cursor()
 
         ##################################################################
         # RELAY STATE SUMMARY
@@ -938,56 +832,21 @@ def acquire_and_save_relays_status_data(logger):
                 # DB INSERT
                 ##################################################################
 
-                cur.execute(
-                    '''
-                    INSERT INTO
-                    relay_status_snapshots (
-
-                        created_at,
-
-                        device_id,
-
-                        relay_id,
-
-                        is_on,
-
-                        real_state,
-
-                        feedback_invert,
-
-                        feedback_pin,
-
-                        relay_pin,
-
-                        raw_json
-
-                    )
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    ''',
-                    (
-                        datetime.now().isoformat(
-                            timespec="seconds"
-                        ),
-
-                        result.get("device_id"),
-
-                        relay_id,
-
-                        is_on,
-
-                        real_state,
-
-                        feedback_invert,
-
-                        feedback_pin,
-
-                        relay_pin,
-
-                        json.dumps(
-                            relay,
-                            ensure_ascii=False,
-                        ),
-                    )
+                insert_relay_status_snapshot(
+                    created_at=datetime.now().isoformat(
+                        timespec="seconds"
+                    ),
+                    device_id=result.get("device_id"),
+                    relay_id=relay_id,
+                    is_on=is_on,
+                    real_state=real_state,
+                    feedback_invert=feedback_invert,
+                    feedback_pin=feedback_pin,
+                    relay_pin=relay_pin,
+                    raw_json=json.dumps(
+                        relay,
+                        ensure_ascii=False,
+                    ),
                 )
 
                 relay_saved_count += 1
@@ -1012,8 +871,6 @@ def acquire_and_save_relays_status_data(logger):
                     e,
                 )
 
-        conn.commit()
-
         logger.info(
             "[TASK] Relay snapshot saved | "
             "config_id=%s | "
@@ -1036,8 +893,6 @@ def acquire_and_save_relays_status_data(logger):
             relay_state_summary,
         )
 
-        conn.close()
-
         return {
             "ok": True,
             "relay_state_summary": relay_state_summary,
@@ -1050,14 +905,6 @@ def acquire_and_save_relays_status_data(logger):
             "error=%s",
             e,
         )
-
-        try:
-
-            if conn:
-                conn.close()
-
-        except:
-            pass
 
         return {
             "ok": False,
@@ -1204,35 +1051,9 @@ def acquire_and_save_sensors_measurements_data(logger):
             "[TASK] Loading sensor measurements config"
         )
 
-        conn = get_connection(timeout=30)
-
-        cur = conn.cursor()
-
-        #
-        # Load ONLY configured measurement ids
-        #
-
-        placeholders = ",".join(
-            ["?"] * len(measurement_config_ids)
+        configs = list_sensor_measurement_configs(
+            config_ids=measurement_config_ids,
         )
-
-        query = f'''
-            SELECT *
-            FROM sensor_measurements_config
-            WHERE enabled = 1
-              AND id IN ({placeholders})
-            ORDER BY device_id, id
-        '''
-
-        cur.execute(
-            query,
-            measurement_config_ids,
-        )
-
-        configs = [
-            dict(row)
-            for row in cur.fetchall()
-        ]
 
         logger.info(
             "[TASK] Loaded measurement configs | count=%s",
@@ -1593,74 +1414,26 @@ def acquire_and_save_sensors_measurements_data(logger):
                 # SAVE SNAPSHOT
                 ##################################################################
 
-                cur.execute(
-                    '''
-                    INSERT INTO
-                    sensor_measurement_snapshots (
-
-                        created_at,
-
-                        device_id,
-
-                        measurement_config_id,
-
-                        ok,
-
-                        voltage,
-
-                        current,
-
-                        power,
-
-                        power_factor,
-
-                        energy,
-
-                        frequency,
-
-                        apparent_power,
-
-                        total_power,
-
-                        raw_json
-                    )
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    ''',
-                    (
-                        datetime.now().isoformat(
-                            timespec="seconds"
-                        ),
-
-                        device_id,
-
-                        config_id,
-
-                        1,
-
-                        voltage,
-
-                        current,
-
-                        power,
-
-                        power_factor,
-
-                        energy,
-
-                        frequency,
-
-                        apparent_power,
-
-                        total_power,
-
-                        json.dumps(
-                            resp,
-                            ensure_ascii=False,
-                        ),
-                    )
+                insert_sensor_measurement_snapshot(
+                    created_at=datetime.now().isoformat(
+                        timespec="seconds"
+                    ),
+                    device_id=device_id,
+                    measurement_config_id=config_id,
+                    ok=1,
+                    voltage=voltage,
+                    current=current,
+                    power=power,
+                    power_factor=power_factor,
+                    energy=energy,
+                    frequency=frequency,
+                    apparent_power=apparent_power,
+                    total_power=total_power,
+                    raw_json=json.dumps(
+                        resp,
+                        ensure_ascii=False,
+                    ),
                 )
-
-                conn.commit()
 
                 logger.info(
                     "[TASK] Snapshot saved OK | "
@@ -1693,8 +1466,6 @@ def acquire_and_save_sensors_measurements_data(logger):
         logger.info("############ ALL MEASUREMENTS COMPLETED #########################")
         logger.info("##################################################################")
 
-        conn.close()
-
         return True
 
     except Exception as e:
@@ -1704,14 +1475,6 @@ def acquire_and_save_sensors_measurements_data(logger):
             "error=%s",
             e,
         )
-
-        try:
-
-            if conn:
-                conn.close()
-
-        except:
-            pass
 
         return False
 

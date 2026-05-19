@@ -69,6 +69,286 @@ def get_lan_scanner_connection(timeout: float = 5.0):
     return _get_sqlite_connection(LAN_SCANNER_DATABASE_URL, timeout=timeout)
 
 
+def get_sensor_measurement_config(config_id: int):
+    conn = get_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            SELECT
+                id,
+                device_id,
+                call_type,
+                http_method,
+                endpoint_query,
+                payload,
+                response_structure,
+                description,
+                enabled,
+                port
+            FROM sensor_measurements_config
+            WHERE id = ?
+            """,
+            (config_id,),
+        )
+        row = cur.fetchone()
+        return dict(row) if row else None
+    finally:
+        conn.close()
+
+
+def list_sensor_measurement_configs(
+    *,
+    enabled_only: bool = True,
+    device_id: str | None = None,
+    call_type: str | None = None,
+    config_ids: list[int] | None = None,
+):
+    query_lines = [
+        "SELECT *",
+        "FROM sensor_measurements_config",
+    ]
+    conditions = []
+    params = []
+
+    if enabled_only:
+        conditions.append("enabled = 1")
+
+    if device_id is not None:
+        conditions.append("device_id = ?")
+        params.append(device_id)
+
+    if call_type is not None:
+        conditions.append("call_type = ?")
+        params.append(call_type)
+
+    if config_ids is not None:
+        if not config_ids:
+            return []
+
+        placeholders = ",".join(["?"] * len(config_ids))
+        conditions.append(f"id IN ({placeholders})")
+        params.extend(config_ids)
+
+    if conditions:
+        query_lines.append("WHERE " + " AND ".join(conditions))
+
+    order_by = "ORDER BY id" if device_id is not None else "ORDER BY device_id, id"
+    query_lines.append(order_by)
+    query = "\n".join(query_lines)
+
+    conn = get_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute(query, tuple(params))
+        return [dict(row) for row in cur.fetchall()]
+    finally:
+        conn.close()
+
+
+def get_lan_scanner_device_last_ip(device_id):
+    conn = get_lan_scanner_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            SELECT last_ip
+            FROM device
+            WHERE id = ?
+            """,
+            (device_id,),
+        )
+        row = cur.fetchone()
+        return row["last_ip"] if row else None
+    finally:
+        conn.close()
+
+
+def insert_host_status_snapshot(
+    created_at: str,
+    device_id,
+    ok,
+    ip_status: str | None,
+    raw_json: str,
+) -> int:
+    conn = get_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            INSERT INTO host_status_snapshots (
+                created_at,
+                device_id,
+                ok,
+                ip_status,
+                raw_json
+            )
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (created_at, device_id, ok, ip_status, raw_json),
+        )
+        conn.commit()
+        return cur.lastrowid
+    finally:
+        conn.close()
+
+
+def insert_sensor_status_snapshot(
+    created_at: str,
+    device_id,
+    ok,
+    ip_status: str | None,
+    wifi_ssid: str | None,
+    wifi_rssi,
+    uptime_s,
+    heap_free,
+    version: str | None,
+    raw_json: str,
+) -> int:
+    conn = get_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            INSERT INTO sensor_status_snapshots (
+                created_at,
+                device_id,
+                ok,
+                ip_status,
+                wifi_ssid,
+                wifi_rssi,
+                uptime_s,
+                heap_free,
+                version,
+                raw_json
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                created_at,
+                device_id,
+                ok,
+                ip_status,
+                wifi_ssid,
+                wifi_rssi,
+                uptime_s,
+                heap_free,
+                version,
+                raw_json,
+            ),
+        )
+        conn.commit()
+        return cur.lastrowid
+    finally:
+        conn.close()
+
+
+def insert_relay_status_snapshot(
+    created_at: str,
+    device_id,
+    relay_id: str | None,
+    is_on,
+    real_state,
+    feedback_invert,
+    feedback_pin,
+    relay_pin,
+    raw_json: str,
+) -> int:
+    conn = get_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            INSERT INTO relay_status_snapshots (
+                created_at,
+                device_id,
+                relay_id,
+                is_on,
+                real_state,
+                feedback_invert,
+                feedback_pin,
+                relay_pin,
+                raw_json
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                created_at,
+                device_id,
+                relay_id,
+                is_on,
+                real_state,
+                feedback_invert,
+                feedback_pin,
+                relay_pin,
+                raw_json,
+            ),
+        )
+        conn.commit()
+        return cur.lastrowid
+    finally:
+        conn.close()
+
+
+def insert_sensor_measurement_snapshot(
+    created_at: str,
+    device_id,
+    measurement_config_id,
+    ok,
+    voltage,
+    current,
+    power,
+    power_factor,
+    energy,
+    frequency,
+    apparent_power,
+    total_power,
+    raw_json: str,
+) -> int:
+    conn = get_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            INSERT INTO sensor_measurement_snapshots (
+                created_at,
+                device_id,
+                measurement_config_id,
+                ok,
+                voltage,
+                current,
+                power,
+                power_factor,
+                energy,
+                frequency,
+                apparent_power,
+                total_power,
+                raw_json
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                created_at,
+                device_id,
+                measurement_config_id,
+                ok,
+                voltage,
+                current,
+                power,
+                power_factor,
+                energy,
+                frequency,
+                apparent_power,
+                total_power,
+                raw_json,
+            ),
+        )
+        conn.commit()
+        return cur.lastrowid
+    finally:
+        conn.close()
+
+
 def init_db():
     conn = get_connection()
     try:

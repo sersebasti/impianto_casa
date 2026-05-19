@@ -1,7 +1,7 @@
 import json
 import requests
 
-from db import get_connection, get_lan_scanner_connection
+from db import get_lan_scanner_device_last_ip, get_sensor_measurement_config
 
 
 def execute_config_core(
@@ -15,43 +15,7 @@ def execute_config_core(
         # LOAD CONFIG
         ################################################################
 
-        conn = get_connection()
-
-        try:
-
-            cur = conn.cursor()
-
-            cur.execute("""
-
-                SELECT
-                    id,
-                    device_id,
-                    call_type,
-                    http_method,
-                    endpoint_query,
-                    payload,
-                    response_structure,
-                    description,
-                    enabled,
-                    port
-                FROM sensor_measurements_config
-                WHERE id = ?
-
-            """, (
-
-                config_id,
-
-            ))
-
-            row = cur.fetchone()
-
-            if row:
-
-                row = dict(row)
-
-        finally:
-
-            conn.close()
+        row = get_sensor_measurement_config(config_id)
 
         ################################################################
         # CONFIG NOT FOUND
@@ -99,40 +63,9 @@ def execute_config_core(
         # FAST DEVICE LOOKUP
         ################################################################
 
-        target_ip = None
-
-        lanscan_conn = get_lan_scanner_connection()
-
-        try:
-
-            cur = lanscan_conn.cursor()
-
-            cur.execute("""
-
-                SELECT
-                    last_ip
-                FROM device
-                WHERE id = ?
-
-            """, (
-
-                row["device_id"],
-
-            ))
-
-            dev_row = cur.fetchone()
-
-            if dev_row:
-
-                dev_row = dict(dev_row)
-
-                target_ip = (
-                    dev_row.get("last_ip")
-                )
-
-        finally:
-
-            lanscan_conn.close()
+        target_ip = get_lan_scanner_device_last_ip(
+            row["device_id"]
+        )
 
         ################################################################
         # FALLBACK LAN CHECK

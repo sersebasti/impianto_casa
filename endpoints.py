@@ -9,7 +9,7 @@ from db import (
     get_last_token_row,
     get_last_user_info_row,
     get_device_metric_history,
-    get_connection
+    list_sensor_measurement_configs,
 )
 from config_executor import (
     execute_config_core
@@ -795,40 +795,9 @@ def sensor_measurements_config():
 
         device_id = request.args.get("device_id")
 
-        conn = get_connection()
-
-        cur = conn.cursor()
-
-        if device_id:
-
-            cur.execute(
-                '''
-                SELECT *
-                FROM sensor_measurements_config
-                WHERE device_id = ?
-                AND enabled = 1
-                ORDER BY id
-                ''',
-                (device_id,)
-            )
-
-        else:
-
-            cur.execute(
-                '''
-                SELECT *
-                FROM sensor_measurements_config
-                WHERE enabled = 1
-                ORDER BY device_id, id
-                '''
-            )
-
-        rows = [
-            dict(row)
-            for row in cur.fetchall()
-        ]
-
-        conn.close()
+        rows = list_sensor_measurement_configs(
+            device_id=device_id,
+        )
 
         return jsonify({
             "ok": True,
