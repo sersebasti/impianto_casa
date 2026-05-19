@@ -15,6 +15,11 @@ DEFAULT_DB_PATH = "data/solar.db"
 DEFAULT_LAN_SCANNER_DB_PATH = "/app/lan_scanner_data/lan_scanner.db"
 
 
+##########################################################################
+######### DATABASE URLS ##################################################
+##########################################################################
+
+
 def _build_sqlite_url(db_path: str) -> str:
     return f"sqlite:///{Path(db_path).as_posix()}"
 
@@ -40,13 +45,37 @@ LAN_SCANNER_DATABASE_URL = os.getenv(
         db_path=os.getenv("LAN_SCANNER_DB_PATH", DEFAULT_LAN_SCANNER_DB_PATH),
     ),
 )
+
+
+##########################################################################
+######### SCHEMA / INIT ##################################################
+##########################################################################
+
+
 INIT_SQL_PATH = Path("init.sql")
 
 
-MAX_AUTH_TOKENS = int(os.getenv("MAX_AUTH_TOKENS", "100"))
-MAX_USER_INFO_SNAPSHOTS = int(os.getenv("MAX_USER_INFO_SNAPSHOTS", "100"))
-MAX_DEVICE_SNAPSHOTS = int(os.getenv("MAX_DEVICE_SNAPSHOTS", "20000"))
-MAX_DEVICE_SNAPSHOTS_FLAT = int(os.getenv("MAX_DEVICE_SNAPSHOTS_FLAT", "20000"))
+##########################################################################
+######### AUTH DOMAIN LIMITS #############################################
+##########################################################################
+
+
+AUTH_TOKEN_LIMIT = int(os.getenv("MAX_AUTH_TOKENS", "100"))
+AUTH_USER_INFO_LIMIT = int(os.getenv("MAX_USER_INFO_SNAPSHOTS", "100"))
+
+
+##########################################################################
+######### DEVICE DOMAIN LIMITS ###########################################
+##########################################################################
+
+
+DEVICE_SNAPSHOT_LIMIT = int(os.getenv("MAX_DEVICE_SNAPSHOTS", "20000"))
+DEVICE_SNAPSHOT_FLAT_LIMIT = int(os.getenv("MAX_DEVICE_SNAPSHOTS_FLAT", "20000"))
+
+
+##########################################################################
+######### GENERIC DB CORE ################################################
+##########################################################################
 
 
 def now_rome_str() -> str:
@@ -195,45 +224,91 @@ def _open_raw_connection(database_url: str, timeout: float = 5.0):
     )
 
 
-def get_connection(timeout: float = 5.0):
-    return get_connection_for_database_url(DATABASE_URL, timeout=timeout)
-
-
-def get_lan_scanner_connection(timeout: float = 5.0):
-    return get_connection_for_database_url(LAN_SCANNER_DATABASE_URL, timeout=timeout)
-
-
 def get_connection_for_database_url(database_url: str, timeout: float = 5.0):
     raw_connection, dialect = _open_raw_connection(database_url, timeout=timeout)
     return _ConnectionAdapter(raw_connection, dialect)
 
 
-def get_sensor_measurement_config(config_id: int):
-    conn = get_connection()
+def get_main_connection(timeout: float = 5.0):
+    return get_connection_for_database_url(DATABASE_URL, timeout=timeout)
+
+
+def get_lan_scanner_db_connection(timeout: float = 5.0):
+    return get_connection_for_database_url(LAN_SCANNER_DATABASE_URL, timeout=timeout)
+
+
+def get_connection(timeout: float = 5.0):
+    return get_main_connection(timeout=timeout)
+
+
+def get_lan_scanner_connection(timeout: float = 5.0):
+    return get_lan_scanner_db_connection(timeout=timeout)
+
+
+def _fetch_one(query: str, params=(), *, connection_factory=get_main_connection):
+    conn = connection_factory()
     try:
         cur = conn.cursor()
-        cur.execute(
-            """
-            SELECT
-                id,
-                device_id,
-                call_type,
-                http_method,
-                endpoint_query,
-                payload,
-                response_structure,
-                description,
-                enabled,
-                port
-            FROM sensor_measurements_config
-            WHERE id = ?
-            """,
-            (config_id,),
-        )
+        cur.execute(query, params)
         row = cur.fetchone()
         return dict(row) if row else None
     finally:
         conn.close()
+
+
+def _fetch_all(query: str, params=(), *, connection_factory=get_main_connection):
+    conn = connection_factory()
+    try:
+        cur = conn.cursor()
+        cur.execute(query, params)
+        return [dict(row) for row in cur.fetchall()]
+    finally:
+        conn.close()
+
+
+def _execute_write(
+    query: str,
+    params=(),
+    *,
+    connection_factory=get_main_connection,
+    return_lastrowid: bool = False,
+):
+    conn = connection_factory()
+    try:
+        cur = conn.cursor()
+        cur.execute(query, params)
+        conn.commit()
+        if return_lastrowid:
+            return cur.lastrowid
+        return None
+    finally:
+        conn.close()
+
+
+##########################################################################
+######### MAIN DATABASE ##################################################
+##########################################################################
+
+
+def get_sensor_measurement_config(config_id: int):
+    return _fetch_one(
+        """
+        SELECT
+            id,
+            device_id,
+            call_type,
+            http_method,
+            endpoint_query,
+            payload,
+            response_structure,
+            description,
+            enabled,
+            port
+        FROM sensor_measurements_config
+        WHERE id = ?
+        """,
+        (config_id,),
+    )
 
 
 def list_sensor_measurement_configs(
@@ -276,31 +351,32 @@ def list_sensor_measurement_configs(
     query_lines.append(order_by)
     query = "\n".join(query_lines)
 
-    conn = get_connection()
-    try:
-        cur = conn.cursor()
-        cur.execute(query, tuple(params))
-        return [dict(row) for row in cur.fetchall()]
-    finally:
-        conn.close()
+    return _fetch_all(query, tuple(params))
+
+
+##########################################################################
+######### LAN SCANNER DATABASE ###########################################
+##########################################################################
 
 
 def get_lan_scanner_device_last_ip(device_id):
-    conn = get_lan_scanner_connection()
-    try:
-        cur = conn.cursor()
-        cur.execute(
-            """
-            SELECT last_ip
-            FROM device
-            WHERE id = ?
-            """,
-            (device_id,),
-        )
-        row = cur.fetchone()
-        return row["last_ip"] if row else None
-    finally:
-        conn.close()
+    row = _fetch_one(
+        """
+        SELECT last_ip
+        FROM device
+        WHERE id = ?
+        """,
+        (device_id,),
+        connection_factory=get_lan_scanner_db_connection,
+    )
+    if not row:
+        return None
+    return row["last_ip"]
+
+
+##########################################################################
+######### MAIN DATABASE WRITES ###########################################
+##########################################################################
 
 
 def insert_host_status_snapshot(
@@ -310,26 +386,20 @@ def insert_host_status_snapshot(
     ip_status: str | None,
     raw_json: str,
 ) -> int:
-    conn = get_connection()
-    try:
-        cur = conn.cursor()
-        cur.execute(
-            """
-            INSERT INTO host_status_snapshots (
-                created_at,
-                device_id,
-                ok,
-                ip_status,
-                raw_json
-            )
-            VALUES (?, ?, ?, ?, ?)
-            """,
-            (created_at, device_id, ok, ip_status, raw_json),
+    return _execute_write(
+        """
+        INSERT INTO host_status_snapshots (
+            created_at,
+            device_id,
+            ok,
+            ip_status,
+            raw_json
         )
-        conn.commit()
-        return cur.lastrowid
-    finally:
-        conn.close()
+        VALUES (?, ?, ?, ?, ?)
+        """,
+        (created_at, device_id, ok, ip_status, raw_json),
+        return_lastrowid=True,
+    )
 
 
 def insert_sensor_status_snapshot(
@@ -344,42 +414,36 @@ def insert_sensor_status_snapshot(
     version: str | None,
     raw_json: str,
 ) -> int:
-    conn = get_connection()
-    try:
-        cur = conn.cursor()
-        cur.execute(
-            """
-            INSERT INTO sensor_status_snapshots (
-                created_at,
-                device_id,
-                ok,
-                ip_status,
-                wifi_ssid,
-                wifi_rssi,
-                uptime_s,
-                heap_free,
-                version,
-                raw_json
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """,
-            (
-                created_at,
-                device_id,
-                ok,
-                ip_status,
-                wifi_ssid,
-                wifi_rssi,
-                uptime_s,
-                heap_free,
-                version,
-                raw_json,
-            ),
+    return _execute_write(
+        """
+        INSERT INTO sensor_status_snapshots (
+            created_at,
+            device_id,
+            ok,
+            ip_status,
+            wifi_ssid,
+            wifi_rssi,
+            uptime_s,
+            heap_free,
+            version,
+            raw_json
         )
-        conn.commit()
-        return cur.lastrowid
-    finally:
-        conn.close()
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            created_at,
+            device_id,
+            ok,
+            ip_status,
+            wifi_ssid,
+            wifi_rssi,
+            uptime_s,
+            heap_free,
+            version,
+            raw_json,
+        ),
+        return_lastrowid=True,
+    )
 
 
 def insert_relay_status_snapshot(
@@ -393,40 +457,34 @@ def insert_relay_status_snapshot(
     relay_pin,
     raw_json: str,
 ) -> int:
-    conn = get_connection()
-    try:
-        cur = conn.cursor()
-        cur.execute(
-            """
-            INSERT INTO relay_status_snapshots (
-                created_at,
-                device_id,
-                relay_id,
-                is_on,
-                real_state,
-                feedback_invert,
-                feedback_pin,
-                relay_pin,
-                raw_json
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """,
-            (
-                created_at,
-                device_id,
-                relay_id,
-                is_on,
-                real_state,
-                feedback_invert,
-                feedback_pin,
-                relay_pin,
-                raw_json,
-            ),
+    return _execute_write(
+        """
+        INSERT INTO relay_status_snapshots (
+            created_at,
+            device_id,
+            relay_id,
+            is_on,
+            real_state,
+            feedback_invert,
+            feedback_pin,
+            relay_pin,
+            raw_json
         )
-        conn.commit()
-        return cur.lastrowid
-    finally:
-        conn.close()
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            created_at,
+            device_id,
+            relay_id,
+            is_on,
+            real_state,
+            feedback_invert,
+            feedback_pin,
+            relay_pin,
+            raw_json,
+        ),
+        return_lastrowid=True,
+    )
 
 
 def insert_sensor_measurement_snapshot(
@@ -444,52 +502,46 @@ def insert_sensor_measurement_snapshot(
     total_power,
     raw_json: str,
 ) -> int:
-    conn = get_connection()
-    try:
-        cur = conn.cursor()
-        cur.execute(
-            """
-            INSERT INTO sensor_measurement_snapshots (
-                created_at,
-                device_id,
-                measurement_config_id,
-                ok,
-                voltage,
-                current,
-                power,
-                power_factor,
-                energy,
-                frequency,
-                apparent_power,
-                total_power,
-                raw_json
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """,
-            (
-                created_at,
-                device_id,
-                measurement_config_id,
-                ok,
-                voltage,
-                current,
-                power,
-                power_factor,
-                energy,
-                frequency,
-                apparent_power,
-                total_power,
-                raw_json,
-            ),
+    return _execute_write(
+        """
+        INSERT INTO sensor_measurement_snapshots (
+            created_at,
+            device_id,
+            measurement_config_id,
+            ok,
+            voltage,
+            current,
+            power,
+            power_factor,
+            energy,
+            frequency,
+            apparent_power,
+            total_power,
+            raw_json
         )
-        conn.commit()
-        return cur.lastrowid
-    finally:
-        conn.close()
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            created_at,
+            device_id,
+            measurement_config_id,
+            ok,
+            voltage,
+            current,
+            power,
+            power_factor,
+            energy,
+            frequency,
+            apparent_power,
+            total_power,
+            raw_json,
+        ),
+        return_lastrowid=True,
+    )
 
 
 def init_db():
-    conn = get_connection()
+    conn = get_main_connection()
     try:
         with open(INIT_SQL_PATH, "r", encoding="utf-8") as f:
             schema_sql = f.read()
@@ -513,87 +565,68 @@ def cleanup_table_keep_latest(table_name: str, max_rows: int, order_column: str 
     if max_rows <= 0:
         return
 
-    conn = get_connection()
-    try:
-        cur = conn.cursor()
-        cur.execute(f"""
-            DELETE FROM {table_name}
-            WHERE {order_column} NOT IN (
-                SELECT {order_column}
-                FROM {table_name}
-                ORDER BY {order_column} DESC
-                LIMIT ?
-            )
-        """, (max_rows,))
-        conn.commit()
-    finally:
-        conn.close()
+    _execute_write(
+        f"""
+        DELETE FROM {table_name}
+        WHERE {order_column} NOT IN (
+            SELECT {order_column}
+            FROM {table_name}
+            ORDER BY {order_column} DESC
+            LIMIT ?
+        )
+        """,
+        (max_rows,),
+    )
 
 
 def insert_token(token: str, login_payload_json: str) -> int:
-    conn = get_connection()
-    try:
-        cur = conn.cursor()
-        cur.execute("""
-            INSERT INTO auth_tokens (created_at, token, login_payload_json)
-            VALUES (?, ?, ?)
-        """, (now_rome_str(), token, login_payload_json))
-        conn.commit()
-        row_id = cur.lastrowid
-    finally:
-        conn.close()
+    row_id = _execute_write(
+        """
+        INSERT INTO auth_tokens (created_at, token, login_payload_json)
+        VALUES (?, ?, ?)
+        """,
+        (now_rome_str(), token, login_payload_json),
+        return_lastrowid=True,
+    )
 
-    cleanup_table_keep_latest("auth_tokens", MAX_AUTH_TOKENS)
+    cleanup_table_keep_latest("auth_tokens", AUTH_TOKEN_LIMIT)
     return row_id
 
 
 def insert_user_info(token: str, payload_json: str) -> int:
-    conn = get_connection()
-    try:
-        cur = conn.cursor()
-        cur.execute("""
-            INSERT INTO user_info_snapshots (created_at, token, payload_json)
-            VALUES (?, ?, ?)
-        """, (now_rome_str(), token, payload_json))
-        conn.commit()
-        row_id = cur.lastrowid
-    finally:
-        conn.close()
+    row_id = _execute_write(
+        """
+        INSERT INTO user_info_snapshots (created_at, token, payload_json)
+        VALUES (?, ?, ?)
+        """,
+        (now_rome_str(), token, payload_json),
+        return_lastrowid=True,
+    )
 
-    cleanup_table_keep_latest("user_info_snapshots", MAX_USER_INFO_SNAPSHOTS)
+    cleanup_table_keep_latest("user_info_snapshots", AUTH_USER_INFO_LIMIT)
     return row_id
 
 
 def get_last_token_row():
-    conn = get_connection()
-    try:
-        cur = conn.cursor()
-        cur.execute("""
-            SELECT id, created_at, token, login_payload_json
-            FROM auth_tokens
-            ORDER BY id DESC
-            LIMIT 1
-        """)
-        row = cur.fetchone()
-        return dict(row) if row else None
-    finally:
-        conn.close()
+    return _fetch_one(
+        """
+        SELECT id, created_at, token, login_payload_json
+        FROM auth_tokens
+        ORDER BY id DESC
+        LIMIT 1
+        """
+    )
 
 
 def get_last_user_info_row():
-    conn = get_connection()
-    try:
-        cur = conn.cursor()
-        cur.execute("""
-            SELECT id, created_at, token, payload_json
-            FROM user_info_snapshots
-            ORDER BY id DESC
-            LIMIT 1
-        """)
-        row = cur.fetchone()
-        return dict(row) if row else None
-    finally:
-        conn.close()
+    return _fetch_one(
+        """
+        SELECT id, created_at, token, payload_json
+        FROM user_info_snapshots
+        ORDER BY id DESC
+        LIMIT 1
+        """
+    )
 
 
 def get_last_token_value():
@@ -604,19 +637,16 @@ def get_last_token_value():
 
 
 def insert_device_snapshot(device_row_key: str, update_time: str, json_data: str) -> int:
-    conn = get_connection()
-    try:
-        cur = conn.cursor()
-        cur.execute("""
-            INSERT INTO device_snapshots (created_at, device_row_key, update_time, json_data)
-            VALUES (?, ?, ?, ?)
-        """, (now_rome_str(), device_row_key, update_time, json_data))
-        conn.commit()
-        row_id = cur.lastrowid
-    finally:
-        conn.close()
+    row_id = _execute_write(
+        """
+        INSERT INTO device_snapshots (created_at, device_row_key, update_time, json_data)
+        VALUES (?, ?, ?, ?)
+        """,
+        (now_rome_str(), device_row_key, update_time, json_data),
+        return_lastrowid=True,
+    )
 
-    cleanup_table_keep_latest("device_snapshots", MAX_DEVICE_SNAPSHOTS)
+    cleanup_table_keep_latest("device_snapshots", DEVICE_SNAPSHOT_LIMIT)
     return row_id
 
 
@@ -652,45 +682,44 @@ def insert_device_snapshot_flat(
     inverter_fault_alarm: str | None,
     inverter_warning_alarm: str | None,
 ) -> int:
-    conn = get_connection()
-    try:
-        cur = conn.cursor()
-        cur.execute("""
-            INSERT INTO device_snapshots_flat (
-                created_at,
-                device_row_key,
-                update_time,
-                inverter_program_version,
-                internal_model,
-                input_voltage,
-                input_frequency,
-                output_voltage,
-                output_frequency,
-                battery_voltage,
-                battery_capacity,
-                inverter_charging_current,
-                load_percentage,
-                device_temp,
-                machine_status_code,
-                system_run_time,
-                system_operation_status,
-                battery_number_in_series,
-                controller_program_version,
-                pv_voltage,
-                controller_charging_current,
-                controller_temp,
-                controller_status_code,
-                controller_connection_status,
-                controller_charging_status,
-                inverter_charge_status,
-                battery_voltage_is_full,
-                controller_malfunction_alarm,
-                controller_warning_alarm,
-                inverter_fault_alarm,
-                inverter_warning_alarm
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
+    row_id = _execute_write(
+        """
+        INSERT INTO device_snapshots_flat (
+            created_at,
+            device_row_key,
+            update_time,
+            inverter_program_version,
+            internal_model,
+            input_voltage,
+            input_frequency,
+            output_voltage,
+            output_frequency,
+            battery_voltage,
+            battery_capacity,
+            inverter_charging_current,
+            load_percentage,
+            device_temp,
+            machine_status_code,
+            system_run_time,
+            system_operation_status,
+            battery_number_in_series,
+            controller_program_version,
+            pv_voltage,
+            controller_charging_current,
+            controller_temp,
+            controller_status_code,
+            controller_connection_status,
+            controller_charging_status,
+            inverter_charge_status,
+            battery_voltage_is_full,
+            controller_malfunction_alarm,
+            controller_warning_alarm,
+            inverter_fault_alarm,
+            inverter_warning_alarm
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
             now_rome_str(),
             device_row_key,
             update_time,
@@ -722,13 +751,11 @@ def insert_device_snapshot_flat(
             controller_warning_alarm,
             inverter_fault_alarm,
             inverter_warning_alarm,
-        ))
-        conn.commit()
-        row_id = cur.lastrowid
-    finally:
-        conn.close()
+        ),
+        return_lastrowid=True,
+    )
 
-    cleanup_table_keep_latest("device_snapshots_flat", MAX_DEVICE_SNAPSHOTS_FLAT)
+    cleanup_table_keep_latest("device_snapshots_flat", DEVICE_SNAPSHOT_FLAT_LIMIT)
     return row_id
 
 
@@ -751,22 +778,20 @@ def get_device_metric_history(
     if metric_name not in allowed_metrics:
         raise ValueError(f"Metrica non consentita: {metric_name}")
 
-    conn = get_connection()
-    try:
-        cur = conn.cursor()
-        query = f"""
-            SELECT update_time, created_at, {metric_name} AS metric_value
-            FROM device_snapshots_flat
-            WHERE device_row_key = ?
-              AND created_at >= ?
-              AND created_at <= ?
-            ORDER BY created_at ASC
-        """
-        cur.execute(query, (device_row_key, start_time, end_time))
-        rows = cur.fetchall()
-        return [dict(row) for row in rows]
-    finally:
-        conn.close()
+    query = f"""
+        SELECT update_time, created_at, {metric_name} AS metric_value
+        FROM device_snapshots_flat
+        WHERE device_row_key = ?
+          AND created_at >= ?
+          AND created_at <= ?
+        ORDER BY created_at ASC
+    """
+    return _fetch_all(query, (device_row_key, start_time, end_time))
+
+
+##########################################################################
+######### STATISTICS / AD-HOC READS ######################################
+##########################################################################
 
 
 def get_sensor_voltage_series(
