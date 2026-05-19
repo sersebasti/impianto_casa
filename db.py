@@ -61,12 +61,20 @@ def _get_sqlite_connection(database_url: str, timeout: float = 5.0):
     return conn
 
 
+def build_sqlite_database_url(db_path: str) -> str:
+    return _build_sqlite_url(db_path)
+
+
 def get_connection(timeout: float = 5.0):
     return _get_sqlite_connection(DATABASE_URL, timeout=timeout)
 
 
 def get_lan_scanner_connection(timeout: float = 5.0):
     return _get_sqlite_connection(LAN_SCANNER_DATABASE_URL, timeout=timeout)
+
+
+def get_connection_for_database_url(database_url: str, timeout: float = 5.0):
+    return _get_sqlite_connection(database_url, timeout=timeout)
 
 
 def get_sensor_measurement_config(config_id: int):
@@ -626,6 +634,75 @@ def get_device_metric_history(
         cur.execute(query, (device_row_key, start_time, end_time))
         rows = cur.fetchall()
         return [dict(row) for row in rows]
+    finally:
+        conn.close()
+
+
+def get_sensor_voltage_series(
+    sensor_name: str,
+    channel_index: int,
+    since_created_at: str | None = None,
+    database_url: str | None = None,
+):
+    conn = get_connection_for_database_url(database_url or DATABASE_URL)
+    try:
+        cur = conn.cursor()
+        params = [sensor_name, channel_index]
+        time_filter = ""
+
+        if since_created_at is not None:
+            time_filter = "AND created_at >= ?"
+            params.append(since_created_at)
+
+        cur.execute(
+            f"""
+            SELECT created_at, voltage
+            FROM sensor_snapshots
+            WHERE sensor_name = ?
+              AND channel_index = ?
+              AND voltage IS NOT NULL
+              {time_filter}
+            ORDER BY created_at ASC
+            """,
+            tuple(params),
+        )
+        return [dict(row) for row in cur.fetchall()]
+    finally:
+        conn.close()
+
+
+def list_device_snapshots_flat_for_stats(
+    *,
+    hours: int | None = None,
+    require_battery_capacity: bool = False,
+    database_url: str | None = None,
+):
+    conn = get_connection_for_database_url(database_url or DATABASE_URL)
+    try:
+        cur = conn.cursor()
+        query_lines = [
+            "SELECT",
+            "    created_at,",
+            "    battery_voltage,",
+            "    controller_charging_current,",
+            "    load_percentage,",
+            "    battery_capacity",
+            "FROM device_snapshots_flat",
+            "WHERE battery_voltage IS NOT NULL",
+        ]
+        params = []
+
+        if require_battery_capacity:
+            query_lines.append("  AND battery_capacity IS NOT NULL")
+
+        if hours is not None:
+            query_lines.append("  AND datetime(created_at) >= datetime('now', ?)")
+            params.append(f"-{hours} hours")
+
+        query_lines.append("ORDER BY created_at ASC")
+
+        cur.execute("\n".join(query_lines), tuple(params))
+        return [dict(row) for row in cur.fetchall()]
     finally:
         conn.close()
 

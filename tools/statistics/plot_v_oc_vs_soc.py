@@ -1,9 +1,10 @@
 import argparse
-import sqlite3
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+
+from db import build_sqlite_database_url, list_device_snapshots_flat_for_stats
 
 DB_PATH = Path("data/solar.db")
 BASE_DIR = Path(__file__).resolve().parent
@@ -44,51 +45,35 @@ def main():
     parser.add_argument("--min-count", type=int, default=3)
     args = parser.parse_args()
 
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-
     rows = []
 
-    try:
-        cur = conn.cursor()
-        cur.execute("""
-            SELECT
-                created_at,
-                battery_voltage,
-                controller_charging_current,
-                load_percentage,
-                battery_capacity
-            FROM device_snapshots_flat
-            WHERE battery_voltage IS NOT NULL
-              AND battery_capacity IS NOT NULL
-              AND datetime(created_at) >= datetime('now', ?)
-            ORDER BY created_at ASC
-        """, (f"-{args.hours} hours",))
+    raw_rows = list_device_snapshots_flat_for_stats(
+        hours=args.hours,
+        require_battery_capacity=True,
+        database_url=build_sqlite_database_url(str(DB_PATH)),
+    )
 
-        for row in cur.fetchall():
-            battery_voltage = to_float(row["battery_voltage"])
-            charge = to_float(row["controller_charging_current"])
-            load = to_float(row["load_percentage"])
-            soc = to_float(row["battery_capacity"])
+    for row in raw_rows:
+        battery_voltage = to_float(row["battery_voltage"])
+        charge = to_float(row["controller_charging_current"])
+        load = to_float(row["load_percentage"])
+        soc = to_float(row["battery_capacity"])
 
-            if battery_voltage is None or soc is None:
-                continue
+        if battery_voltage is None or soc is None:
+            continue
 
-            if soc >= 100:
-                continue
+        if soc >= 100:
+            continue
 
-            if charge is None:
-                charge = 0.0
+        if charge is None:
+            charge = 0.0
 
-            if load is None:
-                load = 0.0
+        if load is None:
+            load = 0.0
 
-            v_oc = battery_voltage + A_LOAD * load - B_CHARGE * charge
+        v_oc = battery_voltage + A_LOAD * load - B_CHARGE * charge
 
-            rows.append((soc, v_oc))
-
-    finally:
-        conn.close()
+        rows.append((soc, v_oc))
 
     if not rows:
         print("Nessun dato disponibile.")

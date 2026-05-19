@@ -335,3 +335,604 @@
 [2026-05-19 15:51:36] INFO | app | [POLLING SLEEP] seconds=120
 [2026-05-19 15:51:36] INFO | app | [EV MANAGER] refresh_ev_charging_state START
 [2026-05-19 15:51:36] INFO | app | [EV MANAGER] refresh_ev_charging_state END
+[2026-05-19 15:51:56] INFO | app | [EV MANAGER] refresh_ev_charging_state START
+[2026-05-19 15:51:56] INFO | app | [EV MANAGER] refresh_ev_charging_state END
+[2026-05-19 15:52:16] INFO | app | [EV MANAGER] refresh_ev_charging_state START
+[2026-05-19 15:52:16] INFO | app | [EV MANAGER] refresh_ev_charging_state END
+[2026-05-19 15:52:36] INFO | app | [EV MANAGER] refresh_ev_charging_state START
+[2026-05-19 15:52:36] INFO | app | [EV MANAGER] refresh_ev_charging_state END
+[2026-05-19 15:52:56] INFO | app | [EV MANAGER] refresh_ev_charging_state START
+[2026-05-19 15:52:56] INFO | app | [EV MANAGER] refresh_ev_charging_state END
+[2026-05-19 15:53:16] INFO | app | [EV MANAGER] refresh_ev_charging_state START
+[2026-05-19 15:53:16] INFO | app | [EV MANAGER] refresh_ev_charging_state END
+[2026-05-19 15:53:36] INFO | app | 
+[2026-05-19 15:53:36] INFO | app | ##################################################################
+[2026-05-19 15:53:36] INFO | app | ######################## POLLING START ###########################
+[2026-05-19 15:53:36] INFO | app | ##################################################################
+[2026-05-19 15:53:36] INFO | app | 
+[2026-05-19 15:53:36] INFO | app | ##################################################################
+[2026-05-19 15:53:36] INFO | app | ######################## TESLA TOKEN #############################
+[2026-05-19 15:53:36] INFO | app | ##################################################################
+[2026-05-19 15:53:36] INFO | app | [STEP START] Tesla token check
+[2026-05-19 15:53:36] INFO | app | [TASK] check_and_refresh_tesla_token START | token_path=data/tesla_token.json | refresh_before_seconds=3600
+[2026-05-19 15:53:36] INFO | app | [TASK] Tesla token status | saved_at=2026-05-19 09:49:33 | expires_in=28800 | seconds_left=14156 | minutes_left=235.9
+[2026-05-19 15:53:36] INFO | app | [TASK] Tesla token ancora valido | seconds_left=14156 | nessun refresh
+[2026-05-19 15:53:36] INFO | app | [STEP END] Tesla token check
+[2026-05-19 15:53:36] INFO | app | 
+[2026-05-19 15:53:36] INFO | app | ##################################################################
+[2026-05-19 15:53:36] INFO | app | #################### INVERTER STATE ##############################
+[2026-05-19 15:53:36] INFO | app | ##################################################################
+[2026-05-19 15:53:36] INFO | app | [STEP START] Inverter state acquisition
+[2026-05-19 15:53:36] INFO | app | [TASK] acquire_and_save_inverter_state | device_id=416360187241136128 | data_source=1
+[2026-05-19 15:53:36] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-19 15:53:36] INFO | solar_client | Controllo scadenza token | token=68A62F...8E28 | now=2026-05-19T13:53:36.284888+00:00 | exp=2026-05-19T15:51:13+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-19 15:53:36] INFO | solar_client | Riutilizzo token esistente | token=68A62F...8E28 | access_exp=2026-05-19T15:51:13Z
+[2026-05-19 15:53:36] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=68A62F...8E28
+[2026-05-19 15:53:36] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-19 15:53:36] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-19 15:53:38] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-19T13:52:58Z | update_time_rome=2026-05-19 15:52:58
+[2026-05-19 15:53:38] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-19 15:53:38] INFO | app | [TASK] acquire_and_save_inverter_state OK
+[2026-05-19 15:53:38] INFO | app | [STEP END] Inverter state acquisition
+[2026-05-19 15:53:38] INFO | app | 
+[2026-05-19 15:53:38] INFO | app | ##################################################################
+[2026-05-19 15:53:38] INFO | app | ######################## BMS CONTROL #############################
+[2026-05-19 15:53:38] INFO | app | ##################################################################
+[2026-05-19 15:53:38] INFO | app | [STEP START] BMS control
+[2026-05-19 15:53:38] INFO | app | [TASK] check_and_set_bms_communication | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-05-19 15:53:38] INFO | app | [TASK] battery_voltage=53.3 | raw_battery_voltage=53.3
+[2026-05-19 15:53:38] INFO | app | [TASK] BMS nessuna azione | battery_voltage=53.3 | fascia neutra [52.0 - 53.5]
+[2026-05-19 15:53:38] INFO | app | [STEP END] BMS control
+[2026-05-19 15:53:38] INFO | app | 
+[2026-05-19 15:53:38] INFO | app | ##################################################################
+[2026-05-19 15:53:38] INFO | app | ###################### LAN DEVICES CHECK #########################
+[2026-05-19 15:53:38] INFO | app | ##################################################################
+[2026-05-19 15:53:38] INFO | app | [STEP START] LAN devices check
+[2026-05-19 15:53:38] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://host.docker.internal:5001/lan_check | timeout=20 | attempts=3 | retry_sleep=30
+[2026-05-19 15:53:38] INFO | app | [TASK] LAN check attempt 1/3 | url=http://host.docker.internal:5001/lan_check
+[2026-05-19 15:53:39] INFO | app | [TASK] LAN check result | ok=True | strategy=last_ip_only | registered=4 | found=4 | missing=0
+[2026-05-19 15:53:39] INFO | app | [TASK] LAN tutti i dispositivi registrati risultano online
+[2026-05-19 15:53:39] INFO | app | [STEP END] LAN devices check | found_count=4
+[2026-05-19 15:53:39] INFO | app | 
+[2026-05-19 15:53:39] INFO | app | ##################################################################
+[2026-05-19 15:53:39] INFO | app | #################### HOST STATUS SNAPSHOTS ######################
+[2026-05-19 15:53:39] INFO | app | ##################################################################
+[2026-05-19 15:53:39] INFO | app | [STEP START] Host status acquisition
+[2026-05-19 15:53:39] INFO | app | 
+[2026-05-19 15:53:39] INFO | app | ##################################################################
+[2026-05-19 15:53:39] INFO | app | ################### HOST STATUS SNAPSHOTS #######################
+[2026-05-19 15:53:39] INFO | app | ##################################################################
+[2026-05-19 15:53:39] INFO | app | [TASK] Host LAN IP acquisition START
+[2026-05-19 15:53:39] INFO | app | [TASK] Host LAN IP acquired | ip=192.168.1.155 | elapsed=0.01s
+[2026-05-19 15:53:41] INFO | app | [TASK] Host snapshot saved OK | ip=192.168.1.155
+[2026-05-19 15:53:41] INFO | app | 
+[2026-05-19 15:53:41] INFO | app | ##################################################################
+[2026-05-19 15:53:41] INFO | app | ############### HOST STATUS COMPLETED ###########################
+[2026-05-19 15:53:41] INFO | app | ##################################################################
+[2026-05-19 15:53:41] INFO | app | [STEP END] Host status acquisition OK
+[2026-05-19 15:53:41] INFO | app | 
+[2026-05-19 15:53:41] INFO | app | ##################################################################
+[2026-05-19 15:53:41] INFO | app | ################### SENSOR STATUS SNAPSHOTS #####################
+[2026-05-19 15:53:41] INFO | app | ##################################################################
+[2026-05-19 15:53:41] INFO | app | [STEP START] Sensor status acquisition
+[2026-05-19 15:53:41] INFO | app | [TASK] status configs loaded | count=3
+[2026-05-19 15:53:41] INFO | app | 
+[2026-05-19 15:53:41] INFO | app | ############################################################
+[2026-05-19 15:53:41] INFO | app | ################### STATUS REQUEST #########################
+[2026-05-19 15:53:41] INFO | app | ############################################################
+[2026-05-19 15:53:41] INFO | app | [TASK] Status START | config_id=7 | device_id=1 | desc=ESP32 Fronius Status
+[2026-05-19 15:53:41] INFO | app | [TASK] HTTP request START | method=GET | url=http://host.docker.internal:5001/1/status?endpoint=status
+[2026-05-19 15:53:41] INFO | app | [TASK] HTTP request END | status_code=200 | elapsed=0.16s
+[2026-05-19 15:53:41] INFO | app | [TASK] Status response VALID | config_id=7
+[2026-05-19 15:53:41] INFO | app | [TASK] Status snapshot saved OK | config_id=7
+[2026-05-19 15:53:41] INFO | app | 
+[2026-05-19 15:53:41] INFO | app | ############################################################
+[2026-05-19 15:53:41] INFO | app | ################### STATUS REQUEST #########################
+[2026-05-19 15:53:41] INFO | app | ############################################################
+[2026-05-19 15:53:41] INFO | app | [TASK] Status START | config_id=5 | device_id=2 | desc=Shelly Status
+[2026-05-19 15:53:41] INFO | app | [TASK] HTTP request START | method=GET | url=http://host.docker.internal:5001/2/status?endpoint=status
+[2026-05-19 15:53:41] INFO | app | [TASK] HTTP request END | status_code=200 | elapsed=0.07s
+[2026-05-19 15:53:41] INFO | app | [TASK] Status response VALID | config_id=5
+[2026-05-19 15:53:41] INFO | app | [TASK] Status snapshot saved OK | config_id=5
+[2026-05-19 15:53:41] INFO | app | 
+[2026-05-19 15:53:41] INFO | app | ############################################################
+[2026-05-19 15:53:41] INFO | app | ################### STATUS REQUEST #########################
+[2026-05-19 15:53:41] INFO | app | ############################################################
+[2026-05-19 15:53:41] INFO | app | [TASK] Status START | config_id=8 | device_id=3 | desc=ESP32 Main Status
+[2026-05-19 15:53:41] INFO | app | [TASK] HTTP request START | method=GET | url=http://host.docker.internal:5001/3/status?endpoint=status
+[2026-05-19 15:53:41] INFO | app | [TASK] HTTP request END | status_code=200 | elapsed=0.23s
+[2026-05-19 15:53:41] INFO | app | [TASK] Status response VALID | config_id=8
+[2026-05-19 15:53:41] INFO | app | [TASK] Status snapshot saved OK | config_id=8
+[2026-05-19 15:53:41] INFO | app | 
+[2026-05-19 15:53:41] INFO | app | ############################################################
+[2026-05-19 15:53:41] INFO | app | ############# ALL STATUS COMPLETED #########################
+[2026-05-19 15:53:41] INFO | app | ############################################################
+[2026-05-19 15:53:41] INFO | app | [STEP END] Sensor status acquisition OK
+[2026-05-19 15:53:41] INFO | app | 
+[2026-05-19 15:53:41] INFO | app | ##################################################################
+[2026-05-19 15:53:41] INFO | app | ################### RELAYS STATUS SNAPSHOTS #####################
+[2026-05-19 15:53:41] INFO | app | ##################################################################
+[2026-05-19 15:53:41] INFO | app | [STEP START] Relay status acquisition
+[2026-05-19 15:53:41] INFO | app | 
+[2026-05-19 15:53:41] INFO | app | ##################################################################
+[2026-05-19 15:53:41] INFO | app | ################### RELAYS STATUS SNAPSHOTS #####################
+[2026-05-19 15:53:41] INFO | app | ##################################################################
+[2026-05-19 15:53:41] INFO | app | 
+[2026-05-19 15:53:41] INFO | app | ############################################################
+[2026-05-19 15:53:41] INFO | app | ################## RELAY REQUEST ###########################
+[2026-05-19 15:53:41] INFO | app | ############################################################
+[2026-05-19 15:53:41] INFO | app | [TASK] Relay request START | config_id=13
+[2026-05-19 15:53:41] INFO | app | [CONFIG EXECUTOR] EXECUTE
+[2026-05-19 15:53:41] INFO | app | config_id=13
+[2026-05-19 15:53:41] INFO | app | device_id=3
+[2026-05-19 15:53:41] INFO | app | target_ip=192.168.1.9
+[2026-05-19 15:53:41] INFO | app | url=http://192.168.1.9:80/relay
+[2026-05-19 15:53:41] INFO | app | method=GET
+[2026-05-19 15:53:41] INFO | app | [TASK] Relay snapshot prepared | relay_id=relay2 | is_on=0 | real_state=None
+[2026-05-19 15:53:41] INFO | app | [TASK] Relay snapshot prepared | relay_id=relay1 | is_on=1 | real_state=1
+[2026-05-19 15:53:41] INFO | app | [TASK] Relay snapshot saved | config_id=13 | count=2
+[2026-05-19 15:53:41] INFO | app | 
+[2026-05-19 15:53:41] INFO | app | ##################################################################
+[2026-05-19 15:53:41] INFO | app | ############ RELAYS STATUS COMPLETED ############################
+[2026-05-19 15:53:41] INFO | app | ##################################################################
+[2026-05-19 15:53:41] INFO | app | [TASK] Relay summary | {'device_relay2_is_on': 0, 'device_relay2_real_state': None, 'device_relay1_is_on': 1, 'device_relay1_real_state': 1, 'relay1_real_state': 1, 'relay1_is_on': 1}
+[2026-05-19 15:53:41] INFO | app | [STEP END] Relay status acquisition OK | relay1_real_state=1
+[2026-05-19 15:53:41] INFO | app | 
+[2026-05-19 15:53:41] INFO | app | ##################################################################
+[2026-05-19 15:53:41] INFO | app | ################ SENSOR MEASUREMENTS SNAPSHOTS ##################
+[2026-05-19 15:53:41] INFO | app | ##################################################################
+[2026-05-19 15:53:41] INFO | app | [STEP START] Sensor measurements acquisition
+[2026-05-19 15:53:41] INFO | app | 
+[2026-05-19 15:53:41] INFO | app | ##################################################################
+[2026-05-19 15:53:41] INFO | app | ################ LOAD MEASUREMENTS CONFIG #######################
+[2026-05-19 15:53:41] INFO | app | ##################################################################
+[2026-05-19 15:53:41] INFO | app | [TASK] Loading sensor measurements config
+[2026-05-19 15:53:41] INFO | app | [TASK] Loaded measurement configs | count=8
+[2026-05-19 15:53:41] INFO | app | 
+[2026-05-19 15:53:41] INFO | app | ############################################################
+[2026-05-19 15:53:41] INFO | app | ########### DIFFERENT DEVICE COOLDOWN ######################
+[2026-05-19 15:53:41] INFO | app | ############################################################
+[2026-05-19 15:53:41] INFO | app | [TASK] Cooldown START | device switch | device_id=1 | sleep=0.5s
+[2026-05-19 15:53:42] INFO | app | [TASK] Cooldown END | device switch | device_id=1
+[2026-05-19 15:53:42] INFO | app | 
+[2026-05-19 15:53:42] INFO | app | ############################################################
+[2026-05-19 15:53:42] INFO | app | ################# MEASUREMENT REQUEST ######################
+[2026-05-19 15:53:42] INFO | app | ############################################################
+[2026-05-19 15:53:42] INFO | app | [TASK] Measurement START | config_id=6 | device_id=1 | description=Produzione Fronius | call_type=measurment
+[2026-05-19 15:53:42] INFO | app | [CONFIG EXECUTOR] EXECUTE
+[2026-05-19 15:53:42] INFO | app | config_id=6
+[2026-05-19 15:53:42] INFO | app | device_id=1
+[2026-05-19 15:53:42] INFO | app | target_ip=192.168.1.4
+[2026-05-19 15:53:42] INFO | app | url=http://192.168.1.4:80/power_sensor?id=pz1
+[2026-05-19 15:53:42] INFO | app | method=GET
+[2026-05-19 15:53:42] INFO | app | [TASK] Measurement execution END | elapsed=0.41s
+[2026-05-19 15:53:42] INFO | app | [TASK] Measurement response VALID | config_id=6
+[2026-05-19 15:53:42] INFO | app | [TASK] Normalization END | power=2154.2 | voltage=229.5 | current=9.391 | pf=1.0
+[2026-05-19 15:53:42] INFO | app | [TASK] Snapshot saved OK | config_id=6
+[2026-05-19 15:53:42] INFO | app | 
+[2026-05-19 15:53:42] INFO | app | ############################################################
+[2026-05-19 15:53:42] INFO | app | ########### DIFFERENT DEVICE COOLDOWN ######################
+[2026-05-19 15:53:42] INFO | app | ############################################################
+[2026-05-19 15:53:42] INFO | app | [TASK] Cooldown START | device switch | device_id=2 | sleep=0.5s
+[2026-05-19 15:53:43] INFO | app | [TASK] Cooldown END | device switch | device_id=2
+[2026-05-19 15:53:43] INFO | app | 
+[2026-05-19 15:53:43] INFO | app | ############################################################
+[2026-05-19 15:53:43] INFO | app | ################# MEASUREMENT REQUEST ######################
+[2026-05-19 15:53:43] INFO | app | ############################################################
+[2026-05-19 15:53:43] INFO | app | [TASK] Measurement START | config_id=3 | device_id=2 | description=Assorbimento Totale da Manyi | call_type=measurment
+[2026-05-19 15:53:43] INFO | app | [CONFIG EXECUTOR] EXECUTE
+[2026-05-19 15:53:43] INFO | app | config_id=3
+[2026-05-19 15:53:43] INFO | app | device_id=2
+[2026-05-19 15:53:43] INFO | app | target_ip=192.168.1.3
+[2026-05-19 15:53:43] INFO | app | url=http://192.168.1.3:80/emeter/0
+[2026-05-19 15:53:43] INFO | app | method=GET
+[2026-05-19 15:53:44] INFO | app | [TASK] Measurement execution END | elapsed=1.05s
+[2026-05-19 15:53:44] INFO | app | [TASK] Measurement response VALID | config_id=3
+[2026-05-19 15:53:44] INFO | app | [TASK] Normalization END | power=499.93 | voltage=233.81 | current=2.58 | pf=0.83
+[2026-05-19 15:53:46] INFO | app | [TASK] Snapshot saved OK | config_id=3
+[2026-05-19 15:53:46] INFO | app | 
+[2026-05-19 15:53:46] INFO | app | ############################################################
+[2026-05-19 15:53:46] INFO | app | ############ SAME DEVICE COOLDOWN ##########################
+[2026-05-19 15:53:46] INFO | app | ############################################################
+[2026-05-19 15:53:46] INFO | app | [TASK] Cooldown START | same device | device_id=2 | sleep=2.0s
+[2026-05-19 15:53:48] INFO | app | [TASK] Cooldown END | same device | device_id=2
+[2026-05-19 15:53:48] INFO | app | 
+[2026-05-19 15:53:48] INFO | app | ############################################################
+[2026-05-19 15:53:48] INFO | app | ################# MEASUREMENT REQUEST ######################
+[2026-05-19 15:53:48] INFO | app | ############################################################
+[2026-05-19 15:53:48] INFO | app | [TASK] Measurement START | config_id=4 | device_id=2 | description=Assorbimento Auto da Manyi | call_type=measurment
+[2026-05-19 15:53:48] INFO | app | [CONFIG EXECUTOR] EXECUTE
+[2026-05-19 15:53:48] INFO | app | config_id=4
+[2026-05-19 15:53:48] INFO | app | device_id=2
+[2026-05-19 15:53:48] INFO | app | target_ip=192.168.1.3
+[2026-05-19 15:53:48] INFO | app | url=http://192.168.1.3:80/emeter/1
+[2026-05-19 15:53:48] INFO | app | method=GET
+[2026-05-19 15:53:49] INFO | app | [TASK] Measurement execution END | elapsed=1.04s
+[2026-05-19 15:53:49] INFO | app | [TASK] Measurement response VALID | config_id=4
+[2026-05-19 15:53:49] INFO | app | [TASK] Normalization END | power=0.0 | voltage=233.83 | current=0.01 | pf=0.06
+[2026-05-19 15:53:51] INFO | app | [TASK] Snapshot saved OK | config_id=4
+[2026-05-19 15:53:51] INFO | app | 
+[2026-05-19 15:53:51] INFO | app | ############################################################
+[2026-05-19 15:53:51] INFO | app | ########### DIFFERENT DEVICE COOLDOWN ######################
+[2026-05-19 15:53:51] INFO | app | ############################################################
+[2026-05-19 15:53:51] INFO | app | [TASK] Cooldown START | device switch | device_id=3 | sleep=0.5s
+[2026-05-19 15:53:51] INFO | app | [TASK] Cooldown END | device switch | device_id=3
+[2026-05-19 15:53:51] INFO | app | 
+[2026-05-19 15:53:51] INFO | app | ############################################################
+[2026-05-19 15:53:51] INFO | app | ################# MEASUREMENT REQUEST ######################
+[2026-05-19 15:53:51] INFO | app | ############################################################
+[2026-05-19 15:53:51] INFO | app | [TASK] Measurement START | config_id=9 | device_id=3 | description=Assorbimento Input Manyi | call_type=measurment
+[2026-05-19 15:53:51] INFO | app | [CONFIG EXECUTOR] EXECUTE
+[2026-05-19 15:53:51] INFO | app | config_id=9
+[2026-05-19 15:53:51] INFO | app | device_id=3
+[2026-05-19 15:53:51] INFO | app | target_ip=192.168.1.9
+[2026-05-19 15:53:51] INFO | app | url=http://192.168.1.9:80/power?voltage_sensor_id=v1&current_sensor_id=c1&n=800&sr=4000&fast=1&phase_shift=1
+[2026-05-19 15:53:51] INFO | app | method=GET
+[2026-05-19 15:53:52] INFO | app | [TASK] Measurement execution END | elapsed=0.81s
+[2026-05-19 15:53:52] INFO | app | [TASK] Measurement response VALID | config_id=9
+[2026-05-19 15:53:52] INFO | app | [TASK] Normalization END | power=3.856 | voltage=232.081 | current=0.277 | pf=0.06
+[2026-05-19 15:53:52] INFO | app | [TASK] Snapshot saved OK | config_id=9
+[2026-05-19 15:53:52] INFO | app | 
+[2026-05-19 15:53:52] INFO | app | ############################################################
+[2026-05-19 15:53:52] INFO | app | ############ SAME DEVICE COOLDOWN ##########################
+[2026-05-19 15:53:52] INFO | app | ############################################################
+[2026-05-19 15:53:52] INFO | app | [TASK] Cooldown START | same device | device_id=3 | sleep=2.0s
+[2026-05-19 15:53:54] INFO | app | [TASK] Cooldown END | same device | device_id=3
+[2026-05-19 15:53:54] INFO | app | 
+[2026-05-19 15:53:54] INFO | app | ############################################################
+[2026-05-19 15:53:54] INFO | app | ################# MEASUREMENT REQUEST ######################
+[2026-05-19 15:53:54] INFO | app | ############################################################
+[2026-05-19 15:53:54] INFO | app | [TASK] Measurement START | config_id=10 | device_id=3 | description=Assorbimento Totale da ENEL BIS | call_type=measurment
+[2026-05-19 15:53:54] INFO | app | [CONFIG EXECUTOR] EXECUTE
+[2026-05-19 15:53:54] INFO | app | config_id=10
+[2026-05-19 15:53:54] INFO | app | device_id=3
+[2026-05-19 15:53:54] INFO | app | target_ip=192.168.1.9
+[2026-05-19 15:53:54] INFO | app | url=http://192.168.1.9:80/power?voltage_sensor_id=v1&current_sensor_id=c2&n=800&sr=4000&fast=1&phase_shift=1
+[2026-05-19 15:53:54] INFO | app | method=GET
+[2026-05-19 15:53:55] INFO | app | [TASK] Measurement execution END | elapsed=0.81s
+[2026-05-19 15:53:55] INFO | app | [TASK] Measurement response VALID | config_id=10
+[2026-05-19 15:53:55] INFO | app | [TASK] Normalization END | power=2.382 | voltage=233.079 | current=0.447 | pf=0.0229
+[2026-05-19 15:53:56] INFO | app | [TASK] Snapshot saved OK | config_id=10
+[2026-05-19 15:53:56] INFO | app | 
+[2026-05-19 15:53:56] INFO | app | ############################################################
+[2026-05-19 15:53:56] INFO | app | ############ SAME DEVICE COOLDOWN ##########################
+[2026-05-19 15:53:56] INFO | app | ############################################################
+[2026-05-19 15:53:56] INFO | app | [TASK] Cooldown START | same device | device_id=3 | sleep=2.0s
+[2026-05-19 15:53:58] INFO | app | [TASK] Cooldown END | same device | device_id=3
+[2026-05-19 15:53:58] INFO | app | 
+[2026-05-19 15:53:58] INFO | app | ############################################################
+[2026-05-19 15:53:58] INFO | app | ################# MEASUREMENT REQUEST ######################
+[2026-05-19 15:53:58] INFO | app | ############################################################
+[2026-05-19 15:53:58] INFO | app | [TASK] Measurement START | config_id=11 | device_id=3 | description=Assorbimento Auto da ENEL | call_type=measurment
+[2026-05-19 15:53:58] INFO | app | [CONFIG EXECUTOR] EXECUTE
+[2026-05-19 15:53:58] INFO | app | config_id=11
+[2026-05-19 15:53:58] INFO | app | device_id=3
+[2026-05-19 15:53:58] INFO | app | target_ip=192.168.1.9
+[2026-05-19 15:53:58] INFO | app | url=http://192.168.1.9:80/power?voltage_sensor_id=v1&current_sensor_id=c3&n=800&sr=4000&fast=1&phase_shift=1
+[2026-05-19 15:53:58] INFO | app | method=GET
+[2026-05-19 15:53:59] INFO | app | [TASK] Measurement execution END | elapsed=0.74s
+[2026-05-19 15:53:59] INFO | app | [TASK] Measurement response VALID | config_id=11
+[2026-05-19 15:53:59] INFO | app | [TASK] Normalization END | power=0.377 | voltage=231.665 | current=0.373 | pf=0.0044
+[2026-05-19 15:54:01] INFO | app | [TASK] Snapshot saved OK | config_id=11
+[2026-05-19 15:54:01] INFO | app | 
+[2026-05-19 15:54:01] INFO | app | ############################################################
+[2026-05-19 15:54:01] INFO | app | ############ SAME DEVICE COOLDOWN ##########################
+[2026-05-19 15:54:01] INFO | app | ############################################################
+[2026-05-19 15:54:01] INFO | app | [TASK] Cooldown START | same device | device_id=3 | sleep=2.0s
+[2026-05-19 15:54:03] INFO | app | [TASK] Cooldown END | same device | device_id=3
+[2026-05-19 15:54:03] INFO | app | 
+[2026-05-19 15:54:03] INFO | app | ############################################################
+[2026-05-19 15:54:03] INFO | app | ################# MEASUREMENT REQUEST ######################
+[2026-05-19 15:54:03] INFO | app | ############################################################
+[2026-05-19 15:54:03] INFO | app | [TASK] Measurement START | config_id=12 | device_id=3 | description=Assorbimento Casa da ENEL | call_type=measurment
+[2026-05-19 15:54:03] INFO | app | [CONFIG EXECUTOR] EXECUTE
+[2026-05-19 15:54:03] INFO | app | config_id=12
+[2026-05-19 15:54:03] INFO | app | device_id=3
+[2026-05-19 15:54:03] INFO | app | target_ip=192.168.1.9
+[2026-05-19 15:54:03] INFO | app | url=http://192.168.1.9:80/power?voltage_sensor_id=v1&current_sensor_id=c4&n=800&sr=4000&fast=1&phase_shift=1
+[2026-05-19 15:54:03] INFO | app | method=GET
+[2026-05-19 15:54:04] INFO | app | [TASK] Measurement execution END | elapsed=0.83s
+[2026-05-19 15:54:04] INFO | app | [TASK] Measurement response VALID | config_id=12
+[2026-05-19 15:54:04] INFO | app | [TASK] Normalization END | power=-307.151 | voltage=232.091 | current=1.852 | pf=-0.7145
+[2026-05-19 15:54:06] INFO | app | [TASK] Snapshot saved OK | config_id=12
+[2026-05-19 15:54:06] INFO | app | 
+[2026-05-19 15:54:06] INFO | app | ############################################################
+[2026-05-19 15:54:06] INFO | app | ############ SAME DEVICE COOLDOWN ##########################
+[2026-05-19 15:54:06] INFO | app | ############################################################
+[2026-05-19 15:54:06] INFO | app | [TASK] Cooldown START | same device | device_id=3 | sleep=2.0s
+[2026-05-19 15:54:08] INFO | app | [TASK] Cooldown END | same device | device_id=3
+[2026-05-19 15:54:08] INFO | app | 
+[2026-05-19 15:54:08] INFO | app | ############################################################
+[2026-05-19 15:54:08] INFO | app | ################# MEASUREMENT REQUEST ######################
+[2026-05-19 15:54:08] INFO | app | ############################################################
+[2026-05-19 15:54:08] INFO | app | [TASK] Measurement START | config_id=14 | device_id=3 | description=Assorbimento Totale da ENEL | call_type=measurment
+[2026-05-19 15:54:08] INFO | app | [CONFIG EXECUTOR] EXECUTE
+[2026-05-19 15:54:08] INFO | app | config_id=14
+[2026-05-19 15:54:08] INFO | app | device_id=3
+[2026-05-19 15:54:08] INFO | app | target_ip=192.168.1.9
+[2026-05-19 15:54:08] INFO | app | url=http://192.168.1.9:80/power_sensor?id=pz1
+[2026-05-19 15:54:08] INFO | app | method=GET
+[2026-05-19 15:54:08] INFO | app | [TASK] Measurement execution END | elapsed=0.42s
+[2026-05-19 15:54:08] INFO | app | [TASK] Measurement response VALID | config_id=14
+[2026-05-19 15:54:08] INFO | app | [TASK] Normalization END | power=10.9 | voltage=228.2 | current=0.081 | pf=0.59
+[2026-05-19 15:54:08] INFO | app | [TASK] Snapshot saved OK | config_id=14
+[2026-05-19 15:54:08] INFO | app | 
+[2026-05-19 15:54:08] INFO | app | ##################################################################
+[2026-05-19 15:54:08] INFO | app | ############ ALL MEASUREMENTS COMPLETED #########################
+[2026-05-19 15:54:08] INFO | app | ##################################################################
+[2026-05-19 15:54:08] INFO | app | [STEP END] Sensor measurements acquisition OK
+[2026-05-19 15:54:08] INFO | app | 
+[2026-05-19 15:54:08] INFO | app | ##################################################################
+[2026-05-19 15:54:08] INFO | app | ######################### POLLING END ############################
+[2026-05-19 15:54:08] INFO | app | ##################################################################
+[2026-05-19 15:54:08] INFO | app | [POLLING TOTAL ELAPSED] 32.36s
+[2026-05-19 15:54:08] INFO | app | 
+[2026-05-19 15:54:08] INFO | app | ##################################################################
+[2026-05-19 15:54:08] INFO | app | ######################## POLLING SLEEP ###########################
+[2026-05-19 15:54:08] INFO | app | ##################################################################
+[2026-05-19 15:54:08] INFO | app | [POLLING SLEEP] seconds=120
+[2026-05-19 15:54:08] INFO | app | [EV MANAGER] refresh_ev_charging_state START
+[2026-05-19 15:54:08] INFO | app | [EV MANAGER] refresh_ev_charging_state END
+[2026-05-19 15:54:28] INFO | app | [EV MANAGER] refresh_ev_charging_state START
+[2026-05-19 15:54:28] INFO | app | [EV MANAGER] refresh_ev_charging_state END
+[2026-05-19 15:54:48] INFO | app | [EV MANAGER] refresh_ev_charging_state START
+[2026-05-19 15:54:48] INFO | app | [EV MANAGER] refresh_ev_charging_state END
+[2026-05-19 15:55:08] INFO | app | [EV MANAGER] refresh_ev_charging_state START
+[2026-05-19 15:55:08] INFO | app | [EV MANAGER] refresh_ev_charging_state END
+[2026-05-19 15:55:28] INFO | app | [EV MANAGER] refresh_ev_charging_state START
+[2026-05-19 15:55:28] INFO | app | [EV MANAGER] refresh_ev_charging_state END
+[2026-05-19 15:55:48] INFO | app | [EV MANAGER] refresh_ev_charging_state START
+[2026-05-19 15:55:48] INFO | app | [EV MANAGER] refresh_ev_charging_state END
+[2026-05-19 15:56:08] INFO | app | 
+[2026-05-19 15:56:08] INFO | app | ##################################################################
+[2026-05-19 15:56:08] INFO | app | ######################## POLLING START ###########################
+[2026-05-19 15:56:08] INFO | app | ##################################################################
+[2026-05-19 15:56:08] INFO | app | 
+[2026-05-19 15:56:08] INFO | app | ##################################################################
+[2026-05-19 15:56:08] INFO | app | ######################## TESLA TOKEN #############################
+[2026-05-19 15:56:08] INFO | app | ##################################################################
+[2026-05-19 15:56:08] INFO | app | [STEP START] Tesla token check
+[2026-05-19 15:56:08] INFO | app | [TASK] check_and_refresh_tesla_token START | token_path=data/tesla_token.json | refresh_before_seconds=3600
+[2026-05-19 15:56:08] INFO | app | [TASK] Tesla token status | saved_at=2026-05-19 09:49:33 | expires_in=28800 | seconds_left=14004 | minutes_left=233.4
+[2026-05-19 15:56:08] INFO | app | [TASK] Tesla token ancora valido | seconds_left=14004 | nessun refresh
+[2026-05-19 15:56:08] INFO | app | [STEP END] Tesla token check
+[2026-05-19 15:56:08] INFO | app | 
+[2026-05-19 15:56:08] INFO | app | ##################################################################
+[2026-05-19 15:56:08] INFO | app | #################### INVERTER STATE ##############################
+[2026-05-19 15:56:08] INFO | app | ##################################################################
+[2026-05-19 15:56:08] INFO | app | [STEP START] Inverter state acquisition
+[2026-05-19 15:56:08] INFO | app | [TASK] acquire_and_save_inverter_state | device_id=416360187241136128 | data_source=1
+[2026-05-19 15:56:08] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-19 15:56:08] INFO | solar_client | Controllo scadenza token | token=68A62F...8E28 | now=2026-05-19T13:56:08.651032+00:00 | exp=2026-05-19T15:51:13+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-19 15:56:08] INFO | solar_client | Riutilizzo token esistente | token=68A62F...8E28 | access_exp=2026-05-19T15:51:13Z
+[2026-05-19 15:56:08] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=68A62F...8E28
+[2026-05-19 15:56:09] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-19 15:56:09] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-19 15:56:11] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-19T13:52:58Z | update_time_rome=2026-05-19 15:52:58
+[2026-05-19 15:56:11] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-19 15:56:11] INFO | app | [TASK] acquire_and_save_inverter_state OK
+[2026-05-19 15:56:11] INFO | app | [STEP END] Inverter state acquisition
+[2026-05-19 15:56:11] INFO | app | 
+[2026-05-19 15:56:11] INFO | app | ##################################################################
+[2026-05-19 15:56:11] INFO | app | ######################## BMS CONTROL #############################
+[2026-05-19 15:56:11] INFO | app | ##################################################################
+[2026-05-19 15:56:11] INFO | app | [STEP START] BMS control
+[2026-05-19 15:56:11] INFO | app | [TASK] check_and_set_bms_communication | low_threshold=52.0 | high_threshold=53.5 | night_bms_on_hour=22
+[2026-05-19 15:56:11] INFO | app | [TASK] battery_voltage=53.3 | raw_battery_voltage=53.3
+[2026-05-19 15:56:11] INFO | app | [TASK] BMS nessuna azione | battery_voltage=53.3 | fascia neutra [52.0 - 53.5]
+[2026-05-19 15:56:11] INFO | app | [STEP END] BMS control
+[2026-05-19 15:56:11] INFO | app | 
+[2026-05-19 15:56:11] INFO | app | ##################################################################
+[2026-05-19 15:56:11] INFO | app | ###################### LAN DEVICES CHECK #########################
+[2026-05-19 15:56:11] INFO | app | ##################################################################
+[2026-05-19 15:56:11] INFO | app | [STEP START] LAN devices check
+[2026-05-19 15:56:11] INFO | app | [TASK] check_registered_devices_on_lan START | url=http://host.docker.internal:5001/lan_check | timeout=20 | attempts=3 | retry_sleep=30
+[2026-05-19 15:56:11] INFO | app | [TASK] LAN check attempt 1/3 | url=http://host.docker.internal:5001/lan_check
+[2026-05-19 15:56:12] INFO | app | [TASK] LAN check result | ok=True | strategy=last_ip_only | registered=4 | found=4 | missing=0
+[2026-05-19 15:56:12] INFO | app | [TASK] LAN tutti i dispositivi registrati risultano online
+[2026-05-19 15:56:12] INFO | app | [STEP END] LAN devices check | found_count=4
+[2026-05-19 15:56:12] INFO | app | 
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | #################### HOST STATUS SNAPSHOTS ######################
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | [STEP START] Host status acquisition
+[2026-05-19 15:56:12] INFO | app | 
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | ################### HOST STATUS SNAPSHOTS #######################
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | [TASK] Host LAN IP acquisition START
+[2026-05-19 15:56:12] INFO | app | [TASK] Host LAN IP acquired | ip=192.168.1.155 | elapsed=0.03s
+[2026-05-19 15:56:12] INFO | app | [TASK] Host snapshot saved OK | ip=192.168.1.155
+[2026-05-19 15:56:12] INFO | app | 
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | ############### HOST STATUS COMPLETED ###########################
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | [STEP END] Host status acquisition OK
+[2026-05-19 15:56:12] INFO | app | 
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | ################### SENSOR STATUS SNAPSHOTS #####################
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | [STEP START] Sensor status acquisition
+[2026-05-19 15:56:12] INFO | app | [TASK] status configs loaded | count=3
+[2026-05-19 15:56:12] INFO | app | 
+[2026-05-19 15:56:12] INFO | app | ############################################################
+[2026-05-19 15:56:12] INFO | app | ################### STATUS REQUEST #########################
+[2026-05-19 15:56:12] INFO | app | ############################################################
+[2026-05-19 15:56:12] INFO | app | [TASK] Status START | config_id=7 | device_id=1 | desc=ESP32 Fronius Status
+[2026-05-19 15:56:12] INFO | app | [TASK] HTTP request START | method=GET | url=http://host.docker.internal:5001/1/status?endpoint=status
+[2026-05-19 15:56:12] INFO | app | [TASK] HTTP request END | status_code=200 | elapsed=0.17s
+[2026-05-19 15:56:12] INFO | app | [TASK] Status response VALID | config_id=7
+[2026-05-19 15:56:12] INFO | app | [TASK] Status snapshot saved OK | config_id=7
+[2026-05-19 15:56:12] INFO | app | 
+[2026-05-19 15:56:12] INFO | app | ############################################################
+[2026-05-19 15:56:12] INFO | app | ################### STATUS REQUEST #########################
+[2026-05-19 15:56:12] INFO | app | ############################################################
+[2026-05-19 15:56:12] INFO | app | [TASK] Status START | config_id=5 | device_id=2 | desc=Shelly Status
+[2026-05-19 15:56:12] INFO | app | [TASK] HTTP request START | method=GET | url=http://host.docker.internal:5001/2/status?endpoint=status
+[2026-05-19 15:56:12] INFO | app | [TASK] HTTP request END | status_code=200 | elapsed=0.07s
+[2026-05-19 15:56:12] INFO | app | [TASK] Status response VALID | config_id=5
+[2026-05-19 15:56:12] INFO | app | [TASK] Status snapshot saved OK | config_id=5
+[2026-05-19 15:56:12] INFO | app | 
+[2026-05-19 15:56:12] INFO | app | ############################################################
+[2026-05-19 15:56:12] INFO | app | ################### STATUS REQUEST #########################
+[2026-05-19 15:56:12] INFO | app | ############################################################
+[2026-05-19 15:56:12] INFO | app | [TASK] Status START | config_id=8 | device_id=3 | desc=ESP32 Main Status
+[2026-05-19 15:56:12] INFO | app | [TASK] HTTP request START | method=GET | url=http://host.docker.internal:5001/3/status?endpoint=status
+[2026-05-19 15:56:12] INFO | app | [TASK] HTTP request END | status_code=200 | elapsed=0.24s
+[2026-05-19 15:56:12] INFO | app | [TASK] Status response VALID | config_id=8
+[2026-05-19 15:56:12] INFO | app | [TASK] Status snapshot saved OK | config_id=8
+[2026-05-19 15:56:12] INFO | app | 
+[2026-05-19 15:56:12] INFO | app | ############################################################
+[2026-05-19 15:56:12] INFO | app | ############# ALL STATUS COMPLETED #########################
+[2026-05-19 15:56:12] INFO | app | ############################################################
+[2026-05-19 15:56:12] INFO | app | [STEP END] Sensor status acquisition OK
+[2026-05-19 15:56:12] INFO | app | 
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | ################### RELAYS STATUS SNAPSHOTS #####################
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | [STEP START] Relay status acquisition
+[2026-05-19 15:56:12] INFO | app | 
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | ################### RELAYS STATUS SNAPSHOTS #####################
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | 
+[2026-05-19 15:56:12] INFO | app | ############################################################
+[2026-05-19 15:56:12] INFO | app | ################## RELAY REQUEST ###########################
+[2026-05-19 15:56:12] INFO | app | ############################################################
+[2026-05-19 15:56:12] INFO | app | [TASK] Relay request START | config_id=13
+[2026-05-19 15:56:12] INFO | app | [CONFIG EXECUTOR] EXECUTE
+[2026-05-19 15:56:12] INFO | app | config_id=13
+[2026-05-19 15:56:12] INFO | app | device_id=3
+[2026-05-19 15:56:12] INFO | app | target_ip=192.168.1.9
+[2026-05-19 15:56:12] INFO | app | url=http://192.168.1.9:80/relay
+[2026-05-19 15:56:12] INFO | app | method=GET
+[2026-05-19 15:56:12] INFO | app | [TASK] Relay snapshot prepared | relay_id=relay2 | is_on=0 | real_state=None
+[2026-05-19 15:56:12] INFO | app | [TASK] Relay snapshot prepared | relay_id=relay1 | is_on=1 | real_state=1
+[2026-05-19 15:56:12] INFO | app | [TASK] Relay snapshot saved | config_id=13 | count=2
+[2026-05-19 15:56:12] INFO | app | 
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | ############ RELAYS STATUS COMPLETED ############################
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | [TASK] Relay summary | {'device_relay2_is_on': 0, 'device_relay2_real_state': None, 'device_relay1_is_on': 1, 'device_relay1_real_state': 1, 'relay1_real_state': 1, 'relay1_is_on': 1}
+[2026-05-19 15:56:12] INFO | app | [STEP END] Relay status acquisition OK | relay1_real_state=1
+[2026-05-19 15:56:12] INFO | app | 
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | ################ SENSOR MEASUREMENTS SNAPSHOTS ##################
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | [STEP START] Sensor measurements acquisition
+[2026-05-19 15:56:12] INFO | app | 
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | ################ LOAD MEASUREMENTS CONFIG #######################
+[2026-05-19 15:56:12] INFO | app | ##################################################################
+[2026-05-19 15:56:12] INFO | app | [TASK] Loading sensor measurements config
+[2026-05-19 15:56:12] INFO | app | [TASK] Loaded measurement configs | count=8
+[2026-05-19 15:56:12] INFO | app | 
+[2026-05-19 15:56:12] INFO | app | ############################################################
+[2026-05-19 15:56:12] INFO | app | ########### DIFFERENT DEVICE COOLDOWN ######################
+[2026-05-19 15:56:12] INFO | app | ############################################################
+[2026-05-19 15:56:12] INFO | app | [TASK] Cooldown START | device switch | device_id=1 | sleep=0.5s
+[2026-05-19 15:56:13] INFO | app | [TASK] Cooldown END | device switch | device_id=1
+[2026-05-19 15:56:13] INFO | app | 
+[2026-05-19 15:56:13] INFO | app | ############################################################
+[2026-05-19 15:56:13] INFO | app | ################# MEASUREMENT REQUEST ######################
+[2026-05-19 15:56:13] INFO | app | ############################################################
+[2026-05-19 15:56:13] INFO | app | [TASK] Measurement START | config_id=6 | device_id=1 | description=Produzione Fronius | call_type=measurment
+[2026-05-19 15:56:13] INFO | app | [CONFIG EXECUTOR] EXECUTE
+[2026-05-19 15:56:13] INFO | app | config_id=6
+[2026-05-19 15:56:13] INFO | app | device_id=1
+[2026-05-19 15:56:13] INFO | app | target_ip=192.168.1.4
+[2026-05-19 15:56:13] INFO | app | url=http://192.168.1.4:80/power_sensor?id=pz1
+[2026-05-19 15:56:13] INFO | app | method=GET
+[2026-05-19 15:56:13] INFO | app | [TASK] Measurement execution END | elapsed=0.36s
+[2026-05-19 15:56:13] INFO | app | [TASK] Measurement response VALID | config_id=6
+[2026-05-19 15:56:13] INFO | app | [TASK] Normalization END | power=1456.7 | voltage=227.9 | current=6.399 | pf=1.0
+[2026-05-19 15:56:13] INFO | app | [TASK] Snapshot saved OK | config_id=6
+[2026-05-19 15:56:13] INFO | app | 
+[2026-05-19 15:56:13] INFO | app | ############################################################
+[2026-05-19 15:56:13] INFO | app | ########### DIFFERENT DEVICE COOLDOWN ######################
+[2026-05-19 15:56:13] INFO | app | ############################################################
+[2026-05-19 15:56:13] INFO | app | [TASK] Cooldown START | device switch | device_id=2 | sleep=0.5s
+[2026-05-19 15:56:14] INFO | app | [TASK] Cooldown END | device switch | device_id=2
+[2026-05-19 15:56:14] INFO | app | 
+[2026-05-19 15:56:14] INFO | app | ############################################################
+[2026-05-19 15:56:14] INFO | app | ################# MEASUREMENT REQUEST ######################
+[2026-05-19 15:56:14] INFO | app | ############################################################
+[2026-05-19 15:56:14] INFO | app | [TASK] Measurement START | config_id=3 | device_id=2 | description=Assorbimento Totale da Manyi | call_type=measurment
+[2026-05-19 15:56:14] INFO | app | [CONFIG EXECUTOR] EXECUTE
+[2026-05-19 15:56:14] INFO | app | config_id=3
+[2026-05-19 15:56:14] INFO | app | device_id=2
+[2026-05-19 15:56:14] INFO | app | target_ip=192.168.1.3
+[2026-05-19 15:56:14] INFO | app | url=http://192.168.1.3:80/emeter/0
+[2026-05-19 15:56:14] INFO | app | method=GET
+[2026-05-19 15:56:14] INFO | app | [TASK] Measurement execution END | elapsed=0.02s
+[2026-05-19 15:56:14] INFO | app | [TASK] Measurement response VALID | config_id=3
+[2026-05-19 15:56:14] INFO | app | [TASK] Normalization END | power=499.41 | voltage=233.9 | current=2.58 | pf=0.83
+[2026-05-19 15:56:16] INFO | app | [TASK] Snapshot saved OK | config_id=3
+[2026-05-19 15:56:16] INFO | app | 
+[2026-05-19 15:56:16] INFO | app | ############################################################
+[2026-05-19 15:56:16] INFO | app | ############ SAME DEVICE COOLDOWN ##########################
+[2026-05-19 15:56:16] INFO | app | ############################################################
+[2026-05-19 15:56:16] INFO | app | [TASK] Cooldown START | same device | device_id=2 | sleep=2.0s
+[2026-05-19 15:56:18] INFO | app | [TASK] Cooldown END | same device | device_id=2
+[2026-05-19 15:56:18] INFO | app | 
+[2026-05-19 15:56:18] INFO | app | ############################################################
+[2026-05-19 15:56:18] INFO | app | ################# MEASUREMENT REQUEST ######################
+[2026-05-19 15:56:18] INFO | app | ############################################################
+[2026-05-19 15:56:18] INFO | app | [TASK] Measurement START | config_id=4 | device_id=2 | description=Assorbimento Auto da Manyi | call_type=measurment
+[2026-05-19 15:56:18] INFO | app | [CONFIG EXECUTOR] EXECUTE
+[2026-05-19 15:56:18] INFO | app | config_id=4
+[2026-05-19 15:56:18] INFO | app | device_id=2
+[2026-05-19 15:56:18] INFO | app | target_ip=192.168.1.3
+[2026-05-19 15:56:18] INFO | app | url=http://192.168.1.3:80/emeter/1
+[2026-05-19 15:56:18] INFO | app | method=GET
+[2026-05-19 15:56:18] INFO | app | [TASK] Measurement execution END | elapsed=0.04s
+[2026-05-19 15:56:18] INFO | app | [TASK] Measurement response VALID | config_id=4
+[2026-05-19 15:56:18] INFO | app | [TASK] Normalization END | power=0.0 | voltage=234.15 | current=0.01 | pf=0.03
+[2026-05-19 15:56:18] INFO | app | [TASK] Snapshot saved OK | config_id=4
+[2026-05-19 15:56:18] INFO | app | 
+[2026-05-19 15:56:18] INFO | app | ############################################################
+[2026-05-19 15:56:18] INFO | app | ########### DIFFERENT DEVICE COOLDOWN ######################
+[2026-05-19 15:56:18] INFO | app | ############################################################
+[2026-05-19 15:56:18] INFO | app | [TASK] Cooldown START | device switch | device_id=3 | sleep=0.5s
+[2026-05-19 15:56:18] INFO | app | [TASK] Cooldown END | device switch | device_id=3
+[2026-05-19 15:56:18] INFO | app | 
+[2026-05-19 15:56:18] INFO | app | ############################################################
+[2026-05-19 15:56:18] INFO | app | ################# MEASUREMENT REQUEST ######################
+[2026-05-19 15:56:18] INFO | app | ############################################################
+[2026-05-19 15:56:18] INFO | app | [TASK] Measurement START | config_id=9 | device_id=3 | description=Assorbimento Input Manyi | call_type=measurment
+[2026-05-19 15:56:18] INFO | app | [CONFIG EXECUTOR] EXECUTE
+[2026-05-19 15:56:18] INFO | app | config_id=9
+[2026-05-19 15:56:18] INFO | app | device_id=3
+[2026-05-19 15:56:18] INFO | app | target_ip=192.168.1.9
+[2026-05-19 15:56:18] INFO | app | url=http://192.168.1.9:80/power?voltage_sensor_id=v1&current_sensor_id=c1&n=800&sr=4000&fast=1&phase_shift=1
+[2026-05-19 15:56:18] INFO | app | method=GET
+[2026-05-19 15:56:19] INFO | app | [TASK] Measurement execution END | elapsed=0.69s
+[2026-05-19 15:56:19] INFO | app | [TASK] Measurement response VALID | config_id=9
+[2026-05-19 15:56:19] INFO | app | [TASK] Normalization END | power=6.675 | voltage=226.909 | current=0.214 | pf=0.1374
+[2026-05-19 15:56:21] INFO | app | [TASK] Snapshot saved OK | config_id=9
+[2026-05-19 15:56:21] INFO | app | 
+[2026-05-19 15:56:21] INFO | app | ############################################################
+[2026-05-19 15:56:21] INFO | app | ############ SAME DEVICE COOLDOWN ##########################
+[2026-05-19 15:56:21] INFO | app | ############################################################
+[2026-05-19 15:56:21] INFO | app | [TASK] Cooldown START | same device | device_id=3 | sleep=2.0s
+[2026-05-19 15:56:23] INFO | app | [TASK] Cooldown END | same device | device_id=3
+[2026-05-19 15:56:23] INFO | app | 
+[2026-05-19 15:56:23] INFO | app | ############################################################
+[2026-05-19 15:56:23] INFO | app | ################# MEASUREMENT REQUEST ######################
+[2026-05-19 15:56:23] INFO | app | ############################################################
+[2026-05-19 15:56:23] INFO | app | [TASK] Measurement START | config_id=10 | device_id=3 | description=Assorbimento Totale da ENEL BIS | call_type=measurment
+[2026-05-19 15:56:23] INFO | app | [CONFIG EXECUTOR] EXECUTE
+[2026-05-19 15:56:23] INFO | app | config_id=10
+[2026-05-19 15:56:23] INFO | app | device_id=3
+[2026-05-19 15:56:23] INFO | app | target_ip=192.168.1.9
+[2026-05-19 15:56:23] INFO | app | url=http://192.168.1.9:80/power?voltage_sensor_id=v1&current_sensor_id=c2&n=800&sr=4000&fast=1&phase_shift=1
+[2026-05-19 15:56:23] INFO | app | method=GET
+[2026-05-19 15:56:24] INFO | app | [TASK] Measurement execution END | elapsed=0.83s
+[2026-05-19 15:56:24] INFO | app | [TASK] Measurement response VALID | config_id=10
+[2026-05-19 15:56:24] INFO | app | [TASK] Normalization END | power=7.014 | voltage=226.353 | current=0.368 | pf=0.0842
+[2026-05-19 15:56:26] INFO | app | [TASK] Snapshot saved OK | config_id=10
+[2026-05-19 15:56:26] INFO | app | 
+[2026-05-19 15:56:26] INFO | app | ############################################################
+[2026-05-19 15:56:26] INFO | app | ############ SAME DEVICE COOLDOWN ##########################
+[2026-05-19 15:56:26] INFO | app | ############################################################
+[2026-05-19 15:56:26] INFO | app | [TASK] Cooldown START | same device | device_id=3 | sleep=2.0s

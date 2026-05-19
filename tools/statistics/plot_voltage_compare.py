@@ -11,12 +11,12 @@ python tools/statistics/plot_voltage_compare.py \
 '''
 
 import argparse
-import sqlite3
-from pathlib import Path
 from datetime import datetime, timedelta
 
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+
+from db import build_sqlite_database_url, get_sensor_voltage_series
 
 
 def parse_args():
@@ -35,37 +35,25 @@ def parse_args():
 
 
 def load_series(db_path, sensor_name, channel_index, last_hours=None):
-    conn = sqlite3.connect(db_path)
-    cur = conn.cursor()
-
-    params = [sensor_name, channel_index]
-
-    time_filter = ""
+    since_created_at = None
     if last_hours is not None:
         since = datetime.now() - timedelta(hours=last_hours)
-        time_filter = "AND created_at >= ?"
-        params.append(since.isoformat(timespec="seconds"))
+        since_created_at = since.isoformat(timespec="seconds")
 
-    cur.execute(f"""
-        SELECT created_at, voltage
-        FROM sensor_snapshots
-        WHERE sensor_name = ?
-          AND channel_index = ?
-          AND voltage IS NOT NULL
-          {time_filter}
-        ORDER BY created_at ASC
-    """, params)
-
-    rows = cur.fetchall()
-    conn.close()
+    rows = get_sensor_voltage_series(
+        sensor_name=sensor_name,
+        channel_index=channel_index,
+        since_created_at=since_created_at,
+        database_url=build_sqlite_database_url(db_path),
+    )
 
     times = []
     values = []
 
-    for created_at, voltage in rows:
+    for row in rows:
         try:
-            times.append(datetime.fromisoformat(created_at))
-            values.append(float(voltage))
+            times.append(datetime.fromisoformat(row["created_at"]))
+            values.append(float(row["voltage"]))
         except Exception:
             continue
 

@@ -1,5 +1,6 @@
-import sqlite3
 from pathlib import Path
+
+from db import build_sqlite_database_url, list_device_snapshots_flat_for_stats
 
 DB_PATH = Path("data/solar.db")
 
@@ -29,42 +30,27 @@ def to_float(value):
 
 
 def load_rows():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
+    raw_rows = list_device_snapshots_flat_for_stats(
+        database_url=build_sqlite_database_url(str(DB_PATH)),
+    )
 
-    try:
-        cur = conn.cursor()
-        cur.execute("""
-            SELECT
-                created_at,
-                battery_voltage,
-                controller_charging_current,
-                load_percentage
-            FROM device_snapshots_flat
-            WHERE battery_voltage IS NOT NULL
-            ORDER BY created_at ASC
-        """)
+    rows = []
+    for r in raw_rows:
+        battery_voltage = to_float(r["battery_voltage"])
+        charging_current = to_float(r["controller_charging_current"])
+        load_percentage = to_float(r["load_percentage"])
 
-        rows = []
-        for r in cur.fetchall():
-            battery_voltage = to_float(r["battery_voltage"])
-            charging_current = to_float(r["controller_charging_current"])
-            load_percentage = to_float(r["load_percentage"])
+        if battery_voltage is None:
+            continue
 
-            if battery_voltage is None:
-                continue
+        rows.append({
+            "created_at": r["created_at"],
+            "battery_voltage": battery_voltage,
+            "controller_charging_current": charging_current if charging_current is not None else 0.0,
+            "load_percentage": load_percentage if load_percentage is not None else 0.0,
+        })
 
-            rows.append({
-                "created_at": r["created_at"],
-                "battery_voltage": battery_voltage,
-                "controller_charging_current": charging_current if charging_current is not None else 0.0,
-                "load_percentage": load_percentage if load_percentage is not None else 0.0,
-            })
-
-        return rows
-
-    finally:
-        conn.close()
+    return rows
 
 
 def estimate_v_oc(row, x1, x2):
