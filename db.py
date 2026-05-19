@@ -7,7 +7,7 @@ Modulo dedicato all'accesso ai database relazionali del progetto.
 import os
 import sqlite3
 from functools import lru_cache
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 from zoneinfo import ZoneInfo
@@ -16,11 +16,24 @@ from sqlalchemy import create_engine, inspect as sqlalchemy_inspect, select
 from sqlalchemy.orm import sessionmaker
 
 from logger import get_logger
-from models import AuthToken, SensorMeasurementsConfig, UserInfoSnapshot
+from models import (
+    AuthToken,
+    DeviceSnapshot,
+    DeviceSnapshotFlat,
+    HostStatusSnapshot,
+    RelayStatusSnapshot,
+    SensorMeasurementSnapshot,
+    SensorSnapshot,
+    SensorStatusSnapshot,
+    SensorMeasurementsConfig,
+    TeslaVehicleSnapshot,
+    UserInfoSnapshot,
+)
 
 DEFAULT_DB_PATH = "data/solar.db"
 DEFAULT_LAN_SCANNER_DB_PATH = "/app/lan_scanner_data/lan_scanner.db"
 DB_MODEL_READ_LOGS_ENABLED = os.getenv("LOG_DB_MODEL_READS", "0") == "1"
+DB_MODEL_WRITE_LOGS_ENABLED = os.getenv("LOG_DB_MODEL_WRITES", "0") == "1"
 SQLITE_JOURNAL_MODE = os.getenv("SQLITE_JOURNAL_MODE", "WAL").upper()
 SQLITE_SYNCHRONOUS = os.getenv("SQLITE_SYNCHRONOUS", "NORMAL").upper()
 
@@ -291,6 +304,20 @@ def _log_model_read(
     logger.info(message, *args)
 
 
+def _log_model_write(model_name: str, row_id, source: str | None = None):
+    if not DB_MODEL_WRITE_LOGS_ENABLED:
+        return
+
+    message = "DB model write | model=%s | row_id=%s"
+    args = [model_name, row_id]
+
+    if source:
+        message += " | source=%s"
+        args.append(source)
+
+    logger.info(message, *args)
+
+
 def _fetch_one_model(
     statement,
     *,
@@ -324,6 +351,39 @@ def _fetch_all_models(
         instances = session.execute(statement).scalars().all()
         _log_model_read("_fetch_all_models", model_name, len(instances), source)
         return [_model_to_dict(instance) for instance in instances]
+    finally:
+        session.close()
+
+
+def _fetch_all_mappings(
+    statement,
+    *,
+    model_name: str,
+    source: str | None = None,
+    database_url: str = DATABASE_URL,
+):
+    session = _get_sqlalchemy_session_factory(database_url)()
+    try:
+        rows = session.execute(statement).mappings().all()
+        _log_model_read("_fetch_all_mappings", model_name, len(rows), source)
+        return [dict(row) for row in rows]
+    finally:
+        session.close()
+
+
+def _insert_model_row(
+    instance,
+    *,
+    source: str | None = None,
+    database_url: str = DATABASE_URL,
+):
+    session = _get_sqlalchemy_session_factory(database_url)()
+    try:
+        session.add(instance)
+        session.commit()
+        session.refresh(instance)
+        _log_model_write(type(instance).__name__, instance.id, source)
+        return instance.id
     finally:
         session.close()
 
@@ -476,19 +536,15 @@ def insert_host_status_snapshot(
     ip_status: str | None,
     raw_json: str,
 ) -> int:
-    return _execute_write(
-        """
-        INSERT INTO host_status_snapshots (
-            created_at,
-            device_id,
-            ok,
-            ip_status,
-            raw_json
-        )
-        VALUES (?, ?, ?, ?, ?)
-        """,
-        (created_at, device_id, ok, ip_status, raw_json),
-        return_lastrowid=True,
+    return _insert_model_row(
+        HostStatusSnapshot(
+            created_at=created_at,
+            device_id=device_id,
+            ok=ok,
+            ip_status=ip_status,
+            raw_json=raw_json,
+        ),
+        source="db.insert_host_status_snapshot",
     )
 
 
@@ -504,35 +560,20 @@ def insert_sensor_status_snapshot(
     version: str | None,
     raw_json: str,
 ) -> int:
-    return _execute_write(
-        """
-        INSERT INTO sensor_status_snapshots (
-            created_at,
-            device_id,
-            ok,
-            ip_status,
-            wifi_ssid,
-            wifi_rssi,
-            uptime_s,
-            heap_free,
-            version,
-            raw_json
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """,
-        (
-            created_at,
-            device_id,
-            ok,
-            ip_status,
-            wifi_ssid,
-            wifi_rssi,
-            uptime_s,
-            heap_free,
-            version,
-            raw_json,
+    return _insert_model_row(
+        SensorStatusSnapshot(
+            created_at=created_at,
+            device_id=device_id,
+            ok=ok,
+            ip_status=ip_status,
+            wifi_ssid=wifi_ssid,
+            wifi_rssi=wifi_rssi,
+            uptime_s=uptime_s,
+            heap_free=heap_free,
+            version=version,
+            raw_json=raw_json,
         ),
-        return_lastrowid=True,
+        source="db.insert_sensor_status_snapshot",
     )
 
 
@@ -547,33 +588,19 @@ def insert_relay_status_snapshot(
     relay_pin,
     raw_json: str,
 ) -> int:
-    return _execute_write(
-        """
-        INSERT INTO relay_status_snapshots (
-            created_at,
-            device_id,
-            relay_id,
-            is_on,
-            real_state,
-            feedback_invert,
-            feedback_pin,
-            relay_pin,
-            raw_json
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """,
-        (
-            created_at,
-            device_id,
-            relay_id,
-            is_on,
-            real_state,
-            feedback_invert,
-            feedback_pin,
-            relay_pin,
-            raw_json,
+    return _insert_model_row(
+        RelayStatusSnapshot(
+            created_at=created_at,
+            device_id=device_id,
+            relay_id=relay_id,
+            is_on=is_on,
+            real_state=real_state,
+            feedback_invert=feedback_invert,
+            feedback_pin=feedback_pin,
+            relay_pin=relay_pin,
+            raw_json=raw_json,
         ),
-        return_lastrowid=True,
+        source="db.insert_relay_status_snapshot",
     )
 
 
@@ -592,41 +619,23 @@ def insert_sensor_measurement_snapshot(
     total_power,
     raw_json: str,
 ) -> int:
-    return _execute_write(
-        """
-        INSERT INTO sensor_measurement_snapshots (
-            created_at,
-            device_id,
-            measurement_config_id,
-            ok,
-            voltage,
-            current,
-            power,
-            power_factor,
-            energy,
-            frequency,
-            apparent_power,
-            total_power,
-            raw_json
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """,
-        (
-            created_at,
-            device_id,
-            measurement_config_id,
-            ok,
-            voltage,
-            current,
-            power,
-            power_factor,
-            energy,
-            frequency,
-            apparent_power,
-            total_power,
-            raw_json,
+    return _insert_model_row(
+        SensorMeasurementSnapshot(
+            created_at=created_at,
+            device_id=device_id,
+            measurement_config_id=measurement_config_id,
+            ok=ok,
+            voltage=voltage,
+            current=current,
+            power=power,
+            power_factor=power_factor,
+            energy=energy,
+            frequency=frequency,
+            apparent_power=apparent_power,
+            total_power=total_power,
+            raw_json=raw_json,
         ),
-        return_lastrowid=True,
+        source="db.insert_sensor_measurement_snapshot",
     )
 
 
@@ -670,13 +679,13 @@ def cleanup_table_keep_latest(table_name: str, max_rows: int, order_column: str 
 
 
 def insert_token(token: str, login_payload_json: str) -> int:
-    row_id = _execute_write(
-        """
-        INSERT INTO auth_tokens (created_at, token, login_payload_json)
-        VALUES (?, ?, ?)
-        """,
-        (now_rome_str(), token, login_payload_json),
-        return_lastrowid=True,
+    row_id = _insert_model_row(
+        AuthToken(
+            created_at=now_rome_str(),
+            token=token,
+            login_payload_json=login_payload_json,
+        ),
+        source="db.insert_token",
     )
 
     cleanup_table_keep_latest("auth_tokens", AUTH_TOKEN_LIMIT)
@@ -684,13 +693,13 @@ def insert_token(token: str, login_payload_json: str) -> int:
 
 
 def insert_user_info(token: str, payload_json: str) -> int:
-    row_id = _execute_write(
-        """
-        INSERT INTO user_info_snapshots (created_at, token, payload_json)
-        VALUES (?, ?, ?)
-        """,
-        (now_rome_str(), token, payload_json),
-        return_lastrowid=True,
+    row_id = _insert_model_row(
+        UserInfoSnapshot(
+            created_at=now_rome_str(),
+            token=token,
+            payload_json=payload_json,
+        ),
+        source="db.insert_user_info",
     )
 
     cleanup_table_keep_latest("user_info_snapshots", AUTH_USER_INFO_LIMIT)
@@ -721,13 +730,14 @@ def get_last_token_value():
 
 
 def insert_device_snapshot(device_row_key: str, update_time: str, json_data: str) -> int:
-    row_id = _execute_write(
-        """
-        INSERT INTO device_snapshots (created_at, device_row_key, update_time, json_data)
-        VALUES (?, ?, ?, ?)
-        """,
-        (now_rome_str(), device_row_key, update_time, json_data),
-        return_lastrowid=True,
+    row_id = _insert_model_row(
+        DeviceSnapshot(
+            created_at=now_rome_str(),
+            device_row_key=device_row_key,
+            update_time=update_time,
+            json_data=json_data,
+        ),
+        source="db.insert_device_snapshot",
     )
 
     cleanup_table_keep_latest("device_snapshots", DEVICE_SNAPSHOT_LIMIT)
@@ -766,77 +776,41 @@ def insert_device_snapshot_flat(
     inverter_fault_alarm: str | None,
     inverter_warning_alarm: str | None,
 ) -> int:
-    row_id = _execute_write(
-        """
-        INSERT INTO device_snapshots_flat (
-            created_at,
-            device_row_key,
-            update_time,
-            inverter_program_version,
-            internal_model,
-            input_voltage,
-            input_frequency,
-            output_voltage,
-            output_frequency,
-            battery_voltage,
-            battery_capacity,
-            inverter_charging_current,
-            load_percentage,
-            device_temp,
-            machine_status_code,
-            system_run_time,
-            system_operation_status,
-            battery_number_in_series,
-            controller_program_version,
-            pv_voltage,
-            controller_charging_current,
-            controller_temp,
-            controller_status_code,
-            controller_connection_status,
-            controller_charging_status,
-            inverter_charge_status,
-            battery_voltage_is_full,
-            controller_malfunction_alarm,
-            controller_warning_alarm,
-            inverter_fault_alarm,
-            inverter_warning_alarm
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """,
-        (
-            now_rome_str(),
-            device_row_key,
-            update_time,
-            inverter_program_version,
-            internal_model,
-            input_voltage,
-            input_frequency,
-            output_voltage,
-            output_frequency,
-            battery_voltage,
-            battery_capacity,
-            inverter_charging_current,
-            load_percentage,
-            device_temp,
-            machine_status_code,
-            system_run_time,
-            system_operation_status,
-            battery_number_in_series,
-            controller_program_version,
-            pv_voltage,
-            controller_charging_current,
-            controller_temp,
-            controller_status_code,
-            controller_connection_status,
-            controller_charging_status,
-            inverter_charge_status,
-            battery_voltage_is_full,
-            controller_malfunction_alarm,
-            controller_warning_alarm,
-            inverter_fault_alarm,
-            inverter_warning_alarm,
+    row_id = _insert_model_row(
+        DeviceSnapshotFlat(
+            created_at=now_rome_str(),
+            device_row_key=device_row_key,
+            update_time=update_time,
+            inverter_program_version=inverter_program_version,
+            internal_model=internal_model,
+            input_voltage=input_voltage,
+            input_frequency=input_frequency,
+            output_voltage=output_voltage,
+            output_frequency=output_frequency,
+            battery_voltage=battery_voltage,
+            battery_capacity=battery_capacity,
+            inverter_charging_current=inverter_charging_current,
+            load_percentage=load_percentage,
+            device_temp=device_temp,
+            machine_status_code=machine_status_code,
+            system_run_time=system_run_time,
+            system_operation_status=system_operation_status,
+            battery_number_in_series=battery_number_in_series,
+            controller_program_version=controller_program_version,
+            pv_voltage=pv_voltage,
+            controller_charging_current=controller_charging_current,
+            controller_temp=controller_temp,
+            controller_status_code=controller_status_code,
+            controller_connection_status=controller_connection_status,
+            controller_charging_status=controller_charging_status,
+            inverter_charge_status=inverter_charge_status,
+            battery_voltage_is_full=battery_voltage_is_full,
+            controller_malfunction_alarm=controller_malfunction_alarm,
+            controller_warning_alarm=controller_warning_alarm,
+            inverter_fault_alarm=inverter_fault_alarm,
+            inverter_warning_alarm=inverter_warning_alarm,
         ),
-        return_lastrowid=True,
+        source="db.insert_device_snapshot_flat",
     )
 
     cleanup_table_keep_latest("device_snapshots_flat", DEVICE_SNAPSHOT_FLAT_LIMIT)
@@ -862,15 +836,25 @@ def get_device_metric_history(
     if metric_name not in allowed_metrics:
         raise ValueError(f"Metrica non consentita: {metric_name}")
 
-    query = f"""
-        SELECT update_time, created_at, {metric_name} AS metric_value
-        FROM device_snapshots_flat
-        WHERE device_row_key = ?
-          AND created_at >= ?
-          AND created_at <= ?
-        ORDER BY created_at ASC
-    """
-    return _fetch_all(query, (device_row_key, start_time, end_time))
+    metric_column = getattr(DeviceSnapshotFlat, metric_name)
+
+    statement = (
+        select(
+            DeviceSnapshotFlat.update_time,
+            DeviceSnapshotFlat.created_at,
+            metric_column.label("metric_value"),
+        )
+        .where(DeviceSnapshotFlat.device_row_key == device_row_key)
+        .where(DeviceSnapshotFlat.created_at >= start_time)
+        .where(DeviceSnapshotFlat.created_at <= end_time)
+        .order_by(DeviceSnapshotFlat.created_at.asc())
+    )
+
+    return _fetch_all_mappings(
+        statement,
+        model_name="DeviceSnapshotFlat",
+        source="db.get_device_metric_history",
+    )
 
 
 ##########################################################################
@@ -884,31 +868,26 @@ def get_sensor_voltage_series(
     since_created_at: str | None = None,
     database_url: str | None = None,
 ):
-    conn = get_connection_for_database_url(database_url or DATABASE_URL)
-    try:
-        cur = conn.cursor()
-        params = [sensor_name, channel_index]
-        time_filter = ""
-
-        if since_created_at is not None:
-            time_filter = "AND created_at >= ?"
-            params.append(since_created_at)
-
-        cur.execute(
-            f"""
-            SELECT created_at, voltage
-            FROM sensor_snapshots
-            WHERE sensor_name = ?
-              AND channel_index = ?
-              AND voltage IS NOT NULL
-              {time_filter}
-            ORDER BY created_at ASC
-            """,
-            tuple(params),
+    statement = (
+        select(
+            SensorSnapshot.created_at,
+            SensorSnapshot.voltage,
         )
-        return [dict(row) for row in cur.fetchall()]
-    finally:
-        conn.close()
+        .where(SensorSnapshot.sensor_name == sensor_name)
+        .where(SensorSnapshot.channel_index == channel_index)
+        .where(SensorSnapshot.voltage.is_not(None))
+        .order_by(SensorSnapshot.created_at.asc())
+    )
+
+    if since_created_at is not None:
+        statement = statement.where(SensorSnapshot.created_at >= since_created_at)
+
+    return _fetch_all_mappings(
+        statement,
+        model_name="SensorSnapshot",
+        source="db.get_sensor_voltage_series",
+        database_url=database_url or DATABASE_URL,
+    )
 
 
 def list_device_snapshots_flat_for_stats(
@@ -917,34 +896,33 @@ def list_device_snapshots_flat_for_stats(
     require_battery_capacity: bool = False,
     database_url: str | None = None,
 ):
-    conn = get_connection_for_database_url(database_url or DATABASE_URL)
-    try:
-        cur = conn.cursor()
-        query_lines = [
-            "SELECT",
-            "    created_at,",
-            "    battery_voltage,",
-            "    controller_charging_current,",
-            "    load_percentage,",
-            "    battery_capacity",
-            "FROM device_snapshots_flat",
-            "WHERE battery_voltage IS NOT NULL",
-        ]
-        params = []
+    statement = (
+        select(
+            DeviceSnapshotFlat.created_at,
+            DeviceSnapshotFlat.battery_voltage,
+            DeviceSnapshotFlat.controller_charging_current,
+            DeviceSnapshotFlat.load_percentage,
+            DeviceSnapshotFlat.battery_capacity,
+        )
+        .where(DeviceSnapshotFlat.battery_voltage.is_not(None))
+        .order_by(DeviceSnapshotFlat.created_at.asc())
+    )
 
-        if require_battery_capacity:
-            query_lines.append("  AND battery_capacity IS NOT NULL")
+    if require_battery_capacity:
+        statement = statement.where(DeviceSnapshotFlat.battery_capacity.is_not(None))
 
-        if hours is not None:
-            query_lines.append("  AND datetime(created_at) >= datetime('now', ?)")
-            params.append(f"-{hours} hours")
+    if hours is not None:
+        since_created_at = (
+            datetime.now(ZoneInfo("Europe/Rome")) - timedelta(hours=hours)
+        ).strftime("%Y-%m-%d %H:%M:%S")
+        statement = statement.where(DeviceSnapshotFlat.created_at >= since_created_at)
 
-        query_lines.append("ORDER BY created_at ASC")
-
-        cur.execute("\n".join(query_lines), tuple(params))
-        return [dict(row) for row in cur.fetchall()]
-    finally:
-        conn.close()
+    return _fetch_all_mappings(
+        statement,
+        model_name="DeviceSnapshotFlat",
+        source="db.list_device_snapshots_flat_for_stats",
+        database_url=database_url or DATABASE_URL,
+    )
 
 
 def insert_tesla_vehicle_snapshot(
@@ -962,44 +940,22 @@ def insert_tesla_vehicle_snapshot(
     charge_port_color: str | None,
     conn_charge_cable: str | None,
 ) -> int:
-    conn = get_connection()
-    try:
-        cur = conn.cursor()
-        cur.execute("""
-            INSERT INTO tesla_vehicle_snapshots (
-                created_at,
-                vin,
-                state,
-                battery_level,
-                charging_state,
-                charge_limit_soc,
-                charger_power,
-                inside_temp,
-                outside_temp,
-                locked,
-                charge_port_door_open,
-                charge_port_latch,
-                charge_port_color,
-                conn_charge_cable
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            now_rome_str(),
-            vin,
-            state,
-            battery_level,
-            charging_state,
-            charge_limit_soc,
-            charger_power,
-            inside_temp,
-            outside_temp,
-            1 if locked else 0 if locked is not None else None,
-            1 if charge_port_door_open else 0 if charge_port_door_open is not None else None,
-            charge_port_latch,
-            charge_port_color,
-            conn_charge_cable,
-        ))
-        conn.commit()
-        return cur.lastrowid
-    finally:
-        conn.close()
+    return _insert_model_row(
+        TeslaVehicleSnapshot(
+            created_at=now_rome_str(),
+            vin=vin,
+            state=state,
+            battery_level=battery_level,
+            charging_state=charging_state,
+            charge_limit_soc=charge_limit_soc,
+            charger_power=charger_power,
+            inside_temp=inside_temp,
+            outside_temp=outside_temp,
+            locked=1 if locked else 0 if locked is not None else None,
+            charge_port_door_open=1 if charge_port_door_open else 0 if charge_port_door_open is not None else None,
+            charge_port_latch=charge_port_latch,
+            charge_port_color=charge_port_color,
+            conn_charge_cable=conn_charge_cable,
+        ),
+        source="db.insert_tesla_vehicle_snapshot",
+    )
