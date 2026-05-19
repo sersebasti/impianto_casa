@@ -1,13 +1,14 @@
 """
 db.py
 
-Modulo dedicato al database SQLite.
+Modulo dedicato all'accesso ai database relazionali del progetto.
 """
 
 import os
 import sqlite3
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import unquote, urlparse
 from zoneinfo import ZoneInfo
 
 DEFAULT_DB_PATH = "data/solar.db"
@@ -18,13 +19,26 @@ def _build_sqlite_url(db_path: str) -> str:
     return f"sqlite:///{Path(db_path).as_posix()}"
 
 
+def build_database_url(*, dialect: str, db_path: str | None = None) -> str:
+    if dialect != "sqlite":
+        raise ValueError(f"Dialect non supportato per la build automatica: {dialect}")
+
+    if not db_path:
+        raise ValueError("db_path obbligatorio per costruire una DATABASE_URL SQLite")
+
+    return _build_sqlite_url(db_path)
+
+
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    _build_sqlite_url(os.getenv("DB_PATH", DEFAULT_DB_PATH)),
+    build_database_url(dialect="sqlite", db_path=os.getenv("DB_PATH", DEFAULT_DB_PATH)),
 )
 LAN_SCANNER_DATABASE_URL = os.getenv(
     "LAN_SCANNER_DATABASE_URL",
-    _build_sqlite_url(os.getenv("LAN_SCANNER_DB_PATH", DEFAULT_LAN_SCANNER_DB_PATH)),
+    build_database_url(
+        dialect="sqlite",
+        db_path=os.getenv("LAN_SCANNER_DB_PATH", DEFAULT_LAN_SCANNER_DB_PATH),
+    ),
 )
 INIT_SQL_PATH = Path("init.sql")
 
@@ -39,18 +53,88 @@ def now_rome_str() -> str:
     return datetime.now(ZoneInfo("Europe/Rome")).strftime("%Y-%m-%d %H:%M:%S")
 
 
+def _get_database_dialect(database_url: str) -> str:
+    parsed = urlparse(database_url)
+    dialect = parsed.scheme.split("+", 1)[0].lower()
+
+    if not dialect:
+        raise ValueError(f"DATABASE_URL non valida: {database_url}")
+
+    return dialect
+
+
+def _translate_query_placeholders(query: str, dialect: str) -> str:
+    if dialect in {"mysql", "mariadb"}:
+        return query.replace("?", "%s")
+
+    return query
+
+
+class _CursorAdapter:
+    def __init__(self, raw_cursor, dialect: str):
+        self._raw_cursor = raw_cursor
+        self._dialect = dialect
+
+    @property
+    def lastrowid(self):
+        return self._raw_cursor.lastrowid
+
+    def execute(self, query: str, params=None):
+        translated_query = _translate_query_placeholders(query, self._dialect)
+
+        if params is None:
+            return self._raw_cursor.execute(translated_query)
+
+        return self._raw_cursor.execute(translated_query, params)
+
+    def fetchone(self):
+        return self._raw_cursor.fetchone()
+
+    def fetchall(self):
+        return self._raw_cursor.fetchall()
+
+    def __getattr__(self, attr):
+        return getattr(self._raw_cursor, attr)
+
+
+class _ConnectionAdapter:
+    def __init__(self, raw_connection, dialect: str):
+        self._raw_connection = raw_connection
+        self._dialect = dialect
+
+    def cursor(self):
+        return _CursorAdapter(self._raw_connection.cursor(), self._dialect)
+
+    def commit(self):
+        return self._raw_connection.commit()
+
+    def close(self):
+        return self._raw_connection.close()
+
+    def executescript(self, script: str):
+        if self._dialect != "sqlite":
+            raise NotImplementedError(
+                "init_db con init.sql supporta solo SQLite. Per MySQL/MariaDB servono migrazioni dedicate."
+            )
+
+        return self._raw_connection.executescript(script)
+
+    def __getattr__(self, attr):
+        return getattr(self._raw_connection, attr)
+
+
 def _sqlite_target_from_url(database_url: str) -> str:
     sqlite_prefix = "sqlite:///"
 
     if not database_url.startswith(sqlite_prefix):
         raise ValueError(
-            "Sono supportate solo DATABASE_URL SQLite, ad esempio sqlite:///data/solar.db"
+            "DATABASE_URL SQLite non valida, esempio atteso: sqlite:///data/solar.db"
         )
 
     return database_url[len(sqlite_prefix):]
 
 
-def _get_sqlite_connection(database_url: str, timeout: float = 5.0):
+def _connect_sqlite(database_url: str, timeout: float = 5.0):
     db_target = _sqlite_target_from_url(database_url)
 
     if db_target != ":memory:":
@@ -61,20 +145,67 @@ def _get_sqlite_connection(database_url: str, timeout: float = 5.0):
     return conn
 
 
+def _connect_mysql(database_url: str, timeout: float = 5.0):
+    try:
+        import pymysql
+        from pymysql.cursors import DictCursor
+    except ImportError as exc:
+        raise RuntimeError(
+            "Per usare MySQL/MariaDB serve PyMySQL installato nel runtime."
+        ) from exc
+
+    parsed = urlparse(database_url)
+    database_name = parsed.path.lstrip("/")
+
+    if not database_name:
+        raise ValueError(f"Database name mancante nella DATABASE_URL: {database_url}")
+
+    return pymysql.connect(
+        host=parsed.hostname or "localhost",
+        port=parsed.port or 3306,
+        user=unquote(parsed.username or ""),
+        password=unquote(parsed.password or ""),
+        database=database_name,
+        connect_timeout=max(int(timeout), 1),
+        cursorclass=DictCursor,
+        charset="utf8mb4",
+        autocommit=False,
+    )
+
+
 def build_sqlite_database_url(db_path: str) -> str:
-    return _build_sqlite_url(db_path)
+    return build_database_url(dialect="sqlite", db_path=db_path)
+
+
+def get_database_dialect(database_url: str) -> str:
+    return _get_database_dialect(database_url)
+
+
+def _open_raw_connection(database_url: str, timeout: float = 5.0):
+    dialect = _get_database_dialect(database_url)
+
+    if dialect == "sqlite":
+        return _connect_sqlite(database_url, timeout=timeout), dialect
+
+    if dialect in {"mysql", "mariadb"}:
+        return _connect_mysql(database_url, timeout=timeout), dialect
+
+    raise ValueError(
+        f"Dialect non supportato: {dialect}. Supportati: sqlite, mysql, mariadb"
+    )
 
 
 def get_connection(timeout: float = 5.0):
-    return _get_sqlite_connection(DATABASE_URL, timeout=timeout)
+    return get_connection_for_database_url(DATABASE_URL, timeout=timeout)
 
 
 def get_lan_scanner_connection(timeout: float = 5.0):
-    return _get_sqlite_connection(LAN_SCANNER_DATABASE_URL, timeout=timeout)
+    return get_connection_for_database_url(LAN_SCANNER_DATABASE_URL, timeout=timeout)
 
 
 def get_connection_for_database_url(database_url: str, timeout: float = 5.0):
-    return _get_sqlite_connection(database_url, timeout=timeout)
+    raw_connection, dialect = _open_raw_connection(database_url, timeout=timeout)
+    return _ConnectionAdapter(raw_connection, dialect)
 
 
 def get_sensor_measurement_config(config_id: int):
