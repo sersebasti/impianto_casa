@@ -1,5 +1,12 @@
 Put Alembic revision files in this directory.
 
+Current baseline:
+- `20260519_0001_baseline_schema.py` creates the schema from SQLAlchemy models.
+
+Suggested usage:
+- On a brand new database: `alembic upgrade head`
+- On the current already-populated database: `alembic stamp head`
+
 Examples:
-- alembic revision --autogenerate -m "create initial schema"
+- alembic revision --autogenerate -m "add new table"
 - alembic upgrade head
