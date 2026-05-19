@@ -417,6 +417,7 @@ def acquire_and_save_sensors_status_data(logger):
 
         configs = list_sensor_measurement_configs(
             call_type="status",
+            source="polling.acquire_and_save_sensors_status_data",
         )
 
         logger.info(
@@ -1053,6 +1054,7 @@ def acquire_and_save_sensors_measurements_data(logger):
 
         configs = list_sensor_measurement_configs(
             config_ids=measurement_config_ids,
+            source="polling.acquire_and_save_sensor_measurement_data",
         )
 
         logger.info(

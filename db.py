@@ -6,13 +6,23 @@ Modulo dedicato all'accesso ai database relazionali del progetto.
 
 import os
 import sqlite3
+from functools import lru_cache
 from datetime import datetime
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 from zoneinfo import ZoneInfo
 
+from sqlalchemy import create_engine, inspect as sqlalchemy_inspect, select
+from sqlalchemy.orm import sessionmaker
+
+from logger import get_logger
+from models import AuthToken, SensorMeasurementsConfig, UserInfoSnapshot
+
 DEFAULT_DB_PATH = "data/solar.db"
 DEFAULT_LAN_SCANNER_DB_PATH = "/app/lan_scanner_data/lan_scanner.db"
+DB_MODEL_READ_LOGS_ENABLED = os.getenv("LOG_DB_MODEL_READS", "0") == "1"
+
+logger = get_logger("db")
 
 
 ##########################################################################
@@ -224,6 +234,92 @@ def _open_raw_connection(database_url: str, timeout: float = 5.0):
     )
 
 
+def _normalize_database_url_for_sqlalchemy(database_url: str) -> str:
+    dialect = _get_database_dialect(database_url)
+
+    if dialect == "mariadb":
+        return database_url.replace("mariadb://", "mysql+pymysql://", 1)
+
+    if dialect == "mysql" and "+" not in database_url.split("://", 1)[0]:
+        return database_url.replace("mysql://", "mysql+pymysql://", 1)
+
+    return database_url
+
+
+@lru_cache(maxsize=4)
+def _get_sqlalchemy_engine(database_url: str):
+    normalized_url = _normalize_database_url_for_sqlalchemy(database_url)
+    return create_engine(normalized_url)
+
+
+@lru_cache(maxsize=4)
+def _get_sqlalchemy_session_factory(database_url: str):
+    return sessionmaker(bind=_get_sqlalchemy_engine(database_url))
+
+
+def _model_to_dict(instance):
+    return {
+        attribute.key: getattr(instance, attribute.key)
+        for attribute in sqlalchemy_inspect(instance).mapper.column_attrs
+    }
+
+
+def _log_model_read(
+    helper_name: str,
+    model_name: str,
+    result_count: int,
+    source: str | None = None,
+):
+    if not DB_MODEL_READ_LOGS_ENABLED:
+        return
+
+    message = "DB model read | helper=%s | model=%s | rows=%s"
+    args = [helper_name, model_name, result_count]
+
+    if source:
+        message += " | source=%s"
+        args.append(source)
+
+    logger.info(message, *args)
+
+
+def _fetch_one_model(
+    statement,
+    *,
+    model_name: str,
+    source: str | None = None,
+    database_url: str = DATABASE_URL,
+):
+    session = _get_sqlalchemy_session_factory(database_url)()
+    try:
+        instance = session.execute(statement).scalars().first()
+        _log_model_read(
+            "_fetch_one_model",
+            model_name,
+            0 if instance is None else 1,
+            source,
+        )
+        return _model_to_dict(instance) if instance else None
+    finally:
+        session.close()
+
+
+def _fetch_all_models(
+    statement,
+    *,
+    model_name: str,
+    source: str | None = None,
+    database_url: str = DATABASE_URL,
+):
+    session = _get_sqlalchemy_session_factory(database_url)()
+    try:
+        instances = session.execute(statement).scalars().all()
+        _log_model_read("_fetch_all_models", model_name, len(instances), source)
+        return [_model_to_dict(instance) for instance in instances]
+    finally:
+        session.close()
+
+
 def get_connection_for_database_url(database_url: str, timeout: float = 5.0):
     raw_connection, dialect = _open_raw_connection(database_url, timeout=timeout)
     return _ConnectionAdapter(raw_connection, dialect)
@@ -290,24 +386,13 @@ def _execute_write(
 ##########################################################################
 
 
-def get_sensor_measurement_config(config_id: int):
-    return _fetch_one(
-        """
-        SELECT
-            id,
-            device_id,
-            call_type,
-            http_method,
-            endpoint_query,
-            payload,
-            response_structure,
-            description,
-            enabled,
-            port
-        FROM sensor_measurements_config
-        WHERE id = ?
-        """,
-        (config_id,),
+def get_sensor_measurement_config(config_id: int, source: str | None = None):
+    return _fetch_one_model(
+        select(SensorMeasurementsConfig).where(
+            SensorMeasurementsConfig.id == config_id
+        ),
+        model_name="SensorMeasurementsConfig",
+        source=source,
     )
 
 
@@ -317,41 +402,38 @@ def list_sensor_measurement_configs(
     device_id: str | None = None,
     call_type: str | None = None,
     config_ids: list[int] | None = None,
+    source: str | None = None,
 ):
-    query_lines = [
-        "SELECT *",
-        "FROM sensor_measurements_config",
-    ]
-    conditions = []
-    params = []
+    statement = select(SensorMeasurementsConfig)
 
     if enabled_only:
-        conditions.append("enabled = 1")
+        statement = statement.where(SensorMeasurementsConfig.enabled == 1)
 
     if device_id is not None:
-        conditions.append("device_id = ?")
-        params.append(device_id)
+        statement = statement.where(SensorMeasurementsConfig.device_id == device_id)
 
     if call_type is not None:
-        conditions.append("call_type = ?")
-        params.append(call_type)
+        statement = statement.where(SensorMeasurementsConfig.call_type == call_type)
 
     if config_ids is not None:
         if not config_ids:
             return []
 
-        placeholders = ",".join(["?"] * len(config_ids))
-        conditions.append(f"id IN ({placeholders})")
-        params.extend(config_ids)
+        statement = statement.where(SensorMeasurementsConfig.id.in_(config_ids))
 
-    if conditions:
-        query_lines.append("WHERE " + " AND ".join(conditions))
+    if device_id is not None:
+        statement = statement.order_by(SensorMeasurementsConfig.id)
+    else:
+        statement = statement.order_by(
+            SensorMeasurementsConfig.device_id,
+            SensorMeasurementsConfig.id,
+        )
 
-    order_by = "ORDER BY id" if device_id is not None else "ORDER BY device_id, id"
-    query_lines.append(order_by)
-    query = "\n".join(query_lines)
-
-    return _fetch_all(query, tuple(params))
+    return _fetch_all_models(
+        statement,
+        model_name="SensorMeasurementsConfig",
+        source=source,
+    )
 
 
 ##########################################################################
@@ -607,25 +689,19 @@ def insert_user_info(token: str, payload_json: str) -> int:
     return row_id
 
 
-def get_last_token_row():
-    return _fetch_one(
-        """
-        SELECT id, created_at, token, login_payload_json
-        FROM auth_tokens
-        ORDER BY id DESC
-        LIMIT 1
-        """
+def get_last_token_row(source: str | None = None):
+    return _fetch_one_model(
+        select(AuthToken).order_by(AuthToken.id.desc()),
+        model_name="AuthToken",
+        source=source,
     )
 
 
-def get_last_user_info_row():
-    return _fetch_one(
-        """
-        SELECT id, created_at, token, payload_json
-        FROM user_info_snapshots
-        ORDER BY id DESC
-        LIMIT 1
-        """
+def get_last_user_info_row(source: str | None = None):
+    return _fetch_one_model(
+        select(UserInfoSnapshot).order_by(UserInfoSnapshot.id.desc()),
+        model_name="UserInfoSnapshot",
+        source=source,
     )
 
 

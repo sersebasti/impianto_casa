@@ -15,7 +15,10 @@ def execute_config_core(
         # LOAD CONFIG
         ################################################################
 
-        row = get_sensor_measurement_config(config_id)
+        row = get_sensor_measurement_config(
+            config_id,
+            source="config_executor.execute_config_core",
+        )
 
         ################################################################
         # CONFIG NOT FOUND

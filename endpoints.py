@@ -131,7 +131,7 @@ def login():
 @bp.route("/api/token/latest", methods=["GET"])
 def token_latest():
     try:
-        row = get_last_token_row()
+        row = get_last_token_row(source="endpoint.GET /api/token/latest")
         return jsonify({"ok": True, "row": row})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
@@ -149,7 +149,7 @@ def user_info():
 @bp.route("/api/user-info/latest", methods=["GET"])
 def user_info_latest():
     try:
-        row = get_last_user_info_row()
+        row = get_last_user_info_row(source="endpoint.GET /api/user-info/latest")
         return jsonify({"ok": True, "row": row})
     except Exception as e:
         return jsonify({"ok": False, "error": str(e)}), 500
@@ -797,6 +797,7 @@ def sensor_measurements_config():
 
         rows = list_sensor_measurement_configs(
             device_id=device_id,
+            source="endpoint.GET /api/sensor-measurements-config",
         )
 
         return jsonify({
