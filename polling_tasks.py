@@ -1,7 +1,6 @@
 import os
 import requests
 import time
-import sqlite3
 import json
 from datetime import datetime, timezone
 from tesla_client import refresh_tesla_token
@@ -11,6 +10,7 @@ import os
 from config_executor import (
         execute_config_core
 )
+from db import get_connection
 
 def acquire_and_save_inverter_state(client, logger, device_id, data_source):
     """
@@ -270,15 +270,9 @@ def acquire_and_save_host_status_data(logger):
     import re
     import json
     import time
-    import sqlite3
     import subprocess
 
     from datetime import datetime
-
-    db_path = os.getenv(
-        "DB_PATH",
-        "data/solar.db",
-    )
 
     conn = None
 
@@ -293,10 +287,7 @@ def acquire_and_save_host_status_data(logger):
         # DB
         ##################################################################
 
-        conn = sqlite3.connect(
-            db_path,
-            timeout=30,
-        )
+        conn = get_connection(timeout=30)
 
         cur = conn.cursor()
 
@@ -459,28 +450,17 @@ def acquire_and_save_sensors_status_data(logger):
     import os
     import json
     import time
-    import sqlite3
     import requests
 
     from datetime import datetime
 
     session = requests.Session()
 
-    db_path = os.getenv(
-        "DB_PATH",
-        "data/solar.db",
-    )
-
     conn = None
 
     try:
 
-        conn = sqlite3.connect(
-            db_path,
-            timeout=30,
-        )
-
-        conn.row_factory = sqlite3.Row
+        conn = get_connection(timeout=30)
 
         cur = conn.cursor()
 
@@ -776,16 +756,6 @@ def acquire_and_save_sensors_status_data(logger):
 
 def acquire_and_save_relays_status_data(logger):
 
-    import os
-    import json
-    import sqlite3
-
-    from datetime import datetime
-
-    from config_executor import (
-        execute_config_core
-    )
-
     db_path = os.getenv(
         "DB_PATH",
         "data/solar.db",
@@ -811,12 +781,7 @@ def acquire_and_save_relays_status_data(logger):
         # DB
         ##################################################################
 
-        conn = sqlite3.connect(
-            db_path,
-            timeout=30,
-        )
-
-        conn.row_factory = sqlite3.Row
+        conn = get_connection(timeout=30)
 
         cur = conn.cursor()
 
@@ -1101,16 +1066,6 @@ def acquire_and_save_relays_status_data(logger):
 
 def acquire_and_save_sensors_measurements_data(logger):
 
-    import os
-    import json
-    import time
-    import sqlite3
-
-    from datetime import datetime
-
-    from config_executor import (
-        execute_config_core
-    )
 
     ##################################################################
     # HELPERS
@@ -1249,12 +1204,7 @@ def acquire_and_save_sensors_measurements_data(logger):
             "[TASK] Loading sensor measurements config"
         )
 
-        conn = sqlite3.connect(
-            db_path,
-            timeout=30,
-        )
-
-        conn.row_factory = sqlite3.Row
+        conn = get_connection(timeout=30)
 
         cur = conn.cursor()
 

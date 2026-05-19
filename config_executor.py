@@ -1,8 +1,7 @@
 import json
-import sqlite3
 import requests
 
-from db import get_connection
+from db import get_connection, get_lan_scanner_connection
 
 
 def execute_config_core(
@@ -102,13 +101,7 @@ def execute_config_core(
 
         target_ip = None
 
-        lanscan_conn = sqlite3.connect(
-
-            "/app/lan_scanner_data/lan_scanner.db"
-
-        )
-
-        lanscan_conn.row_factory = sqlite3.Row
+        lanscan_conn = get_lan_scanner_connection()
 
         try:
 

@@ -15,11 +15,9 @@ from config_executor import (
     execute_config_core
 )
 import requests
-import sqlite3
 
 from zoneinfo import ZoneInfo
 from tesla_client import exchange_code_for_token, refresh_tesla_token, wake_up_vehicle, get_vehicle_data
-from sqlalchemy import text
 
 bp = Blueprint("api_endpoints", __name__)
 
@@ -795,13 +793,9 @@ def sensor_measurements_config():
 
     try:
 
-        import sqlite3
-
         device_id = request.args.get("device_id")
 
-        conn = sqlite3.connect("data/solar.db")
-
-        conn.row_factory = sqlite3.Row
+        conn = get_connection()
 
         cur = conn.cursor()
 

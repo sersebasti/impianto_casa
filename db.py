@@ -10,8 +10,24 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-DB_PATH = Path("data/solar.db")
+DEFAULT_DB_PATH = "data/solar.db"
+DEFAULT_LAN_SCANNER_DB_PATH = "/app/lan_scanner_data/lan_scanner.db"
+
+
+def _build_sqlite_url(db_path: str) -> str:
+    return f"sqlite:///{Path(db_path).as_posix()}"
+
+
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    _build_sqlite_url(os.getenv("DB_PATH", DEFAULT_DB_PATH)),
+)
+LAN_SCANNER_DATABASE_URL = os.getenv(
+    "LAN_SCANNER_DATABASE_URL",
+    _build_sqlite_url(os.getenv("LAN_SCANNER_DB_PATH", DEFAULT_LAN_SCANNER_DB_PATH)),
+)
 INIT_SQL_PATH = Path("init.sql")
+
 
 MAX_AUTH_TOKENS = int(os.getenv("MAX_AUTH_TOKENS", "100"))
 MAX_USER_INFO_SNAPSHOTS = int(os.getenv("MAX_USER_INFO_SNAPSHOTS", "100"))
@@ -23,11 +39,34 @@ def now_rome_str() -> str:
     return datetime.now(ZoneInfo("Europe/Rome")).strftime("%Y-%m-%d %H:%M:%S")
 
 
-def get_connection():
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(DB_PATH)
+def _sqlite_target_from_url(database_url: str) -> str:
+    sqlite_prefix = "sqlite:///"
+
+    if not database_url.startswith(sqlite_prefix):
+        raise ValueError(
+            "Sono supportate solo DATABASE_URL SQLite, ad esempio sqlite:///data/solar.db"
+        )
+
+    return database_url[len(sqlite_prefix):]
+
+
+def _get_sqlite_connection(database_url: str, timeout: float = 5.0):
+    db_target = _sqlite_target_from_url(database_url)
+
+    if db_target != ":memory:":
+        Path(db_target).parent.mkdir(parents=True, exist_ok=True)
+
+    conn = sqlite3.connect(db_target, timeout=timeout)
     conn.row_factory = sqlite3.Row
     return conn
+
+
+def get_connection(timeout: float = 5.0):
+    return _get_sqlite_connection(DATABASE_URL, timeout=timeout)
+
+
+def get_lan_scanner_connection(timeout: float = 5.0):
+    return _get_sqlite_connection(LAN_SCANNER_DATABASE_URL, timeout=timeout)
 
 
 def init_db():
