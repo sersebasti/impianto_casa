@@ -12,7 +12,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlparse
 from zoneinfo import ZoneInfo
 
-from sqlalchemy import create_engine, inspect as sqlalchemy_inspect, select
+from sqlalchemy import create_engine, delete, inspect as sqlalchemy_inspect, select
 from sqlalchemy.orm import sessionmaker
 
 from logger import get_logger
@@ -278,6 +278,14 @@ def _get_sqlalchemy_session_factory(database_url: str):
     return sessionmaker(bind=_get_sqlalchemy_engine(database_url))
 
 
+def _run_in_session(operation, *, database_url: str = DATABASE_URL):
+    session = _get_sqlalchemy_session_factory(database_url)()
+    try:
+        return operation(session)
+    finally:
+        session.close()
+
+
 def _model_to_dict(instance):
     return {
         attribute.key: getattr(instance, attribute.key)
@@ -325,8 +333,7 @@ def _fetch_one_model(
     source: str | None = None,
     database_url: str = DATABASE_URL,
 ):
-    session = _get_sqlalchemy_session_factory(database_url)()
-    try:
+    def operation(session):
         instance = session.execute(statement).scalars().first()
         _log_model_read(
             "_fetch_one_model",
@@ -335,8 +342,8 @@ def _fetch_one_model(
             source,
         )
         return _model_to_dict(instance) if instance else None
-    finally:
-        session.close()
+
+    return _run_in_session(operation, database_url=database_url)
 
 
 def _fetch_all_models(
@@ -346,13 +353,12 @@ def _fetch_all_models(
     source: str | None = None,
     database_url: str = DATABASE_URL,
 ):
-    session = _get_sqlalchemy_session_factory(database_url)()
-    try:
+    def operation(session):
         instances = session.execute(statement).scalars().all()
         _log_model_read("_fetch_all_models", model_name, len(instances), source)
         return [_model_to_dict(instance) for instance in instances]
-    finally:
-        session.close()
+
+    return _run_in_session(operation, database_url=database_url)
 
 
 def _fetch_all_mappings(
@@ -362,13 +368,12 @@ def _fetch_all_mappings(
     source: str | None = None,
     database_url: str = DATABASE_URL,
 ):
-    session = _get_sqlalchemy_session_factory(database_url)()
-    try:
+    def operation(session):
         rows = session.execute(statement).mappings().all()
         _log_model_read("_fetch_all_mappings", model_name, len(rows), source)
         return [dict(row) for row in rows]
-    finally:
-        session.close()
+
+    return _run_in_session(operation, database_url=database_url)
 
 
 def _insert_model_row(
@@ -377,15 +382,14 @@ def _insert_model_row(
     source: str | None = None,
     database_url: str = DATABASE_URL,
 ):
-    session = _get_sqlalchemy_session_factory(database_url)()
-    try:
+    def operation(session):
         session.add(instance)
         session.commit()
         session.refresh(instance)
         _log_model_write(type(instance).__name__, instance.id, source)
         return instance.id
-    finally:
-        session.close()
+
+    return _run_in_session(operation, database_url=database_url)
 
 
 def get_connection_for_database_url(database_url: str, timeout: float = 5.0):
@@ -409,7 +413,7 @@ def get_lan_scanner_connection(timeout: float = 5.0):
     return get_lan_scanner_db_connection(timeout=timeout)
 
 
-def _fetch_one(query: str, params=(), *, connection_factory=get_main_connection):
+def _fetch_one_raw(query: str, params=(), *, connection_factory=get_main_connection):
     conn = connection_factory()
     try:
         cur = conn.cursor()
@@ -420,7 +424,7 @@ def _fetch_one(query: str, params=(), *, connection_factory=get_main_connection)
         conn.close()
 
 
-def _fetch_all(query: str, params=(), *, connection_factory=get_main_connection):
+def _fetch_all_raw(query: str, params=(), *, connection_factory=get_main_connection):
     conn = connection_factory()
     try:
         cur = conn.cursor()
@@ -430,7 +434,7 @@ def _fetch_all(query: str, params=(), *, connection_factory=get_main_connection)
         conn.close()
 
 
-def _execute_write(
+def _execute_write_raw(
     query: str,
     params=(),
     *,
@@ -450,7 +454,7 @@ def _execute_write(
 
 
 ##########################################################################
-######### MAIN DATABASE ##################################################
+######### MAIN DATABASE READS ############################################
 ##########################################################################
 
 
@@ -510,7 +514,7 @@ def list_sensor_measurement_configs(
 
 
 def get_lan_scanner_device_last_ip(device_id):
-    row = _fetch_one(
+    row = _fetch_one_raw(
         """
         SELECT last_ip
         FROM device
@@ -652,10 +656,10 @@ def init_db():
 
 def cleanup_table_keep_latest(table_name: str, max_rows: int, order_column: str = "id") -> None:
     allowed_tables = {
-        "auth_tokens",
-        "user_info_snapshots",
-        "device_snapshots",
-        "device_snapshots_flat",
+        "auth_tokens": AuthToken,
+        "user_info_snapshots": UserInfoSnapshot,
+        "device_snapshots": DeviceSnapshot,
+        "device_snapshots_flat": DeviceSnapshotFlat,
     }
 
     if table_name not in allowed_tables:
@@ -664,18 +668,32 @@ def cleanup_table_keep_latest(table_name: str, max_rows: int, order_column: str 
     if max_rows <= 0:
         return
 
-    _execute_write(
-        f"""
-        DELETE FROM {table_name}
-        WHERE {order_column} NOT IN (
-            SELECT {order_column}
-            FROM {table_name}
-            ORDER BY {order_column} DESC
-            LIMIT ?
+    model_class = allowed_tables[table_name]
+
+    if not hasattr(model_class, order_column):
+        raise ValueError(
+            f"Colonna ordine non supportata per {table_name}: {order_column}"
         )
-        """,
-        (max_rows,),
-    )
+
+    order_attr = getattr(model_class, order_column)
+
+    def operation(session):
+        cutoff_value = session.execute(
+            select(order_attr)
+            .order_by(order_attr.desc())
+            .offset(max_rows - 1)
+            .limit(1)
+        ).scalar_one_or_none()
+
+        if cutoff_value is None:
+            return
+
+        session.execute(
+            delete(model_class).where(order_attr < cutoff_value)
+        )
+        session.commit()
+
+    _run_in_session(operation)
 
 
 def insert_token(token: str, login_payload_json: str) -> int:

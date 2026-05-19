@@ -5,4 +5,5 @@ numpy
 matplotlib
 flask-cors
 sqlalchemy 
+alembic
 PyMySQL

@@ -1,0 +1,5 @@
+Put Alembic revision files in this directory.
+
+Examples:
+- alembic revision --autogenerate -m "create initial schema"
+- alembic upgrade head
