@@ -21,6 +21,8 @@ from models import AuthToken, SensorMeasurementsConfig, UserInfoSnapshot
 DEFAULT_DB_PATH = "data/solar.db"
 DEFAULT_LAN_SCANNER_DB_PATH = "/app/lan_scanner_data/lan_scanner.db"
 DB_MODEL_READ_LOGS_ENABLED = os.getenv("LOG_DB_MODEL_READS", "0") == "1"
+SQLITE_JOURNAL_MODE = os.getenv("SQLITE_JOURNAL_MODE", "WAL").upper()
+SQLITE_SYNCHRONOUS = os.getenv("SQLITE_SYNCHRONOUS", "NORMAL").upper()
 
 logger = get_logger("db")
 
@@ -181,6 +183,12 @@ def _connect_sqlite(database_url: str, timeout: float = 5.0):
 
     conn = sqlite3.connect(db_target, timeout=timeout)
     conn.row_factory = sqlite3.Row
+
+    if db_target != ":memory:":
+        conn.execute(f"PRAGMA journal_mode={SQLITE_JOURNAL_MODE}")
+        conn.execute(f"PRAGMA synchronous={SQLITE_SYNCHRONOUS}")
+
+    conn.execute(f"PRAGMA busy_timeout={max(int(timeout * 1000), 1)}")
     return conn
 
 
