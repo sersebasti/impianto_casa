@@ -2,4 +2,6 @@ __pycache__/
 *.pyc
 .env
 data/*.db
-logs/solar_app.log
+data/*.db-shm
+data/*.db-wal
+logs/solar_app.log*
