@@ -20,7 +20,10 @@ services:
     depends_on:
       - tesla_http_proxy
 
-
+  
+  # Quando ti serve: docker compose --profile devtools up -d
+  # Quando hai finito: docker rm -f inverter_manyi_dev
+  
   inverter_manyi_dev:
     build: .
     container_name: inverter_manyi_dev

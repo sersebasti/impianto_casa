@@ -620,6 +620,7 @@ def insert_sensor_measurement_snapshot(
     energy,
     frequency,
     apparent_power,
+    relay_real_state,
     total_power,
     raw_json: str,
 ) -> int:
@@ -636,6 +637,7 @@ def insert_sensor_measurement_snapshot(
             energy=energy,
             frequency=frequency,
             apparent_power=apparent_power,
+            relay_real_state=relay_real_state,
             total_power=total_power,
             raw_json=raw_json,
         ),

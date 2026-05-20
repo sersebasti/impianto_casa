@@ -38,6 +38,10 @@ class SensorMeasurementSnapshot(Base):
     energy: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     frequency: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     apparent_power: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    relay_real_state: Mapped[Optional[int]] = mapped_column(
+        Integer,
+        nullable=True
+    )
     total_power: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     raw_json: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
 

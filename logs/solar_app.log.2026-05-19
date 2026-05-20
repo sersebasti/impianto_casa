@@ -81798,3 +81798,822 @@ requests.exceptions.ConnectTimeout: HTTPConnectionPool(host='192.168.1.9', port=
 [2026-05-20 11:02:40] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23312 | source=db.insert_sensor_measurement_snapshot
 [2026-05-20 11:02:42] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
 [2026-05-20 11:02:43] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23313 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:04:43] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:04:43] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:04:43.336709+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:04:43] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:04:43] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:04:44] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:04:44] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:04:44] INFO | db | DB model write | model=DeviceSnapshot | row_id=19274 | source=db.insert_device_snapshot
+[2026-05-20 11:04:44] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19254 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:04:44] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T08:59:48Z | update_time_rome=2026-05-20 10:59:48
+[2026-05-20 11:04:44] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:04:45] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1395 | source=db.insert_host_status_snapshot
+[2026-05-20 11:04:45] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:04:45] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8003 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:04:46] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8004 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:04:46] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8005 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:04:46] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:04:46] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4250 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:04:46] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4251 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:04:46] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:04:47] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:04:47] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23314 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:04:47] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:04:49] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23315 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:04:51] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:04:51] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23316 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:04:51] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:04:52] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23317 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:04:54] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:04:55] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23318 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:04:57] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:05:02] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23319 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:05:04] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:05:05] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23320 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:05:07] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:05:08] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23321 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:07:08] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:07:08] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:07:08.273412+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:07:08] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:07:08] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:07:08] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:07:08] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:07:08] INFO | db | DB model write | model=DeviceSnapshot | row_id=19275 | source=db.insert_device_snapshot
+[2026-05-20 11:07:09] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19255 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:07:09] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:04:48Z | update_time_rome=2026-05-20 11:04:48
+[2026-05-20 11:07:09] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:07:09] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1396 | source=db.insert_host_status_snapshot
+[2026-05-20 11:07:09] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:07:09] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8006 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:07:09] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8007 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:07:10] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8008 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:07:10] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:07:10] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4252 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:07:10] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4253 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:07:10] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:07:11] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:07:11] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23322 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:07:11] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:07:13] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23323 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:07:15] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:07:15] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23324 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:07:15] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:07:16] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23325 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:07:18] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:07:19] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23326 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:07:21] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:07:22] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23327 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:07:24] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:07:25] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23328 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:07:27] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:07:27] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23329 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:09:27] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:09:27] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:09:27.670742+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:09:27] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:09:27] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:09:28] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:09:28] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:09:28] INFO | db | DB model write | model=DeviceSnapshot | row_id=19276 | source=db.insert_device_snapshot
+[2026-05-20 11:09:28] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19256 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:09:28] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:04:48Z | update_time_rome=2026-05-20 11:04:48
+[2026-05-20 11:09:28] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:09:28] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1397 | source=db.insert_host_status_snapshot
+[2026-05-20 11:09:28] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:09:29] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8009 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:09:29] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8010 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:09:29] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8011 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:09:29] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:09:30] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4254 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:09:30] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4255 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:09:30] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:09:30] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:09:30] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23330 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:09:31] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:09:32] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23331 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:09:34] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:09:34] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23332 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:09:35] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:09:36] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23333 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:09:38] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:09:39] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23334 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:09:41] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:09:41] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23335 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:09:43] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:09:44] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23336 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:09:46] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:09:47] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23337 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:11:47] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:11:47] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:11:47.358822+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:11:47] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:11:47] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:11:48] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:11:48] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:11:48] INFO | db | DB model write | model=DeviceSnapshot | row_id=19277 | source=db.insert_device_snapshot
+[2026-05-20 11:11:48] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19257 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:11:48] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:09:48Z | update_time_rome=2026-05-20 11:09:48
+[2026-05-20 11:11:48] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:11:49] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1398 | source=db.insert_host_status_snapshot
+[2026-05-20 11:11:49] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:11:49] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8012 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:11:49] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8013 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:11:50] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8014 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:11:50] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:11:50] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4256 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:11:50] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4257 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:11:50] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:11:50] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:11:51] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23338 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:11:51] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:11:52] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23339 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:11:54] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:11:54] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23340 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:11:55] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:11:56] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23341 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:11:58] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:11:59] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23342 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:12:01] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:12:02] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23343 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:12:04] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:12:05] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23344 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:12:07] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:12:08] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23345 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:14:08] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:14:08] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:14:08.107014+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:14:08] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:14:08] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:14:09] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:14:09] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:14:09] INFO | db | DB model write | model=DeviceSnapshot | row_id=19278 | source=db.insert_device_snapshot
+[2026-05-20 11:14:09] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19258 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:14:09] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:09:48Z | update_time_rome=2026-05-20 11:09:48
+[2026-05-20 11:14:09] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:14:10] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1399 | source=db.insert_host_status_snapshot
+[2026-05-20 11:14:10] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:14:10] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8015 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:14:11] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8016 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:14:11] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8017 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:14:11] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:14:11] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4258 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:14:11] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4259 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:14:11] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:14:11] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:14:12] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23346 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:14:12] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:14:13] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23347 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:14:15] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:14:16] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23348 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:14:16] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:14:17] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23349 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:14:19] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:14:26] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:14:27] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23350 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:14:29] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:14:30] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23351 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:14:32] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:14:32] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23352 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:16:32] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:16:32] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:16:32.913686+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:16:32] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:16:32] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:16:33] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:16:33] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:16:33] INFO | db | DB model write | model=DeviceSnapshot | row_id=19279 | source=db.insert_device_snapshot
+[2026-05-20 11:16:33] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19259 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:16:33] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:14:48Z | update_time_rome=2026-05-20 11:14:48
+[2026-05-20 11:16:33] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:16:34] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1400 | source=db.insert_host_status_snapshot
+[2026-05-20 11:16:34] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:16:34] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8018 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:16:35] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8019 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:16:36] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8020 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:16:36] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:16:36] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4260 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:16:36] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4261 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:16:36] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:16:36] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:16:37] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23353 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:16:37] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:16:38] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23354 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:16:40] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:16:40] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23355 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:16:41] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:16:42] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23356 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:16:44] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:16:45] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23357 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:16:47] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:16:48] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23358 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:16:50] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:16:51] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23359 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:16:53] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:16:53] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23360 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:18:53] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:18:53] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:18:53.691470+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:18:53] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:18:53] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:18:54] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:18:54] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:18:54] INFO | db | DB model write | model=DeviceSnapshot | row_id=19280 | source=db.insert_device_snapshot
+[2026-05-20 11:18:54] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19260 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:18:54] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:14:48Z | update_time_rome=2026-05-20 11:14:48
+[2026-05-20 11:18:54] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:18:54] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1401 | source=db.insert_host_status_snapshot
+[2026-05-20 11:18:54] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:18:55] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8021 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:18:56] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8022 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:18:56] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8023 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:18:56] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:18:56] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4262 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:18:56] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4263 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:18:56] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:18:57] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:18:57] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23361 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:18:58] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:18:59] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23362 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:19:01] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:19:01] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23363 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:19:01] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:19:02] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23364 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:19:04] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:19:05] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23365 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:19:07] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:19:08] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23366 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:19:10] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:19:11] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23367 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:19:13] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:21:18] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:21:18] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:21:18.769163+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:21:18] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:21:18] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:21:19] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:21:19] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:21:19] INFO | db | DB model write | model=DeviceSnapshot | row_id=19281 | source=db.insert_device_snapshot
+[2026-05-20 11:21:19] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19261 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:21:19] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:19:48Z | update_time_rome=2026-05-20 11:19:48
+[2026-05-20 11:21:19] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:22:09] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1402 | source=db.insert_host_status_snapshot
+[2026-05-20 11:22:09] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:22:10] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8024 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:22:10] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8025 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:22:10] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8026 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:22:10] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:22:10] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4264 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:22:10] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4265 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:22:10] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:22:11] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:22:11] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23368 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:22:12] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:22:13] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23369 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:22:15] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:22:19] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23370 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:22:19] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:22:20] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23371 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:22:22] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:22:24] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23372 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:22:26] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:22:26] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23373 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:22:28] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:22:29] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23374 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:22:31] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:22:32] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23375 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:24:32] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:24:32] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:24:32.472460+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:24:32] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:24:32] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:24:38] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:24:38] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:24:38] INFO | db | DB model write | model=DeviceSnapshot | row_id=19282 | source=db.insert_device_snapshot
+[2026-05-20 11:24:38] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19262 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:24:38] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:19:48Z | update_time_rome=2026-05-20 11:19:48
+[2026-05-20 11:24:38] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:24:39] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1403 | source=db.insert_host_status_snapshot
+[2026-05-20 11:24:39] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:24:39] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8027 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:24:39] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8028 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:24:40] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8029 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:24:40] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:24:41] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4266 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:24:41] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4267 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:24:41] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:24:41] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:24:42] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23376 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:24:42] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:24:43] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23377 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:24:45] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:24:45] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23378 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:24:46] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:24:46] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23379 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:24:48] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:24:49] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23380 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:24:51] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:24:52] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23381 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:24:54] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:24:55] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23382 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:24:57] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:27:02] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:27:02] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:27:02.722800+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:27:02] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:27:02] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:27:03] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:27:03] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:27:03] INFO | db | DB model write | model=DeviceSnapshot | row_id=19283 | source=db.insert_device_snapshot
+[2026-05-20 11:27:03] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19263 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:27:03] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:24:48Z | update_time_rome=2026-05-20 11:24:48
+[2026-05-20 11:27:03] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:27:20] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1404 | source=db.insert_host_status_snapshot
+[2026-05-20 11:27:20] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:27:20] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8030 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:27:20] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8031 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:27:20] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8032 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:27:20] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:27:21] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4268 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:27:21] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4269 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:27:21] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:27:21] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:27:21] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23383 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:27:22] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:27:23] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23384 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:27:25] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:27:25] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23385 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:27:26] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:27:26] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23386 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:27:28] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:27:29] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23387 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:27:31] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:27:32] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23388 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:27:34] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:27:35] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23389 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:27:37] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:27:38] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23390 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:29:38] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:29:38] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:29:38.313824+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:29:38] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:29:38] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:29:39] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:29:39] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:29:39] INFO | db | DB model write | model=DeviceSnapshot | row_id=19284 | source=db.insert_device_snapshot
+[2026-05-20 11:29:39] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19264 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:29:39] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:24:48Z | update_time_rome=2026-05-20 11:24:48
+[2026-05-20 11:29:39] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:29:40] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1405 | source=db.insert_host_status_snapshot
+[2026-05-20 11:29:40] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:29:40] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8033 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:29:40] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8034 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:29:40] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8035 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:29:40] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:29:41] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4270 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:29:41] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4271 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:29:41] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:29:41] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:29:41] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23391 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:29:42] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:29:43] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23392 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:29:45] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:29:45] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23393 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:29:46] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:29:46] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23394 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:29:48] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:29:49] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23395 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:29:51] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:29:52] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23396 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:29:54] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:30:02] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23397 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:30:04] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:30:05] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23398 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:32:05] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:32:05] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:32:05.135717+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:32:05] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:32:05] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:32:05] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:32:05] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:32:05] INFO | db | DB model write | model=DeviceSnapshot | row_id=19285 | source=db.insert_device_snapshot
+[2026-05-20 11:32:05] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19265 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:32:05] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:29:49Z | update_time_rome=2026-05-20 11:29:49
+[2026-05-20 11:32:05] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:32:05] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-05-20 11:32:05] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:32:05.847422+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:32:05] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:32:05] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=480735...37C6
+[2026-05-20 11:32:05] INFO | solar_client | Header auth pronti | token=480735...37C6 | timezone=Europe/Rome
+[2026-05-20 11:32:08] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-05-20 11:32:08] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-05-20 11:32:08] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 2, 'valueDisplay': 'ON', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-05-20 11:32:08] INFO | solar_client | Set BMS communication START | device_id=416360187241136128 | value=1
+[2026-05-20 11:32:08] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:32:08.481913+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:32:08] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:32:08] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/write?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch', 'value': '1'} | token=480735...37C6
+[2026-05-20 11:32:08] INFO | solar_client | Header auth pronti | token=480735...37C6 | timezone=Europe/Rome
+[2026-05-20 11:32:09] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/write?deviceId=416360187241136128 | status_code=200
+[2026-05-20 11:32:09] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/write?deviceId=416360187241136128 | api_code=0
+[2026-05-20 11:32:09] INFO | solar_client | Set BMS communication OK | device_id=416360187241136128 | value=1 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': None}
+[2026-05-20 11:32:09] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1406 | source=db.insert_host_status_snapshot
+[2026-05-20 11:32:09] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:32:10] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8036 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:32:10] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8037 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:32:10] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8038 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:32:10] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:32:10] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4272 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:32:10] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4273 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:32:10] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:32:11] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:32:11] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23399 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:32:12] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:32:13] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23400 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:32:15] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:32:15] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23401 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:32:16] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:32:17] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23402 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:32:19] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:32:19] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23403 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:32:21] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:32:22] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23404 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:32:24] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:32:25] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23405 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:32:27] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:32:28] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23406 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:34:28] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:34:28] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:34:28.437793+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:34:28] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:34:28] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:34:29] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:34:29] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:34:29] INFO | db | DB model write | model=DeviceSnapshot | row_id=19286 | source=db.insert_device_snapshot
+[2026-05-20 11:34:29] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19266 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:34:29] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:29:49Z | update_time_rome=2026-05-20 11:29:49
+[2026-05-20 11:34:29] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:34:29] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-05-20 11:34:29] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:34:29.884457+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:34:29] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:34:29] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=480735...37C6
+[2026-05-20 11:34:29] INFO | solar_client | Header auth pronti | token=480735...37C6 | timezone=Europe/Rome
+[2026-05-20 11:34:31] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-05-20 11:34:31] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-05-20 11:34:31] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 1, 'valueDisplay': 'OFF', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-05-20 11:34:31] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1407 | source=db.insert_host_status_snapshot
+[2026-05-20 11:34:31] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:34:31] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8039 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:34:32] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8040 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:34:32] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8041 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:34:32] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:34:32] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4274 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:34:32] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4275 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:34:32] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:34:33] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:34:33] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23407 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:34:34] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:34:35] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23408 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:34:37] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:34:37] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23409 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:34:37] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:34:38] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23410 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:34:40] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:34:41] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23411 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:34:43] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:34:44] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23412 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:34:46] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:34:48] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23413 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:34:50] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:34:52] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23414 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:36:52] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:36:52] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:36:52.434295+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:36:52] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:36:52] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:36:54] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:36:54] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:36:54] INFO | db | DB model write | model=DeviceSnapshot | row_id=19287 | source=db.insert_device_snapshot
+[2026-05-20 11:36:54] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19267 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:36:54] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:34:49Z | update_time_rome=2026-05-20 11:34:49
+[2026-05-20 11:36:54] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:36:54] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-05-20 11:36:54] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:36:54.387297+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:36:54] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:36:54] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=480735...37C6
+[2026-05-20 11:36:54] INFO | solar_client | Header auth pronti | token=480735...37C6 | timezone=Europe/Rome
+[2026-05-20 11:37:02] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-05-20 11:37:02] ERROR | solar_client | Errore API POST | path=/apis/remote/device/config/read?deviceId=416360187241136128 | response_json={'code': 71301, 'message': 'Remote dtu response timeout', 'localMessage': 'Remote dtu response timeout', 'data': {'request': {'category': 5, 'taskNumber': 'yKSLzzKI', 'serialNumber': 'MdCorvrly', 'intent': 503, 'error': None, 'body': {'slaveAddress': None, 'commandInput': 'Q01TRwZJTlYtSEI=', 'commandOutNone': False, 'uartInfo': None, 'refreshDeviceState': False}, 'time': '2026-05-20T09:36:54.634Z', 'response': False, 'request': True, 'common': False}, 'dtuID': '81444377979218534893'}}
+[2026-05-20 11:39:02] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:39:02] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:39:02.765324+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:39:02] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:39:02] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:39:03] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:39:03] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:39:03] INFO | db | DB model write | model=DeviceSnapshot | row_id=19288 | source=db.insert_device_snapshot
+[2026-05-20 11:39:03] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19268 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:39:03] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:34:49Z | update_time_rome=2026-05-20 11:34:49
+[2026-05-20 11:39:03] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:39:03] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-05-20 11:39:03] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:39:03.440423+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:39:03] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:39:03] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=480735...37C6
+[2026-05-20 11:39:03] INFO | solar_client | Header auth pronti | token=480735...37C6 | timezone=Europe/Rome
+[2026-05-20 11:39:09] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-05-20 11:39:09] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-05-20 11:39:09] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 1, 'valueDisplay': 'OFF', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-05-20 11:39:11] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1408 | source=db.insert_host_status_snapshot
+[2026-05-20 11:39:11] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:39:11] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8042 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:39:11] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8043 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:39:12] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8044 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:39:12] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:39:12] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4276 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:39:12] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4277 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:39:12] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:39:12] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:39:13] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23415 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:39:13] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:39:14] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23416 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:39:16] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:39:16] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23417 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:39:17] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:39:18] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23418 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:39:20] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:39:21] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23419 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:39:23] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:39:23] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23420 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:39:25] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:39:26] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23421 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:39:28] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:39:29] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23422 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:41:29] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:41:29] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:41:29.318042+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:41:29] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:41:29] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:41:29] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:41:29] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:41:29] INFO | db | DB model write | model=DeviceSnapshot | row_id=19289 | source=db.insert_device_snapshot
+[2026-05-20 11:41:30] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19269 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:41:30] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:39:50Z | update_time_rome=2026-05-20 11:39:50
+[2026-05-20 11:41:30] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:41:30] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1409 | source=db.insert_host_status_snapshot
+[2026-05-20 11:41:30] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:41:30] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8045 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:41:30] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8046 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:41:31] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8047 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:41:31] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:41:31] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4278 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:41:31] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4279 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:41:31] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:41:32] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:41:32] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23423 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:41:32] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:41:34] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23424 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:41:36] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:41:36] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23425 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:41:36] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:41:37] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23426 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:41:39] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:41:40] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23427 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:41:42] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:41:44] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23428 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:41:46] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:41:47] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23429 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:41:49] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:43:54] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:43:54] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:43:54.693464+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:43:54] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:43:54] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:43:55] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:43:55] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:43:55] INFO | db | DB model write | model=DeviceSnapshot | row_id=19290 | source=db.insert_device_snapshot
+[2026-05-20 11:43:55] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19270 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:43:55] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:39:50Z | update_time_rome=2026-05-20 11:39:50
+[2026-05-20 11:43:55] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:44:13] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1410 | source=db.insert_host_status_snapshot
+[2026-05-20 11:44:13] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:44:13] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8048 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:44:13] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8049 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:44:14] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8050 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:44:14] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:44:14] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4280 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:44:14] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4281 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:44:14] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:44:14] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:44:15] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23430 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:44:15] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:44:15] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23431 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:44:17] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:44:18] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23432 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:44:18] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:44:19] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23433 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:44:21] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:44:22] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23434 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:44:24] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:44:25] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23435 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:44:27] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:44:28] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23436 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:44:30] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:44:31] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23437 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:46:31] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:46:31] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:46:31.485454+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:46:31] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:46:31] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:46:32] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:46:32] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:46:32] INFO | db | DB model write | model=DeviceSnapshot | row_id=19291 | source=db.insert_device_snapshot
+[2026-05-20 11:46:32] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19271 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:46:32] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:44:53Z | update_time_rome=2026-05-20 11:44:53
+[2026-05-20 11:46:32] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:46:33] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1411 | source=db.insert_host_status_snapshot
+[2026-05-20 11:46:33] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:46:33] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8051 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:46:34] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8052 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:46:34] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8053 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:46:34] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:46:34] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4282 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:46:34] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4283 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:46:34] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:46:35] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:46:35] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23438 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:46:36] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:46:37] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23439 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:46:39] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:46:39] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23440 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:46:39] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:46:40] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23441 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:46:42] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:46:43] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23442 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:46:45] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:46:45] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23443 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:46:47] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:46:48] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23444 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:46:50] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:46:51] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23445 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:48:51] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:48:51] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:48:51.084572+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:48:51] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:48:51] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:48:51] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:48:51] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:48:51] INFO | db | DB model write | model=DeviceSnapshot | row_id=19292 | source=db.insert_device_snapshot
+[2026-05-20 11:48:51] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19272 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:48:51] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:44:53Z | update_time_rome=2026-05-20 11:44:53
+[2026-05-20 11:48:51] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:48:52] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1412 | source=db.insert_host_status_snapshot
+[2026-05-20 11:48:52] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:48:52] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8054 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:48:53] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8055 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:48:53] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8056 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:48:53] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:48:53] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4284 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:48:53] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4285 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:48:53] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:48:54] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:48:54] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23446 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:48:55] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:48:56] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23447 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:48:58] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:48:59] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23448 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:48:59] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:49:00] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23449 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:49:02] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:49:03] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23450 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:49:05] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:49:05] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23451 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:49:07] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:49:08] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23452 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:49:10] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:49:11] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23453 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:51:11] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:51:11] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:51:11.144358+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:51:11] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:51:11] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:51:11] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:51:11] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:51:11] INFO | db | DB model write | model=DeviceSnapshot | row_id=19293 | source=db.insert_device_snapshot
+[2026-05-20 11:51:11] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19273 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:51:11] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:49:49Z | update_time_rome=2026-05-20 11:49:49
+[2026-05-20 11:51:11] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:51:11] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-05-20 11:51:11] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:51:11.839285+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:51:11] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:51:11] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=480735...37C6
+[2026-05-20 11:51:11] INFO | solar_client | Header auth pronti | token=480735...37C6 | timezone=Europe/Rome
+[2026-05-20 11:51:13] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-05-20 11:51:13] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-05-20 11:51:13] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 1, 'valueDisplay': 'OFF', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-05-20 11:51:13] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1413 | source=db.insert_host_status_snapshot
+[2026-05-20 11:51:13] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:51:13] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8057 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:51:13] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8058 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:51:13] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8059 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:51:13] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:51:14] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4286 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:51:14] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4287 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:51:14] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:51:14] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:51:14] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23454 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:51:15] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:51:16] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23455 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:51:18] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:51:18] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23456 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:51:19] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:51:19] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23457 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:51:21] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:51:22] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23458 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:51:24] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:51:25] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23459 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:51:27] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:51:27] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23460 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:51:29] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:51:30] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23461 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:53:30] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:53:30] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:53:30.206505+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:53:30] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:53:30] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:53:30] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:53:30] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:53:30] INFO | db | DB model write | model=DeviceSnapshot | row_id=19294 | source=db.insert_device_snapshot
+[2026-05-20 11:53:30] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19274 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:53:30] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:49:49Z | update_time_rome=2026-05-20 11:49:49
+[2026-05-20 11:53:30] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:53:30] INFO | solar_client | Get BMS communication START | device_id=416360187241136128
+[2026-05-20 11:53:30] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:53:30.891214+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:53:30] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:53:30] INFO | solar_client | POST remoto START | path=/apis/remote/device/config/read?deviceId=416360187241136128 | payload={'id': '416360187241136128', 'key': 'bmsCommunicationSwitch'} | token=480735...37C6
+[2026-05-20 11:53:30] INFO | solar_client | Header auth pronti | token=480735...37C6 | timezone=Europe/Rome
+[2026-05-20 11:53:32] INFO | solar_client | POST remoto END | path=/apis/remote/device/config/read?deviceId=416360187241136128 | status_code=200
+[2026-05-20 11:53:32] INFO | solar_client | POST remoto OK | path=/apis/remote/device/config/read?deviceId=416360187241136128 | api_code=0
+[2026-05-20 11:53:32] INFO | solar_client | Get BMS communication OK | device_id=416360187241136128 | response={'code': 0, 'message': 'Success', 'localMessage': 'Success', 'data': {'key': 'bmsCommunicationSwitch', 'valueType': 2, 'category': 3, 'name': 'BMS Communication Switch', 'unit': '', 'value': 1, 'valueDisplay': 'OFF', 'orderNumber': 25, 'gatherDeviceAttributeGroupId': None, 'associatedEventAttributeKeys': [], 'isHidden': None, 'nameDisplay': 'BMS Communication Switch'}}
+[2026-05-20 11:53:33] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1414 | source=db.insert_host_status_snapshot
+[2026-05-20 11:53:33] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:53:33] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8060 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:53:34] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8061 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:53:34] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8062 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:53:34] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:53:34] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4288 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:53:34] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4289 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:53:34] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:53:35] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:53:35] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23462 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:53:36] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:53:37] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23463 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:53:39] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:53:39] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23464 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:53:39] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:53:40] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23465 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:53:42] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:53:43] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23466 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:53:45] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:53:46] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23467 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:53:48] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:53:49] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23468 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:53:51] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:53:51] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23469 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:55:51] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:55:51] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:55:51.518960+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:55:51] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:55:51] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:55:52] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:55:52] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:55:52] INFO | db | DB model write | model=DeviceSnapshot | row_id=19295 | source=db.insert_device_snapshot
+[2026-05-20 11:55:52] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19275 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:55:52] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:54:50Z | update_time_rome=2026-05-20 11:54:50
+[2026-05-20 11:55:52] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:55:52] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1415 | source=db.insert_host_status_snapshot
+[2026-05-20 11:55:52] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:55:52] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8063 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:55:53] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8064 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:55:54] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8065 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:55:54] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:55:54] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4290 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:55:54] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4291 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:55:54] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:55:54] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:55:54] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23470 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:55:55] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:55:56] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23471 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:55:58] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:55:59] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23472 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:56:00] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:56:00] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23473 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:56:02] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:56:03] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23474 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:56:05] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:56:06] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23475 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:56:08] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:56:08] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23476 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:56:10] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:56:11] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23477 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:58:11] INFO | solar_client | Richiesta device state latest START | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:58:11] INFO | solar_client | Controllo scadenza token | token=480735...37C6 | now=2026-05-20T09:58:11.194867+00:00 | exp=2026-05-20T10:32:26+00:00 | safety_seconds=300 | expiring_soon=False
+[2026-05-20 11:58:11] INFO | solar_client | Riutilizzo token esistente | token=480735...37C6 | access_exp=2026-05-20T10:32:26Z
+[2026-05-20 11:58:11] INFO | solar_client | GET remoto START | path=/apis/deviceState/simple/state/latest/v1 | params={'deviceId': '416360187241136128', 'dataSource': 1} | token=480735...37C6
+[2026-05-20 11:58:13] INFO | solar_client | GET remoto END | path=/apis/deviceState/simple/state/latest/v1 | status_code=200
+[2026-05-20 11:58:13] INFO | solar_client | GET remoto OK | path=/apis/deviceState/simple/state/latest/v1 | api_code=0
+[2026-05-20 11:58:13] INFO | db | DB model write | model=DeviceSnapshot | row_id=19296 | source=db.insert_device_snapshot
+[2026-05-20 11:58:13] INFO | db | DB model write | model=DeviceSnapshotFlat | row_id=19276 | source=db.insert_device_snapshot_flat
+[2026-05-20 11:58:13] INFO | solar_client | Device snapshot raw+flat salvati nel DB | device_id=416360187241136128 | raw_update_time=2026-05-20T09:54:50Z | update_time_rome=2026-05-20 11:54:50
+[2026-05-20 11:58:13] INFO | solar_client | Richiesta device state latest OK | device_id=416360187241136128 | data_source=1
+[2026-05-20 11:58:13] INFO | db | DB model write | model=HostStatusSnapshot | row_id=1416 | source=db.insert_host_status_snapshot
+[2026-05-20 11:58:13] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=3 | source=polling.acquire_and_save_sensors_status_data
+[2026-05-20 11:58:13] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8066 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:58:14] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8067 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:58:15] INFO | db | DB model write | model=SensorStatusSnapshot | row_id=8068 | source=db.insert_sensor_status_snapshot
+[2026-05-20 11:58:15] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:58:15] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4292 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:58:15] INFO | db | DB model write | model=RelayStatusSnapshot | row_id=4293 | source=db.insert_relay_status_snapshot
+[2026-05-20 11:58:15] INFO | db | DB model read | helper=_fetch_all_models | model=SensorMeasurementsConfig | rows=8 | source=polling.acquire_and_save_sensor_measurement_data
+[2026-05-20 11:58:15] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:58:16] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23478 | source=db.insert_sensor_measurement_snapshot
+[2026-05-20 11:58:16] INFO | db | DB model read | helper=_fetch_one_model | model=SensorMeasurementsConfig | rows=1 | source=config_executor.execute_config_core
+[2026-05-20 11:58:17] INFO | db | DB model write | model=SensorMeasurementSnapshot | row_id=23479 | source=db.insert_sensor_measurement_snapshot

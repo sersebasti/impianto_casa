@@ -912,7 +912,7 @@ def acquire_and_save_relays_status_data(logger):
             "relay_state_summary": {},
         }
 
-def acquire_and_save_sensors_measurements_data(logger):
+def acquire_and_save_sensors_measurements_data(logger,relay_real_state=None):
 
 
     ##################################################################
@@ -1431,6 +1431,7 @@ def acquire_and_save_sensors_measurements_data(logger):
                     frequency=frequency,
                     apparent_power=apparent_power,
                     total_power=total_power,
+                    relay_real_state=relay_real_state,
                     raw_json=json.dumps(
                         resp,
                         ensure_ascii=False,

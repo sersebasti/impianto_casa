@@ -315,7 +315,8 @@ def polling_loop():
 
                 measurements_ok = (
                     acquire_and_save_sensors_measurements_data(
-                        logger
+                        logger,
+                        relay_real_state=relay1_real_state
                     )
                 )
 
