@@ -7,6 +7,7 @@ services:
     env_file:
       - .env
     volumes:
+      - ./:/app
       - ./data:/app/data
       - ./logs:/app/logs
       - /home/sergio/Scrivania/docker/gestione_impianto/lan_scanner/src/data:/app/lan_scanner_data
@@ -14,6 +15,27 @@ services:
     command: ["python", "energy_manager_server.py"]
     privileged: true
     pid: host
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - tesla_http_proxy
+
+
+  inverter_manyi_dev:
+    build: .
+    container_name: inverter_manyi_dev
+    env_file:
+      - .env
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - /home/sergio/Scrivania/docker/gestione_impianto/lan_scanner/src/data:/app/lan_scanner_data
+    command: ["tail", "-f", "/dev/null"]
+    profiles:
+      - devtools
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
