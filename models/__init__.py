@@ -8,7 +8,6 @@ from .polling import (
     SensorMeasurementsConfig,
     SensorStatusSnapshot,
 )
-from .test import TestTable
 from .tesla import TeslaVehicleSnapshot
 
 __all__ = [
@@ -23,6 +22,5 @@ __all__ = [
     "SensorSnapshot",
     "SensorStatusSnapshot",
     "TeslaVehicleSnapshot",
-    "TestTable",
     "UserInfoSnapshot",
 ]

@@ -408,6 +408,6 @@ app.register_blueprint(bp)
 if __name__ == "__main__":
     from db import init_db
 
-    init_db()
+    #init_db()
     start_background_polling()
     app.run(host="0.0.0.0", port=5000, debug=False)

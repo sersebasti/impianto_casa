@@ -12,7 +12,8 @@ services:
       - ./logs:/app/logs
       - /home/sergio/Scrivania/docker/gestione_impianto/lan_scanner/src/data:/app/lan_scanner_data
     restart: unless-stopped
-    command: ["python", "energy_manager_server.py"]
+    #command: ["python", "energy_manager_server.py"]
+    command: ["tail", "-f", "/dev/null"]
     privileged: true
     pid: host
     extra_hosts:
@@ -44,39 +45,25 @@ services:
     depends_on:
       - tesla_http_proxy
 
-
   grafana:
-      image: grafana/grafana-oss:latest
-      container_name: grafana
-      restart: unless-stopped
-      ports:
-        - "13000:3000"
-      environment:
-        - GF_SECURITY_ADMIN_USER=admin
-        - GF_SECURITY_ADMIN_PASSWORD=mercatello
-        - GF_INSTALL_PLUGINS=frser-sqlite-datasource
-        - GF_AUTH_ANONYMOUS_ENABLED=true
-        - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
-      volumes:
-        - grafana_data:/var/lib/grafana
-        - ./data:/data
-      extra_hosts:
-        - "host.docker.internal:host-gateway"  
-      depends_on:
-        - inverter_manyi
-  
-  # battery_fit:
-  #   build: .
-  #   container_name: battery_fit
-  #   env_file:
-  #     - .env
-  #   volumes:
-  #     - ./data:/app/data
-  #     - ./logs:/app/logs
-  #     - ./tools/statistics:/app/tools/statistics
-  #   restart: "no"
-  #   command: ["tail", "-f", "/dev/null"]
-
+    image: grafana/grafana-oss:latest
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "13000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=mercatello
+      - GF_INSTALL_PLUGINS=frser-sqlite-datasource
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./data:/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - inverter_manyi
 
   tesla_http_proxy:
     image: tesla/vehicle-command:latest
@@ -96,6 +83,18 @@ services:
       - ./tesla-proxy-home:/home/nonroot
     restart: unless-stopped
 
+  solar_mariadb:
+    image: mariadb:11
+    container_name: solar_mariadb
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=local
+      - MYSQL_DATABASE=solar_db
+    ports:
+      - "13307:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
 
 volumes:
   grafana_data:
+  mariadb_data:

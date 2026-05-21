@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from sqlalchemy import Float, Index, Integer, Text
+from sqlalchemy import Float, Index, Integer, String, Text  # aggiunto String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .base import Base
@@ -15,8 +15,8 @@ class TeslaVehicleSnapshot(Base):
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    created_at: Mapped[str] = mapped_column(Text, nullable=False)
-    vin: Mapped[str] = mapped_column(Text, nullable=False)
+    created_at: Mapped[str] = mapped_column(String(255), nullable=False, server_default="CURRENT_TIMESTAMP")
+    vin: Mapped[str] = mapped_column(String(255), nullable=False)
     state: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     battery_level: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     charging_state: Mapped[Optional[str]] = mapped_column(Text, nullable=True)

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from sqlalchemy import Index, Integer, Text, text
+from sqlalchemy import Index, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .base import Base
@@ -14,9 +14,7 @@ class AuthToken(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     created_at: Mapped[str] = mapped_column(
-        Text,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP"),
+        String(255), nullable=False, server_default="CURRENT_TIMESTAMP"
     )
     token: Mapped[str] = mapped_column(Text, nullable=False)
     login_payload_json: Mapped[str] = mapped_column(Text, nullable=False)
@@ -30,9 +28,7 @@ class UserInfoSnapshot(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     created_at: Mapped[str] = mapped_column(
-        Text,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP"),
+        String(255), nullable=False, server_default="CURRENT_TIMESTAMP"
     )
     token: Mapped[str] = mapped_column(Text, nullable=False)
     payload_json: Mapped[str] = mapped_column(Text, nullable=False)

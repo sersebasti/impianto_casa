@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from sqlalchemy import Index, Integer, Text, text
+from sqlalchemy import Index, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .base import Base
@@ -21,14 +21,10 @@ class DeviceSnapshot(Base):
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    device_row_key: Mapped[str] = mapped_column(Text, nullable=False)
+    device_row_key: Mapped[str] = mapped_column(String(255), nullable=False)
     update_time: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     json_data: Mapped[str] = mapped_column(Text, nullable=False)
-    created_at: Mapped[str] = mapped_column(
-        Text,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP"),
-    )
+    created_at: Mapped[str] = mapped_column(String(255), nullable=False, server_default="CURRENT_TIMESTAMP")
 
 
 class DeviceSnapshotFlat(Base):
@@ -39,7 +35,7 @@ class DeviceSnapshotFlat(Base):
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    device_row_key: Mapped[str] = mapped_column(Text, nullable=False)
+    device_row_key: Mapped[str] = mapped_column(String(255), nullable=False)
     update_time: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     inverter_program_version: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     internal_model: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
@@ -69,8 +65,4 @@ class DeviceSnapshotFlat(Base):
     controller_warning_alarm: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     inverter_fault_alarm: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     inverter_warning_alarm: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
-    created_at: Mapped[str] = mapped_column(
-        Text,
-        nullable=False,
-        server_default=text("CURRENT_TIMESTAMP"),
-    )
+    created_at: Mapped[str] = mapped_column(String(255), nullable=False, server_default="CURRENT_TIMESTAMP")

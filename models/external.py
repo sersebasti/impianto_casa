@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from sqlalchemy import Float, Integer, Text
+from sqlalchemy import Float, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from .base import Base
@@ -12,7 +12,7 @@ class HostStatusSnapshot(Base):
     __tablename__ = "host_status_snapshots"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    created_at: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    created_at: Mapped[Optional[str]] = mapped_column(String(255), nullable=True, server_default="CURRENT_TIMESTAMP")
     device_id: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     ok: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     ip_status: Mapped[Optional[str]] = mapped_column(Text, nullable=True)

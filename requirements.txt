@@ -6,4 +6,4 @@ matplotlib
 flask-cors
 sqlalchemy 
 alembic
-PyMySQL
+pymysql
