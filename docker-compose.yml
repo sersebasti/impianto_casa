@@ -12,8 +12,8 @@ services:
       - ./logs:/app/logs
       - /home/sergio/Scrivania/docker/gestione_impianto/lan_scanner/src/data:/app/lan_scanner_data
     restart: unless-stopped
-    #command: ["python", "energy_manager_server.py"]
-    command: ["tail", "-f", "/dev/null"]
+    command: ["python", "energy_manager_server.py"]
+    #command: ["tail", "-f", "/dev/null"]
     privileged: true
     pid: host
     extra_hosts:
@@ -42,6 +42,8 @@ services:
       - devtools
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    privileged: true
+    pid: host  
     depends_on:
       - tesla_http_proxy
 
