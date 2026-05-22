@@ -43,7 +43,10 @@ def polling_loop():
     )
 
     while True:
+           
 
+        relay1_real_state = None
+           
         try:
 
             logger.info("")
@@ -392,14 +395,33 @@ def polling_loop():
 
             for i in range(cycles):
 
-                acquire_and_save_sensors_measurements_data(
+                try:
+
+                    acquire_and_save_sensors_measurements_data(
+
                         logger,
+
                         measurement_config_env_keys=[
+
                             "MEASUREMENT_ASSORBIMENTO_AUTO_MANYI_ID",
+
                             "MEASUREMENT_ASSORBIMENTO_INPUT_MANYI_FAST_ID",
+
                         ],
+
                         relay_real_state=relay1_real_state
-                )
+
+                    )
+
+                except Exception as e:
+
+                    logger.exception(
+
+                        "[MINI POLLING] ERROR | error=%s",
+
+                        e,
+
+                    )
 
                 time.sleep(mini_interval)
 

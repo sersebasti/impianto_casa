@@ -47,6 +47,7 @@ services:
     pid: host  
     depends_on:
       - tesla_http_proxy
+      - solar_mariadb
 
   grafana:
     image: grafana/grafana-oss:latest
@@ -67,6 +68,7 @@ services:
       - "host.docker.internal:host-gateway"
     depends_on:
       - inverter_manyi
+      - solar_mariadb
 
   tesla_http_proxy:
     image: tesla/vehicle-command:latest
