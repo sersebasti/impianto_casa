@@ -10,11 +10,13 @@ from db import (
     get_last_user_info_row,
     get_device_metric_history,
     list_sensor_measurement_configs,
+    insert_or_update_tesla_charge_config,
+    list_tesla_charge_configs
 )
 from config_executor import (
     execute_config_core
 )
-import requests
+
 
 from zoneinfo import ZoneInfo
 from tesla_client import exchange_code_for_token, refresh_tesla_token, wake_up_vehicle, get_vehicle_data
@@ -1066,3 +1068,152 @@ def tesla_vehicle_data():
     except Exception as e:
         logger.exception("Errore vehicle_data Tesla | error=%s", e)
         return jsonify({"ok": False, "error": str(e)}), 500
+
+
+##########################################################################
+######### TESLA CHARGE CONTROL ###########################################
+##########################################################################
+
+
+@bp.route("/api/tesla-charge-config", methods=["GET"])
+def tesla_charge_config_get():
+
+    try:
+
+        rows = list_tesla_charge_configs(
+
+            source=
+                "endpoint.GET /api/tesla-charge-config",
+
+        )
+
+        return jsonify({
+
+            "ok": True,
+
+            "count":
+                len(rows),
+
+            "rows":
+                rows,
+
+        })
+
+    except Exception as e:
+
+        logger.exception(
+            "Errore tesla_charge_config_get | error=%s",
+            e,
+        )
+
+        return jsonify({
+
+            "ok": False,
+
+            "error":
+                str(e),
+
+        }), 500
+
+
+
+@bp.route("/api/tesla-charge-config", methods=["POST"])
+def tesla_charge_config_post():
+
+    try:
+
+        data = (
+            request.get_json(
+                silent=True
+            ) or {}
+        )
+
+        config_key = (
+            str(
+                data.get(
+                    "config_key",
+                    "",
+                )
+            )
+            .strip()
+        )
+
+        config_value = (
+            str(
+                data.get(
+                    "config_value",
+                    "",
+                )
+            )
+            .strip()
+        )
+
+        description = (
+            str(
+                data.get(
+                    "description",
+                    "",
+                )
+            )
+            .strip()
+        )
+
+        ####################################################
+        # VALIDATION
+        ####################################################
+
+        if not config_key:
+
+            return jsonify({
+
+                "ok": False,
+
+                "error":
+                    "config_key mancante",
+
+            }), 400
+
+        ####################################################
+        # INSERT / UPDATE
+        ####################################################
+
+        row = (
+            insert_or_update_tesla_charge_config(
+
+                config_key=config_key,
+
+                config_value=config_value,
+
+                description=description,
+
+            )
+        )
+
+        ####################################################
+        # RETURN
+        ####################################################
+
+        return jsonify({
+
+            "ok": True,
+
+            "row":
+                row,
+
+        })
+
+    except Exception as e:
+
+        logger.exception(
+            "Errore tesla_charge_config_post | error=%s",
+            e,
+        )
+
+        return jsonify({
+
+            "ok": False,
+
+            "error":
+                str(e),
+
+        }), 500

@@ -26,6 +26,7 @@ from models import (
     SensorSnapshot,
     SensorStatusSnapshot,
     SensorMeasurementsConfig,
+    TeslaChargeConfig,
     TeslaVehicleSnapshot,
     UserInfoSnapshot,
 )
@@ -979,3 +980,124 @@ def insert_tesla_vehicle_snapshot(
         ),
         source="db.insert_tesla_vehicle_snapshot",
     )
+
+
+##########################################################################
+######### TESLA CHARGE CONFIG ############################################
+##########################################################################
+
+
+def list_tesla_charge_configs(
+    source: str | None = None,
+):
+
+    statement = (
+        select(TeslaChargeConfig)
+        .order_by(
+            TeslaChargeConfig.config_key.asc()
+        )
+    )
+
+    return _fetch_all_models(
+
+        statement,
+
+        model_name="TeslaChargeConfig",
+
+        source=source,
+
+    )
+
+
+
+def get_tesla_charge_config_by_key(
+    config_key: str,
+    source: str | None = None,
+):
+
+    return _fetch_one_model(
+
+        select(TeslaChargeConfig).where(
+            TeslaChargeConfig.config_key
+            == config_key
+        ),
+
+        model_name="TeslaChargeConfig",
+
+        source=source,
+
+    )
+
+
+
+def insert_or_update_tesla_charge_config(
+    *,
+    config_key: str,
+    config_value: str,
+    description: str | None = None,
+):
+
+    def operation(session):
+
+        row = (
+            session.query(TeslaChargeConfig)
+            .filter(
+                TeslaChargeConfig.config_key
+                == config_key
+            )
+            .first()
+        )
+
+        ####################################################
+        # UPDATE
+        ####################################################
+
+        if row:
+
+            row.config_value = config_value
+
+            if description is not None:
+
+                row.description = description
+
+            session.commit()
+
+            session.refresh(row)
+
+            _log_model_write(
+                "TeslaChargeConfig",
+                row.id,
+                "db.insert_or_update_tesla_charge_config.update",
+            )
+
+            return _model_to_dict(row)
+
+        ####################################################
+        # INSERT
+        ####################################################
+
+        row = TeslaChargeConfig(
+
+            config_key=config_key,
+
+            config_value=config_value,
+
+            description=description,
+
+        )
+
+        session.add(row)
+
+        session.commit()
+
+        session.refresh(row)
+
+        _log_model_write(
+            "TeslaChargeConfig",
+            row.id,
+            "db.insert_or_update_tesla_charge_config.insert",
+        )
+
+        return _model_to_dict(row)
+
+    return _run_in_session(operation)
