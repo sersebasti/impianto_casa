@@ -20,6 +20,7 @@ services:
       - "host.docker.internal:host-gateway"
     depends_on:
       - tesla_http_proxy
+      - solar_mariadb
 
   
   # Quando ti serve: docker compose --profile devtools up -d

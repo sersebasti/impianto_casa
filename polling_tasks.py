@@ -912,8 +912,15 @@ def acquire_and_save_relays_status_data(logger):
             "relay_state_summary": {},
         }
 
-def acquire_and_save_sensors_measurements_data(logger,relay_real_state=None):
+def acquire_and_save_sensors_measurements_data(
 
+    logger,
+
+    measurement_config_env_keys,
+
+    relay_real_state=None,
+
+):
 
     ##################################################################
     # HELPERS
@@ -976,6 +983,10 @@ def acquire_and_save_sensors_measurements_data(logger,relay_real_state=None):
 
         return value
 
+    ##################################################################
+    # CONFIG
+    ##################################################################
+
     db_path = os.getenv(
         "DB_PATH",
         "data/solar.db",
@@ -999,41 +1010,49 @@ def acquire_and_save_sensors_measurements_data(logger,relay_real_state=None):
         )
     )
 
-    measurement_config_ids = [
+    ##################################################################
+    # LOAD CONFIG IDS FROM ENV LIST
+    ##################################################################
 
-        int(os.getenv(
-            "MEASUREMENT_ASSORBIMENTO_TOTALE_MANYI_ID"
-        )),
+    measurement_config_ids = []
 
-        int(os.getenv(
-            "MEASUREMENT_ASSORBIMENTO_AUTO_MANYI_ID"
-        )),
+    for env_key in measurement_config_env_keys:
 
-        int(os.getenv(
-            "MEASUREMENT_PRODUZIONE_FRONIUS_ID"
-        )),
+        env_value = os.getenv(env_key)
 
-        int(os.getenv(
-            "MEASUREMENT_ASSORBIMENTO_INPUT_MANYI_ID"
-        )),
+        if not env_value:
 
-        int(os.getenv(
-            "MEASUREMENT_ASSORBIMENTO_TOTALE_ENEL_BIS_ID"
-        )),
+            logger.warning(
+                "[TASK] Missing measurement env key | "
+                "env_key=%s",
+                env_key,
+            )
 
-        int(os.getenv(
-            "MEASUREMENT_ASSORBIMENTO_AUTO_ENEL_ID"
-        )),
+            continue
 
-        int(os.getenv(
-            "MEASUREMENT_ASSORBIMENTO_CASA_ENEL_ID"
-        )),
+        try:
 
-        int(os.getenv(
-            "MEASUREMENT_ASSORBIMENTO_TOTALE_ENEL_ID"
-        )),
+            measurement_config_ids.append(
+                int(env_value)
+            )
 
-    ]
+        except Exception:
+
+            logger.warning(
+                "[TASK] Invalid measurement env value | "
+                "env_key=%s | "
+                "value=%s",
+                env_key,
+                env_value,
+            )
+
+    logger.info(
+        "[TASK] Measurement config ids loaded | "
+        "count=%s | "
+        "ids=%s",
+        len(measurement_config_ids),
+        measurement_config_ids,
+    )
 
     conn = None
 
@@ -1565,3 +1584,9 @@ def check_and_refresh_tesla_token(logger):
     except Exception as e:
         logger.exception("[TASK] check_and_refresh_tesla_token ERROR | error=%s", e)
         return None
+
+
+
+
+
+

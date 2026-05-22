@@ -16,11 +16,9 @@ from polling_tasks import (
     check_and_refresh_tesla_token, 
     acquire_and_save_sensors_measurements_data, 
     acquire_and_save_relays_status_data, 
-    acquire_and_save_host_status_data)
+    acquire_and_save_host_status_data,
+    )
 
-from smart_ev_power_manager import (
-    refresh_ev_charging_state
-)
 
 logger = get_logger("app")
 app = Flask(__name__)
@@ -316,6 +314,16 @@ def polling_loop():
                 measurements_ok = (
                     acquire_and_save_sensors_measurements_data(
                         logger,
+                        measurement_config_env_keys=[
+                            "MEASUREMENT_ASSORBIMENTO_TOTALE_MANYI_ID",
+                            "MEASUREMENT_ASSORBIMENTO_AUTO_MANYI_ID",
+                            "MEASUREMENT_PRODUZIONE_FRONIUS_ID",
+                            "MEASUREMENT_ASSORBIMENTO_INPUT_MANYI_ID",
+                            "MEASUREMENT_ASSORBIMENTO_TOTALE_ENEL_BIS_ID",
+                            "MEASUREMENT_ASSORBIMENTO_AUTO_ENEL_ID",
+                            "MEASUREMENT_ASSORBIMENTO_CASA_ENEL_ID",
+                            "MEASUREMENT_ASSORBIMENTO_TOTALE_ENEL_ID",
+                        ],
                         relay_real_state=relay1_real_state
                     )
                 )
@@ -384,8 +392,13 @@ def polling_loop():
 
             for i in range(cycles):
 
-                refresh_ev_charging_state(
-                    logger
+                acquire_and_save_sensors_measurements_data(
+                        logger,
+                        measurement_config_env_keys=[
+                            "MEASUREMENT_ASSORBIMENTO_AUTO_MANYI_ID",
+                            "MEASUREMENT_ASSORBIMENTO_INPUT_MANYI_FAST_ID",
+                        ],
+                        relay_real_state=relay1_real_state
                 )
 
                 time.sleep(mini_interval)
