@@ -95,6 +95,27 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
 
+
+
+  tesla_charge_controller:
+    build: .
+    container_name: tesla_charge_controller
+    restart: unless-stopped
+    env_file:
+      - .env
+    working_dir: /app
+    #command: ["python", "tesla_charge_controller.py"]
+    command: ["tail", "-f", "/dev/null"]
+    volumes:
+      - ./:/app
+      - ./data:/app/data
+      - ./logs:/app/logs
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - solar_mariadb
+      - tesla_http_proxy
+      - inverter_manyi    
 volumes:
   grafana_data:
   mariadb_data:
